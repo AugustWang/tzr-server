@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configure>
+	<resources>
+			<resource name="游戏配置" url="com/xmllib/xml.lib"/>
+			<resource name="聊天配置" url="com/data/wordfilter.txt"/>
+			<resource name="NPC数据" url="com/data/npc_data.txt"/>
+			<resource name="地图数据" url="com/data/pos.txt"/>
+			<resource name="任务数据" url="com/data/missions.txt"/>
+			<resource name="任务配置" url="com/data/mission_setting.txt"/>
+			<resource name="UI资源" url="com/assets/t1UI/T1UI.swf"/>
+			<resource name="图形资源" url="com/assets/t1ViewUI/T1ViewUI.swf"/>
+			<resource name="宠物资源" url="com/assets/pet/pet.swf"/>
+			<resource name="动画" url="com/assets/t1ViewUI/movie.swf"/>
+	</resources>
+</configure>

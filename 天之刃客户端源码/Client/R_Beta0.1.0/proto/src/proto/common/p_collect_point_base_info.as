@@ -1,0 +1,92 @@
+package proto.common {
+	import proto.common.p_pos;
+	import flash.net.registerClassAlias;
+	import com.Message;
+	import flash.utils.ByteArray;
+	public class p_collect_point_base_info extends Message
+	{
+		public var id:int = 0;
+		public var mapid:int = 0;
+		public var drop_type:int = 0;
+		public var pos:p_pos = null;
+		public var max_num:int = 0;
+		public var refresh:p_collect_refresh = null;
+		public var ripening_time:int = 0;
+		public var grafts:Array = new Array;
+		public function p_collect_point_base_info() {
+			super();
+			this.pos = new p_pos;
+			this.refresh = new p_collect_refresh;
+
+			flash.net.registerClassAlias("copy.proto.common.p_collect_point_base_info", p_collect_point_base_info);
+		}
+		public override function getMethodName():String {
+			return 'collect_point_base_';
+		}
+		public override function writeToDataOutput(output:ByteArray):void {
+			var i:int;
+			output.writeInt(this.id);
+			output.writeInt(this.mapid);
+			output.writeInt(this.drop_type);
+			var tmp_pos:ByteArray = new ByteArray;
+			this.pos.writeToDataOutput(tmp_pos);
+			var size_tmp_pos:int = tmp_pos.length;
+			output.writeInt(size_tmp_pos);
+			output.writeBytes(tmp_pos);
+			output.writeInt(this.max_num);
+			var tmp_refresh:ByteArray = new ByteArray;
+			this.refresh.writeToDataOutput(tmp_refresh);
+			var size_tmp_refresh:int = tmp_refresh.length;
+			output.writeInt(size_tmp_refresh);
+			output.writeBytes(tmp_refresh);
+			output.writeInt(this.ripening_time);
+			var size_grafts:int = this.grafts.length;
+			output.writeShort(size_grafts);
+			var temp_repeated_byte_grafts:ByteArray= new ByteArray;
+			for(i=0; i<size_grafts; i++) {
+				var t2_grafts:ByteArray = new ByteArray;
+				var tVo_grafts:p_collect = this.grafts[i] as p_collect;
+				tVo_grafts.writeToDataOutput(t2_grafts);
+				var len_tVo_grafts:int = t2_grafts.length;
+				temp_repeated_byte_grafts.writeInt(len_tVo_grafts);
+				temp_repeated_byte_grafts.writeBytes(t2_grafts);
+			}
+			output.writeInt(temp_repeated_byte_grafts.length);
+			output.writeBytes(temp_repeated_byte_grafts);
+		}
+		public override function readFromDataOutput(input:ByteArray):void {
+			var i:int;
+			this.id = input.readInt();
+			this.mapid = input.readInt();
+			this.drop_type = input.readInt();
+			var byte_pos_size:int = input.readInt();
+			if (byte_pos_size > 0) {				this.pos = new p_pos;
+				var byte_pos:ByteArray = new ByteArray;
+				input.readBytes(byte_pos, 0, byte_pos_size);
+				this.pos.readFromDataOutput(byte_pos);
+			}
+			this.max_num = input.readInt();
+			var byte_refresh_size:int = input.readInt();
+			if (byte_refresh_size > 0) {				this.refresh = new p_collect_refresh;
+				var byte_refresh:ByteArray = new ByteArray;
+				input.readBytes(byte_refresh, 0, byte_refresh_size);
+				this.refresh.readFromDataOutput(byte_refresh);
+			}
+			this.ripening_time = input.readInt();
+			var size_grafts:int = input.readShort();
+			var length_grafts:int = input.readInt();
+			if (length_grafts > 0) {
+				var byte_grafts:ByteArray = new ByteArray; 
+				input.readBytes(byte_grafts, 0, length_grafts);
+				for(i=0; i<size_grafts; i++) {
+					var tmp_grafts:p_collect = new p_collect;
+					var tmp_grafts_length:int = byte_grafts.readInt();
+					var tmp_grafts_byte:ByteArray = new ByteArray;
+					byte_grafts.readBytes(tmp_grafts_byte, 0, tmp_grafts_length);
+					tmp_grafts.readFromDataOutput(tmp_grafts_byte);
+					this.grafts.push(tmp_grafts);
+				}
+			}
+		}
+	}
+}

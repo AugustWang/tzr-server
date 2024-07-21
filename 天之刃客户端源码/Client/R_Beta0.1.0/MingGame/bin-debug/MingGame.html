@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0014)about:internet -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">	
+    <head>
+        <title>天之刃</title>         
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+        <style type="text/css" media="screen"> 
+			html, body	{ height:100%; }
+			body { margin:0; padding:0; overflow:auto; text-align:center; 
+			       background-color: #000000; }   
+			#flashContent { display:none; }
+        </style> 
+        
+        <script type="text/javascript" src="swfobject.js"></script>
+        <script type="text/javascript">
+        	function intoFullScreen() {
+	document.getElementById("container").width="100%";
+	document.getElementById("container").height="100%";
+	document.getElementById("Main").width="100%";
+	document.getElementById("Main").height="100%";
+}
+
+function intoFullScreen2() {
+	document.getElementById("container").width="1200";
+	document.getElementById("container").height="600";
+	document.getElementById("Main").width="1200";
+	document.getElementById("Main").height="600";
+}
+
+function exitFullScreen() {
+	document.getElementById("container").width="1002";
+	document.getElementById("container").height="576";
+	document.getElementById("Main").width="1002";
+	document.getElementById("Main").height="576";
+}
+
+            var swfVersionStr = "10.2.0";
+            var xiSwfUrlStr = "playerProductInstall.swf";
+            var flashvars = {};
+            flashvars.web_config = "http://www.tzrgame-debug.com/user/3795/configure.xml";
+			flashvars.load_method = "common";
+			flashvars.sessionid="e67aec4c2188c505c33f7a713a7508f0";
+			flashvars.account='acnameqing1';
+			flashvars.account_type='0';
+			flashvars.role_id='13918';
+			flashvars.level='1';
+			flashvars.map_id='11001';
+			flashvars.key='9d12e14e6fe4f2e4bd52586a85633f9c';
+			flashvars.lineServer='119.147.160.102';
+			flashvars.linePort='443';  
+			flashvars.shareURL = document.location.href;
+			flashvars.proxyName = '4399';
+			flashvars.serviceHost='http://www.tzrgame-debug.com/user/';
+			//flashvars.resourceHost='http://www.tzrgame-client.com/trunk/';//本地调试请使用-->http://www.tzrgame-client.com/trunk/
+			flashvars.resourceHost='E:/SVN/tzr/client/elements/'
+			flashvars.serviceVersion ='http://www.tzrgame-client.com/trunk/';
+			flashvars.dev = 'true';
+			flashvars.gatewayStr = 'mccq11-b.my4399.com,443,erlang_line-super-key';
+			
+			flashvars.portForwardServer='www.tzrgame-debug.com';
+			flashvars.portForwardServerPost='1111'
+			flashvars.bgp_host='192.168.4.202';
+			flashvars.bgp_port=8888;
+			flashvars.directly_use_bgp='false';
+			flashvars.gm_link_1='http://mccq.mingchao.com';
+			flashvars.gm_link_2='http://mccq.mingchao.com';
+			flashvars.gm_link_3='http://mccq.mingchao.com';
+			flashvars.content_1='';
+            flashvars.content_2='';
+            flashvars.content_3='';
+			flashvars.fcmApiUrl='';
+			flashvars.pkTip='true';
+			flashvars.debug='true';
+			flashvars.localDebug='true';
+			flashvars.recharge='http://web.4399.com/user/select_pay_type.php?gamename=mccq|gameserver=S1|username=nod2207'
+			flashvars.bbs='http://bbs.mingchao.com/index.php?gid=7'
+			//官网
+			flashvars.authority="http://mccq.mingchao.com";
+            var params = {};
+			var wmodeOpaque = 0;
+			var isFF = 0;
+			if(navigator.userAgent.toLowerCase().indexOf("firefox") != -1)
+				isFF = 1;
+			var isChrome = 0;
+			if(navigator.userAgent.toLowerCase().indexOf("chrome") != -1)
+				isChrome = 1;
+			var isOpera = 0;
+			if(navigator.userAgent.toLowerCase().indexOf("opera") != -1)
+				isOpera = 1;
+			 
+			if(!isOpera && !isFF && !isChrome && wmodeOpaque){
+				params.wmode = "opaque"; 
+			} else {
+				params.wmode = "window"; 
+			} 
+            params.quality = "high";
+            params.bgcolor = "#000000";
+            params.allowscriptaccess = "always";
+            params.allowfullscreen = "true";
+            
+            var attributes = {};
+            attributes.id = "MingGame";
+            attributes.name = "MingGame";
+            attributes.align = "middle";
+            swfobject.embedSWF(
+                "MingGame.swf", "flashContent", 
+                "1002", "576", 
+                swfVersionStr, xiSwfUrlStr, 
+                flashvars, params, attributes);
+			swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+        </script>
+    </head>
+    <body onunload="bookmarkit()" background="backGroud.png">
+    <div id="container" style="margin:auto;">
+        <div id="flashContent">
+        	<p>
+	        	To view this page ensure that Adobe Flash Player version 
+				10.2.0 or greater is installed. 
+			</p>
+			<script type="text/javascript"> 
+				var pageHost = ((document.location.protocol == "https:") ? "https://" :	"http://"); 
+				document.write("<a href='http://www.adobe.com/go/getflashplayer'><img src='" 
+								+ pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>" ); 
+		
+			 function showFavourite(){
+				var title=document.title
+				var url=document.location.href
+				if(navigator.userAgent.toLowerCase().indexOf("firefox/3.6") != -1){
+					return false;
+				}
+				else if (window.sidebar){
+					window.sidebar.addPanel(title, url,"");
+				}
+				else if( window.opera && window.print ){
+					var mbm = document.createElement('a');
+					mbm.setAttribute('rel','sidebar');
+					mbm.setAttribute('href',url);
+					mbm.setAttribute('title',title);
+					mbm.click();
+				} else if( document.all ) {
+					window.external.AddFavorite(url,title);
+				}
+			}
+			
+			///////////////////////////
+			function bookmarkit(){
+		           
+		    }
+
+			function reloadPage(){
+				window.location.reload();
+			}
+			</script> 
+        </div>
+	   	</div>
+   </body>
+</html>

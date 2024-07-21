@@ -1,0 +1,34 @@
+package proto.line {
+	import flash.net.registerClassAlias;
+	import com.Message;
+	import flash.utils.ByteArray;
+	public class m_depot_dredge_toc extends Message
+	{
+		public var succ:Boolean = true;
+		public var bagid:int = 0;
+		public var reason:String = "";
+		public function m_depot_dredge_toc() {
+			super();
+
+			flash.net.registerClassAlias("copy.proto.line.m_depot_dredge_toc", m_depot_dredge_toc);
+		}
+		public override function getMethodName():String {
+			return 'depot_dredge';
+		}
+		public override function writeToDataOutput(output:ByteArray):void {
+			var i:int;
+			output.writeBoolean(this.succ);
+			output.writeInt(this.bagid);
+			if (this.reason != null) {				output.writeUTF(this.reason.toString());
+			} else {
+				output.writeUTF("");
+			}
+		}
+		public override function readFromDataOutput(input:ByteArray):void {
+			var i:int;
+			this.succ = input.readBoolean();
+			this.bagid = input.readInt();
+			this.reason = input.readUTF();
+		}
+	}
+}
