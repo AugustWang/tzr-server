@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<style type="text/css">
+
+#all {text-align:left;margin-left:4px; line-height:1;}
+#nodes {width:100%; float:left;border:1px #ccc solid;}
+#result {width: 100%; height:100%; clear:both; border:1px #ccc solid;}
+
+.itemlist {           
+background-color: #CCC;
+display: none;        
+height: 200px;        
+left: 0px;            
+margin-left: 20px;    
+max-height: 260px;    
+overflow: hidden;     
+padding: 0px;         
+position: absolute;   
+top: 0px;             
+width: 515px;         
+}                     
+
+</style>
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+<script type="text/javascript">
+</script>
+</head>
+
+<body>
+	<div id="all">	
+        <div id="main">
+            <div class="box">
+                <div id="nodes">
+                	<!--start 查找玩家-->
+                	<form action="?action=search" style="margin:20px;" method="POST">
+                		<span style='margin-right:20px;'>角色ID: <input type='text' id='role_id' name='role_id' size='11' value='<{ $role.role_id }>' onkeydown="document.getElementById('account_name').value =''; document.getElementById('role_name').value ='';" /></span>
+						<span style='margin-right:20px;'>登录帐号: <input type='text' id='account_name' name='account_name' size='12' value='<{ $role.account_name }>' onkeydown="document.getElementById('role_name').value =''; document.getElementById('role_id').value ='';" /></span>
+						<span style='margin-right:20px;'>角色名: <input type='text' id='role_name' name='role_name' size='12' value='<{ $role.role_name }>' onkeydown="document.getElementById('account_name').value =''; document.getElementById('role_id').value ='';" /></span>
+						<input type="image" name='search' src="/admin/static/images/search.gif" class="input2" align="absmiddle"  />
+                	</form>
+                	<!--end 查找玩家-->
+                	<{ if $role.role_id }>
+                	<div style="padding:10px;color:red;">注:若要扣除玩家的元宝或银子,请填写负数.(例如扣银子: -2锭 -10两 -20文,每个输入框都填写负数)</div>
+                	<form action="?action=do&type=gold" method="post">
+                	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                        <tr bgcolor="#E5F9FF"> 
+                            <td colspan="2" background="/admin/static/images/wbg.gif">
+                            	<font color="#666600" class="STYLE2"><b>::赠送元宝</b></font>
+                            </td>
+                        </tr>
+                        <tr bgcolor="#FFFFFF"> 
+                          <td width="25%">赠送原因：</td>
+                          <td width="75%"><input type="text" name="reason" value="" size="80" id="gold_reason" onKeyUp="searchGiveGoldReason();"onMouseUp="searchGiveGoldReason();" />
+			<div style="position:relative;">                                
+                         <div id="giveGoldReasonlist" class="itemlist" ></div>          
+                        </div>                                                          
+                        <script language="javascript" >                                 
+                         var itemGiveGoldArray = new Array();                           
+                         <{foreach key=ikey item=idata from=$give_gold_reason}>         
+                          itemGiveGoldArray[<{$ikey}>] = "<{$idata}>";                  
+                         <{/foreach}>                                                   
+                          function selectGiveGoldReason(iid){                           
+                            document.getElementById('gold_reason').value = itemGiveGoldArray[iid];                                                                              
+                            document.getElementById('giveGoldReasonlist').style.display="none";                                                                                  
+                          }                                                             
+                                                                                        
+                          function searchGiveGoldReason(){                              
+                            document.getElementById('giveGoldReasonlist').style.display="block";                                                                                 
+                           var keyword = document.getElementById('gold_reason').value ; 
+                           var onArray = new Array();                                   
+                           for(kid in itemGiveGoldArray) {                              
+                            if(itemGiveGoldArray[kid].indexOf(keyword) !=-1 ){          
+                             onArray[kid] = itemGiveGoldArray[kid];                     
+                                }                                                       
+                           }                                                            
+                            var strReason='<ul><li style="text-align:right;"><a href="javascript:;" onclick="hiddengoldreasonlist();">关闭</a></li>';                            
+                           for(iid in onArray) {                                        
+                             strReason += '<li onclick="selectGiveGoldReason('+iid+');">'+onArray[iid]+'</li>';                                                                  
+                           }                                                            
+                           strReason += '</ul>';                                        
+                            document.getElementById('giveGoldReasonlist').innerHTML = strReason ;                                                                                
+                          }                                                             
+                          function hiddengoldreasonlist(){                              
+                            document.getElementById('giveGoldReasonlist').style.display="none";                                                                                  
+                          }                                                             
+                         </script>                                                      
+
+
+			</td>
+
+			</tr>
+                        <tr bgcolor="#FFFFFF"> 
+                          <td width="25%">赠送数量：</td>
+                          <td width="75%">
+                          	<input type="text" name="number" value="" />
+                            <input type="checkbox" name="bind" value="1" <{ if $bind }> checked="checked" <{ /if }> />是否绑定[勾上表示绑定]
+                          </td>
+                        </tr>
+						<tr bgcolor="#FFFFFF"> 
+                          <td width="25%"></td>
+                          <td width="75%">
+                          	<input type="hidden" name="role[role_id]" value="<{ $role.role_id }>" />
+							<input type="hidden" name="role[role_name]" value="<{ $role.role_name }>" />
+							<input type="hidden" name="role[account_name]" value="<{ $role.account_name }>" />
+                          	<input type="submit" name="submit" value="确认赠送" />
+                            <input type="reset" name="reset" value="重置" />
+                          </td>
+                        </tr>
+                     </table>
+                     </form>
+	
+    				<form action="?action=do&type=item" method="post">
+    				<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                        <tr bgcolor="#E5F9FF"> 
+                            <td colspan="2" background="/admin/static/images/wbg.gif">
+                            	<font color="#666600" class="STYLE2"><b>::赠送金砖(尚未实现)</b></font>
+                            </td>
+                        </tr>
+                        <tr bgcolor="#FFFFFF"> 
+                          <td width="25%">赠送原因：</td>
+                          <td width="75%"><input type="text" name="reason" value=""  size="80"  id="jinzhuan_reason" onKeyUp="searchGiveJinReason();" onMouseUp="searchGiveJinReason();" />
+<div style="position:relative;">                                                        
+<div id="giveJinZhuanReasonlist" class="itemlist" ></div>                               
+</div>                                                                                  
+<script language="javascript" >                                                         
+var itemGiveJinArray = new Array();                                                     
+<{foreach key=ikey item=idata from=$give_jinzhuan_reason}>                              
+itemGiveJinArray[<{$ikey}>] = "<{$idata}>";                                             
+<{/foreach}>                                                                            
+function selectGiveJinReason(iid){                                                      
+        document.getElementById('jinzhuan_reason').value = itemGiveJinArray[iid];       
+        document.getElementById('giveJinZhuanReasonlist').style.display="none";         
+}                                                                                       
+                                                                                        
+function searchGiveJinReason(){                                                         
+        document.getElementById('giveJinZhuanReasonlist').style.display="block";        
+        var keyword = document.getElementById('jinzhuan_reason').value ;                
+        var onArray = new Array();                                                      
+        for(kid in itemGiveJinArray) {                                                  
+                if(itemGiveJinArray[kid].indexOf(keyword) !=-1 ){                       
+                        onArray[kid] = itemGiveJinArray[kid];                           
+                          }                                                             
+        }          
+         var strReason='<ul><li style="text-align:right;"><a href="javascript:;" onclick="hiddenjinreasonlist();">关闭</a></li>';                                                
+        for(iid in onArray) {                                              
+		strReason += '<li onclick="selectGiveJinReason('+iid+');">'+onArray[iid]+'</li>';                                                                               
+        }                                                                               
+        strReason += '</ul>';                                                           
+        document.getElementById('giveJinZhuanReasonlist').innerHTML = strReason ;       
+                                                                                        
+}                                                                                       
+function hiddenjinreasonlist(){                                                         
+        document.getElementById('giveJinZhuanReasonlist').style.display="none";         
+}                                                                                       
+</script>                                                                               
+			</td>
+                       </tr>
+                        <tr bgcolor="#FFFFFF"> 
+                          <td width="25%">赠送数量：</td>
+                          <td width="75%">
+                          	<input type="text" name="number" value="" />
+                            <input type="checkbox" name="bind" value="1" checked="checked" />是否绑定[勾上表示绑定]
+                          </td>
+                        </tr>
+                        <tr bgcolor="#FFFFFF"> 
+                          <td width="25%"></td>
+                          <td width="75%">
+                          	<input type="hidden" name="role[role_id]" value="<{ $role.role_id }>" />
+							<input type="hidden" name="role[role_name]" value="<{ $role.role_name }>" />
+							<input type="hidden" name="role[account_name]" value="<{ $role.account_name }>" />
+                          	<input type="submit" name="submit" value="确认赠送" />
+                            <input type="reset" name="reset" value="重置" />
+                          </td>
+                        </tr>
+                     </table>
+                     </form>
+                     
+                    <form action="?action=do&type=silver" method="post">
+                	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                        <tr bgcolor="#E5F9FF"> 
+                            <td colspan="2" background="/admin/static/images/wbg.gif">
+                            	<font color="#666600" class="STYLE2"><b>::赠送银两</b></font></td>
+                        </tr>
+                        <tr bgcolor="#FFFFFF"> 
+                          <td width="25%">赠送原因：</td>
+                          <td width="75%"><input type="text" name="reason" value="" size="80" id="silver_reason" onKeyUp="searchGiveSilverReason();" onMouseUp="searchGiveSilverReason();"  />
+<div style="position:relative;">                                                        
+<div id="giveSilverReasonlist" class="itemlist" ></div>                                 
+</div>                                                                                  
+<script language="javascript" >                                                         
+var itemGiveSilverArray = new Array();                                                  
+<{foreach key=ikey item=idata from=$give_silver_reason}>                                
+itemGiveSilverArray[<{$ikey}>] = "<{$idata}>";                                          
+<{/foreach}>                                                                            
+function selectGiveSilverReason(iid){                                                   
+        document.getElementById('silver_reason').value = itemGiveSilverArray[iid];      
+        document.getElementById('giveSilverReasonlist').style.display="none";           
+}                                                                                       
+                                                                                        
+function searchGiveSilverReason(){                                                      
+        document.getElementById('giveSilverReasonlist').style.display="block";          
+        var keyword = document.getElementById('silver_reason').value ;                  
+        var onArray = new Array();                                                      
+        for(kid in itemGiveSilverArray) {                                               
+                if(itemGiveSilverArray[kid].indexOf(keyword) !=-1 ){                    
+                        onArray[kid] = itemGiveSilverArray[kid];                        
+                             }                                                          
+        }                                                                           
+      var strReason='<ul><li style="text-align:right;"><a href="javascript:;" onclick="hiddensilverreasonlist();">关闭</a></li>';                                             
+        for(iid in onArray) {                                                    
+              strReason += '<li onclick="selectGiveSilverReason('+iid+');">'+onArray[iid]+'</li>';                                                                            
+        }                                                                               
+        strReason += '</ul>';                                                           
+        document.getElementById('giveSilverReasonlist').innerHTML = strReason ;         
+                                                                                        
+}                                                                                       
+function hiddensilverreasonlist(){                                                      
+        document.getElementById('giveSilverReasonlist').style.display="none";           
+}                                                                                       
+</script>                                                                               
+			
+
+			</td>
+                        </tr>
+                        <tr bgcolor="#FFFFFF"> 
+                          <td width="25%">赠送数量(单位：文)：</td>
+                          <td width="75%">
+                          	<input type="text" size="5" name="ding" value="" /> 锭 <input type="text" size="5"  name="liang" value="" /> 两 <input type="text" size="5" name="wen" value="" /> 文
+                            <input type="checkbox" name="bind" value="1" checked="checked" />是否绑定[勾上表示绑定]
+                          </td>
+                        </tr>
+						<tr bgcolor="#FFFFFF"> 
+                          <td width="25%"></td>
+                          <td width="75%">    
+                          	<input type="hidden" name="role[role_id]" value="<{ $role.role_id }>" />
+							<input type="hidden" name="role[role_name]" value="<{ $role.role_name }>" />
+							<input type="hidden" name="role[account_name]" value="<{ $role.account_name }>" />
+                          	<input type="submit" name="submit" value="确认赠送" />
+                            <input type="reset" name="reset" value="重置" />
+                          </td>
+                        </tr>
+                     </table>
+                     </form>
+                     <{ /if }>
+                     <{ if $err }>
+                     <table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                        <tr bgcolor="#FFFFFF"> 
+                            <td align="center">
+                            	<font color="red"><b><{ $err }></b></font>
+                            </td>
+                        </tr>
+                     </table>
+                     <{ /if }>
+                </div>
+            </div>
+        </div>
+	</div>
+</body>
+</html>

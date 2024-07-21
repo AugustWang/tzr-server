@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+body{font-size:12px; color:#030;}
+.block{text-align:left;width:400px;border:1px solid #cccccc; padding:20px;clear:both;}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>出错啦!</title>
+</head>
+
+<body>
+<center>
+<div class="block">
+<p>
+	<b><{$msg}></b>
+</p>
+<p>
+	<b>
+	<{if $link != ''}>
+	<a href="<{$link}>" target="_self">立刻跳转</a>
+	<{/if}>
+	</b>
+</p>
+</div>
+</center>
+</body>
+</html>

@@ -1,0 +1,84 @@
+#!/bin/bash
+
+ROOT=/data/mtzr/app/game
+mkdir -p /data/logs/daily_dialyzer
+
+date_today=`date +%Y-%m-%d`
+FILE="/data/logs/daily_dialyzer/"$date_today".log"
+
+echo '' > $FILE
+
+cd $ROOT/common
+echo "------------------------------------------------------------------" >> $FILE
+echo "重新编译common结果:" >> $FILE
+echo "------------------------------------------------------------------" >> $FILE
+make debug >> $FILE
+
+if [ $? -eq 0 ] ; then
+	##重新编译common成功后，重新编译dialyzer
+	dialyzer --add_to_plt --plt /data/mtzr/.dialyzer_plt -r /data/tzr/server/ebin/common/
+fi
+
+echo "------------------------------------------------------------------" >> $FILE
+echo "" >> $FILE
+echo "" >> $FILE
+
+echo "------------------------------------------------------------------" >> $FILE
+echo "dialyzer for behavior" >> $FILE
+cd $ROOT/behavior
+make dialyzer >> $FILE
+echo "------------------------------------------------------------------" >> $FILE
+echo "" >> $FILE
+echo "" >> $FILE
+
+echo "------------------------------------------------------------------" >> $FILE
+echo "dialyzer for db" >> $FILE
+cd $ROOT/db
+make dialyzer >> $FILE
+echo "------------------------------------------------------------------" >> $FILE
+echo "" >> $FILE
+echo "" >> $FILE
+
+echo "------------------------------------------------------------------" >> $FILE
+echo "dialyzer for login" >> $FILE
+cd $ROOT/login
+make dialyzer >> $FILE
+echo "------------------------------------------------------------------" >> $FILE
+echo "" >> $FILE
+echo "" >> $FILE
+
+echo "------------------------------------------------------------------" >> $FILE
+echo "dialyzer for map" >> $FILE
+cd $ROOT/map
+make dialyzer >> $FILE
+echo "------------------------------------------------------------------" >> $FILE
+echo "" >> $FILE
+echo "" >> $FILE
+
+echo "------------------------------------------------------------------" >> $FILE
+echo "dialyzer for world" >> $FILE
+cd $ROOT/world
+make dialyzer 1>>/dev/null >> $FILE
+echo "------------------------------------------------------------------" >> $FILE
+echo "" >> $FILE
+echo "" >> $FILE
+
+echo "------------------------------------------------------------------" >> $FILE
+echo "dialyzer for line" >> $FILE
+cd $ROOT/line
+make dialyzer >> $FILE
+echo "------------------------------------------------------------------" >> $FILE
+echo "" >> $FILE
+echo "" >> $FILE
+
+echo "------------------------------------------------------------------" >> $FILE
+echo "dialyzer for chat" >> $FILE
+cd $ROOT/chat
+make dialyzer >> $FILE
+echo "------------------------------------------------------------------" >> $FILE
+echo "" >> $FILE
+echo "" >> $FILE
+
+TITLE="$date_today dialyzer result"
+
+echo "$TITLE" | mutt -a "$FILE" -s "$TITLE" qingliang@mingchao.com liuwei2@mingchao.com chixiaosheng@mingchao.com caochuncheng2002@gmail.com   adiu.one@gmail.com luo.jcheng@gmail.com 

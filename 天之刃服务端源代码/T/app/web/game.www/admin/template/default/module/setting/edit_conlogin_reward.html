@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>奖励任务配置</title>
+<link href="/admin/static/css/base.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.itemlist {
+background-color: #CCC;
+display: none;
+height: 255px;
+height: 255px;
+left: 254px;
+margin: 0px;
+max-height: 260px;
+overflow: hidden;
+padding: 0px;
+position: absolute;
+top: 0px;
+width: 200px;
+}
+</style>
+<script language="javascript" >                                
+	var itemArray = new Array();  
+		<{foreach item=idata from=$itemlists}>       
+			itemArray[<{$idata.typeid}>] = "<{$idata.typeid}> | <{$idata.item_name}> ";                                        
+		<{/foreach}>                                                                  
+function selectItem(iid){                                                       
+	document.getElementById('typeid').value = iid;                            
+	document.getElementById('itemname').value = itemArray[iid];             
+	document.getElementById('itemlist').style.display="none";               
+}                                                                               
+
+function searchItem(){                                                          
+	document.getElementById('itemlist').style.display="block";              
+	var keyword = document.getElementById('itemname').value ;               
+	var onArray = new Array();                                              
+	for(kid in itemArray) {                                                 
+		if(itemArray[kid].indexOf(keyword) !=-1 ){                      
+			onArray[kid] = itemArray[kid];                          
+		}                                                               
+	}                                                                       
+	var str='<ul><li style="text-align:right;"><a href="javascript:;" onclick="hiddenlist();">关闭</a></li>';                                                       
+	for(iid in onArray) {                                                   
+		str += '<li onclick="selectItem('+iid+');">'+onArray[iid]+'</li>';                                                                                      
+	}                                                                       
+	str += '</ul>';                                                         
+	document.getElementById('itemlist').innerHTML = str ;                   
+}                                                                               
+function hiddenlist(){                                                          
+	document.getElementById('itemlist').style.display="none";               
+}                                                                               
+</script>    
+
+<script>
+function showHide(id) {
+	var div = document.getElementById(id);
+	if(div) {
+		if(div.style.display == 'none')
+			div.style.display = '';
+		else
+			div.style.display = 'none';
+	}
+}
+
+function chooseColor(color) {
+	var io = document.getElementById('color_box');
+	if (!color && io){
+		color = io.value;
+	}
+	if(io)
+		io.value = color;
+	var div = document.getElementById('color_sample');
+	if (div){
+		div.style.color = color;
+	}
+}
+
+function changecheckday(id){
+    var loopdaycheckid = 'loopdaycheck'+id;
+    var loopdayid = 'loopday'+id;
+    if(document.getElementById(loopdaycheckid).checked == true)
+          document.getElementById(loopdayid).disabled = false;
+    else
+          document.getElementById(loopdayid).disabled = true;
+}
+</script>
+</head>
+
+<body style="margin:10px">
+
+<h3>连续登陆奖励编辑</h3>
+<div>
+<form name="myform" method="post">
+	<input type="hidden" name="job" value="type" />
+	<input type='hidden' name='action' value='edit' />
+    <input type="hidden" name='flag' value='do'/>
+    <input type='hidden' name='aid' value='<{$aid}>' />
+    <table id="tb" width="100%" align="center" cellpadding="1" cellspacing="1" style=" style="border:1px #ccc solid;"">
+        <tr style="background:#E0F0F0;">
+        	<td style="width: 120px;">标题（用于后台显示）</td>
+            <td><input type="text" name="title" value="<{$listtype.title}>"  onfocus="select();" /></td>
+        </tr>
+        <tr style="background:#E0F0F0;">
+            <td style="width: 120px;">
+              连续登录天数:
+            </td>
+            <td>
+          		<input type='text' name='begin_day' style='width:50px;' value='<{$listtype.begin_day}>'> 天到
+          		<input type='text' name='end_day' style='width:50px;' value='<{$listtype.end_day}>'> 天
+            </td>
+        </tr>
+        <tr style="background:#E0F0F0;">
+        	<td style="width: 120px;"><input type="submit" name='send' value='确认修改' /></td>
+            <td></td>
+        </tr>
+    </table>
+</form>
+</div>
+<br>
+<div style="clear:both; height:auto; overflow:hidden; width: 800px;">
+   <form name="myform" method="post" action="">
+   		<input type="hidden" name="job" value="itemDetail" />
+        <input type='hidden' name='aid' value='<{$aid}>' />
+        <input type='hidden' name='action' value='add' />
+        <table style="border:1px #ccc solid;">
+        	<tr style="background:#E0F0F0;">
+            	<td>道具搜索
+                </td style="width: 120px;text-align:right;">
+                <td><input type="text" name="itemname" id="itemname" value="" onKeyUp="searchItem()" onMouseUp="searchItem();" /></td>
+            </tr>
+        	<tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">请选择道具：</td>
+                <td>
+                	
+                    <div id="itemlist" class="itemlist" ></div>         
+                    <input type="text" name="typeid" id="typeid" value="" />
+                </td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">数量：</td>
+                <td><input type="text" name="num" value="1" size="4" /></td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">是否绑定：</td>
+                <td><input type="radio" name="bind" value="1" />不绑定 <input type="radio" name="bind" value="2" checked="checked" />绑定</td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">价格：</td>
+                <td><input type="text" name="gold" value="0" size="4" /> 元宝 <input type="text" name="silver" value="0" size="4" /> 银两</td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">等级范围：</td>
+                <td><input type="text" name="minlv" value="1" size="4" /> 级到 <input type="text" name="maxlv" value="200" size="4" /> 级</td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">需要玩家已充值：</td>
+                <td><input type="radio" name="hasPayed" value="1" /> 是 
+                	<input type="radio" name="hasPayed" checked="checked" value="0" /> 否
+                </td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">循环天数：</td>
+                <td><input type="text" size="6" name="loop_day" value="0" /><label>（为0或1则每天都可领取）</label></td>
+            </tr>		
+			<tr style="background:#EOFOFO;">
+				<td style="width: 120px;text-align:right;">需要VIP等级: </td>
+				<td><input type="text" name="vipLevel" value="0" size="4" /></td>
+			</tr>
+        </table>
+		<input type="submit" name='setName' value="增加奖励道具" />
+   </form>
+</div>
+
+<h3>奖励道具列表</h3>
+<div style="clear:both; height:auto; overflow:hidden; width: 800px;">
+	<table style="border:1px #ccc solid;">
+    	<tr style="background:#E0F0F0;">
+        	<td>道具名称</td>
+            <td>数量</td>
+            <td>绑定</td>
+            <td>元宝</td>
+            <td>银两</td>
+            <td>最低等级</td>
+            <td>最高等级</td>
+            <td>需要已充值</td>
+            <td>循环天数</td>
+			<td>需要VIP等级</td>
+            <td style="width:84px;">操作</td>
+        </tr>
+	<{foreach from=$itemListsType item=item}>
+    	<tr style="background:#E0F0F0;">
+        	<td><{$item.item_name}></td>
+            <td><{$item.num}></td>
+            <td><{if $item.bind == 1}>是<{else}>否<{/if}></td>
+            <td><{$item.gold}></td>
+            <td><{$item.silver}></td>
+            <td><{$item.min_level}></td>
+            <td><{$item.max_level}></td>
+            <td><{if $item.need_payed == 1}>是<{else}>否<{/if}></td>
+            <td><{$item.loop_day}></td>
+			<td><{$item.need_vip_level}></td>
+            <td>
+            	<a href="?job=itemDetail&action=del&id=<{$item.id}>&aid=<{$aid}>">删除</a>
+                <a href="?job=itemDetail&action=edit&id=<{$item.id}>&aid=<{$aid}>">编辑</a>
+            </td>
+        </tr>
+    <{/foreach}>
+    </table>
+</div>
+</body>
+</html>

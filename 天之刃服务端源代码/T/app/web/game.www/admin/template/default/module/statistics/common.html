@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<link rel="stylesheet" href="/css/base.css" type="text/css">
+<script type="text/javascript">
+$(document).ready(function () {
+	get_baseinfo();
+});
+
+//获取游戏的基本信息
+get_baseinfo = function() {
+	$.getJSON("/baseinfo", function(data) {
+							$('#max_online').text(data['max_online']);
+							$('#queue_online').text(data['queue_online']);
+							$('#online').text(data['online']);
+							$('#account_number').text(data['account_number']);
+							$('#role_number').text(data['role_number']);
+							$('#role_num_of_hongwu').text(data['role_num_of_hongwu']);
+							$('#role_num_of_yongle').text(data['role_num_of_yongle']);
+							$('#role_num_of_wanli').text(data['role_num_of_wanli']);
+					});
+	return false;
+}
+
+</script>
+</head>
+
+<body>
+	<div id="all">
+    	<div id="baseinfo">
+            <table>
+                <tr><td>设置最大在线</td><td id="max_online"></td></tr>
+                <tr><td>设置排队人数</td><td id="queue_online"></td></tr>
+                <tr><td>当前在线</td><td id="online"></td></tr>
+                <tr><td>总注册账号</td><td id="account_number"></td></tr>
+                <tr><td>总创建角色</td><td id="role_number"></td></tr>
+                <tr><td>云州角色数量</td><td id="role_num_of_hongwu"></td></tr>
+                <tr><td>沧州角色数量</td><td id="role_num_of_yongle"></td></tr>
+                <tr><td>幽州角色数量</td><td id="role_num_of_wanli"></td></tr>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

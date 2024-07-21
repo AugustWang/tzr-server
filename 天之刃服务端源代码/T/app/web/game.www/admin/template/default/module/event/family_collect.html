@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+</head>
+
+<body>
+	<div>
+    </div>
+	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+        <tr bgcolor="#E5F9FF"> 
+        	<td colspan="2" background="/admin/static/images/wbg.gif"><font color="#666600" class="STYLE2"><b>门派采集活动控制</b></font></td>
+       </tr>
+        <form action="?action=open_family_collect" method="post">
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">开启门派采集活动 (输入0时代表所有门派)</td>
+          <td width="75%">门派ID：<input type="text" name="family_id" value="" /><input type="submit" value="开启活动" /></td>
+        </form>
+         <form action="?action=end_family_collect" method="post">
+         </tr>
+          <tr bgcolor="#FFFFFF"> 
+          <td width="25%">关闭门派采集活动 (输入0时代表所有门派)</td>
+          <td width="75%">门派ID：<input type="text" name="family_id" value="" /><input type="submit" value="关闭活动" /></td>
+        </tr>
+        </form>
+    </table>
+</body>
+</html>

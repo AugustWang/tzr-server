@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>主菜单</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<style type="text/css">
+body { margin:3px; padding:0px; font-size:12px; font-family:"Courier New", Courier, monospace; background:#86C1FF; margin:3 0 0 0;}
+.tdborder {
+	border-left: 1px solid #43938B;
+	border-right: 1px solid #43938B;
+	border-bottom: 1px solid #43938B;
+}
+.tdrl {
+	border-left: 1px solid #788C47;
+	border-right: 1px solid #788C47;
+}
+.topitem {
+	cursor: hand;
+	background-image:url(/admin/static/images/mtbg1.gif);
+	height:24px;
+	width:98%;
+	border-right: 1px solid #2FA1DB;
+	border-left: 1px solid #2FA1DB;
+	clear:left
+}
+.itemsct {
+	border-right: 1px solid #2FA1DB;
+	border-left: 1px solid #2FA1DB;
+	background-color:#EEFAFE;
+	margin-bottom:6px;
+	width:98%;
+}
+.itemem {
+	text-align:left;
+	clear:left;
+	border-bottom: 1px solid #2FA1DB;
+	height:21px;
+}
+.tdl {
+	float:left;
+	margin-top:2px;
+	margin-left:6px;
+	margin-right:5px
+}
+.tdr {
+	float:left;
+	margin-top:2px
+}
+.topl {
+	float:left;
+	margin-left:6px;
+	margin-right:3px;
+}
+.topr {
+	padding-top:4px;
+	cursor:pointer;
+}
+.toprt {
+	text-align:center;
+	padding-top:3px
+}
+body {
+	scrollbar-base-color:#8CC1FE;
+	scrollbar-arrow-color:#FFFFFF;
+	scrollbar-shadow-color:#6994C2
+}
+.red{
+	background-color:#C591C5;
+}
+
+</style>
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+<script type="text/javascript">
+showHide = function(objID) {	
+	$('#' + objID).toggle();
+}
+$(document).ready(function(){
+	$(".itemem").click(function(){
+		$(".itemem").removeClass("red");
+		$(this).addClass("red");
+	});
+});
+</script>
+</head>
+
+<body>
+	<div id="all">
+    	<div class='topitem' align='left'>
+    		<div class='topl'></div>
+    		<div class='topr'><{$ADMIN_MENU_TITLE}></div>
+  		</div>
+<{foreach key=catid item=catdata from=$catalogue}>
+    	<div onClick='showHide("items_<{$catid}>")' class='topitem' align='left'>
+        	<div class='topl'><img src='./static/images/mtimg1.gif' width='21' height='24' border='0'></div>
+        	<div class='topr'><{$catdata.name}></div>
+      	</div>
+      	<div style='clear:both'></div>
+      	<div style='display:block' id='items_<{$catid}>' class='itemsct'>
+    <{foreach key=pid item=page from=$catdata.pages}>
+            <dl class='itemem'>
+              <dd class='tdl'><img src='./static/images/newitem.gif' width='7' height='10' alt=''/></dd>
+              <dd class='tdr'><a href='module/<{$page.url}>' target='main_frame'><{$page.name}></a></dd>
+            </dl>
+    <{/foreach}>
+      	</div>
+<{/foreach}>
+    </div>
+</body>
+</html>

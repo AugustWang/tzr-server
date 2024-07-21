@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script type="text/javascript" src="/static/js/common.js"></script>
+<style type="text/css" media="screen"> 
+html, body	{height:100%; margin:auto; text-align:center; }
+body {margin:0; padding:0; overflow:hidden; text-align:center; background-color: #000000; width:100%;}   
+a:link {
+	color: #333333;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #333333;
+}
+a:hover {
+	text-decoration: underline;
+	color: #FF3300;
+	ackground:#f29901;
+}
+a:active {
+	text-decoration: none;
+}
+.jianju{
+margin: 0 5px;
+}
+#flashContent {display:none;}
+.top {background-image:url(/static/images/topbg.png);height:20px;margin:auto;width:100%;font-size:12px; clear:both; overflow:hidden; text-align:center;}
+.top-0{height:20px;width:1002px;margin:auto;}
+.top-logo{
+height:20px;
+width:100px;
+line-height:20px;
+float:left;
+overflow: hidden;
+}
+.top-1{
+height:20px;
+width:300px;
+line-height:20px;
+float:left;
+overflow: hidden;
+}
+.top-3 .ic0{background:url(/static/images/icon.png) no-repeat 0 5px; display:block;padding:0 10px 0 18px;float:left;}
+.top-0 .ic1{background:url(/static/images/icon.png) no-repeat 0 -26px; display:block;padding:0 10px 0 18px;float:left;}
+.top-0 .ic2{background:url(/static/images/icon.png) no-repeat 0 -56px; display:block;padding:0 10px 0 18px;float:left;}
+.top-0 .ic3{background:url(/static/images/icon.png) no-repeat 0 -86px; display:block;padding:0 10px 0 18px;float:left;}
+.top-2{
+height:20px;
+width:150px;
+line-height:20px;
+float:left;
+text-align:center;
+overflow: hidden;
+}
+.top-3{
+height:20px;
+width:300px;
+line-height:20px;
+float:right;
+text-align:right;
+overflow: hidden;
+}
+</style>
+</head>
+
+<body>
+<div class="top">
+	<div class="top-0">
+		<div class="top-logo">
+			<img src="/static/images/<{$agent}>logo.jpg" />
+		</div>
+		<div class="top-1">
+			<a href="help.php?action=save" class="ic1" style="color:#FF3300;cursor:pointer">保存《天之刃》到桌面</a>
+			<a class="ic2" onclick="javascript:SetHome(this, '<{$officialWebSite}>');" style="cursor:pointer; 
+text-decoration:underline;">设为主页</a>
+			<a class="ic3" onclick="javascript:addfavor('<{$domain}>', '<{$title}>');" style="cursor:pointer; text-decoration:underline
+;">收藏</a>
+		</div>
+		<div class="top-2">
+		 <a target="_blank" href="<{$payUrl2}>" style="color:#FF3300;cursor:pointer">充值[1RMB=10YB]</a>
+		</div>
+		<div class="top-3" >
+        <{if $agentName=="unalis"}> 
+        
+        	<a target="_blank" href="<{$FBfunsURL}>"  style="cursor:pointer" >
+        		<img src="/static/images/FBfuns.jpg" /></a><span class="jianju">|</span>
+			<a target="_blank" href="<{$bhmtURL}>"  style="cursor:pointer">
+				<img src="/static/images/bhmt.jpg" /></a><span class="jianju">|</span>
+            <a target="_blank" href="<{$yxjdURL}>" style="cursor:pointer">
+            	<img src="/static/images/yxjd.jpg" /></a>
+        <{else}>
+       		<a target="_blank" href="<{$jihoumaURL}>" class="ic0" style="cursor:pointer" class="ic0">新手激活码</a>
+			<a target="_blank" href="<{$officialWebSite}>" style="cursor:pointer">官网</a><span class="jianju">|</span>
+            <a target="_blank" href="<{$bbsUrl}>" style="cursor:pointer">论坛</a><span class="jianju">|</span>
+            <a target="_blank" href="<{$gonglueURL}>" style="cursor:pointer">游戏攻略</a>
+       <{/if}>
+        </div>
+	</div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>天之刃管理后台顶部</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<style type="text/css">
+body { width:100%; height:70px; text-align:center; margin:0 auto; background:url(/admin/static/images/header.jpg) repeat-x ;clear:both;}
+#all {width:100%; height:100%;  }
+#logo {float:left; width:222px; line-height:2.4;font-family:"宋体";font-size:18px;font-weight:bold;margin-top:10px;}
+#logout {float:right;background:#CCC; }
+.server_n, #gateway {border-top: 1px solid #555;border-right: 1px solid #555;width:38px;float: left;margin-top: 5px;margin-left:3px;cursor:pointer;background: url("/admin/static/images/wbg.gif") repeat-x}
+.server_n a{width:30px;height:20px;border-left:1px solid #cecece;display:block;}
+.memu_bg {background:yellow;}
+.server_block {margin-top: 20px;float:left;}
+</style>
+<script src="static/js/jquery.min.js" type='text/javascript'></script>
+<script>
+        $(function(){
+       			$(".server_n:first").css("background", "yellow");
+                $(".server_n").click(function(){
+				var ser_no = $(this).attr("id");
+					    inform(ser_no);
+                        $(this).css("background", "yellow");
+                        $(".server_n").not($(this)).css("background", "");
+                });
+                $("#gateway").click(function() {
+                	parent.location.reload();
+                });
+         		$("#out").click(function(){
+                        loginout();     
+                });
+                $(".server_block").css("width",$(window).width()-222-100+"px");
+        });
+        //退出登陆      
+        function loginout(){
+                var ser_arr = new Array();
+                <{foreach from=$admin_sys_quantity item=v name=k }>
+                    ser_arr[<{$smarty.foreach.k.index}>] = <{$v}>;
+                <{/foreach}>
+                for (x in ser_arr){
+                        $.getJSON("http://<{$admin_url_prefix}>"+ser_arr[x]+".<{$admin_url}>/admin/passport.php?msg=ok&callback=?",
+                                {action:"out"});
+                }
+                
+                top.window.top.location = "<{$adminGatewayUrl}>login.php?action=logout";  
+        }
+
+        //通信验证
+        function inform(ser_no){
+        $.getJSON("http://"+ser_no+".<{$admin_url}>/admin/passport.php?msg=ok&callback=?",
+                {
+		 username:"<{$user_info.username}>",
+		 uid:"<{$user_info.uid}>",
+		 last_op_time:"<{$user_info.last_op_time}>",
+		 overlord:"<{$user_info.overlord}>",
+		 userpower:"<{$user_power}>",
+		 flag:"<{$flag}>"
+		},
+                function(data){
+                        if(data.msg=='ok'){
+				var new_url = "http://"+ser_no+".<{$admin_url}>/admin/";
+				var frame_obj = $(parent.document.getElementsByTagName("frameset")[1]);
+				var title_no = ser_no.substring(4);
+               	$("#logo").html("天之刃"+title_no+"服管理后台"); 
+				frame_obj.find("#left_frame").attr("src",new_url+"left.php");
+				frame_obj.find("#main_frame").attr("src",new_url+"main.php");
+               			}else if(data.msg=='timeout'){
+							loginout();  
+						}else{
+							alert("Error:Key error.");
+						}
+                });
+        }
+        
+</script>
+</head>
+
+<body>
+    <div id="all">
+        <div id="logo">天之刃管理后台
+        </div>
+        	<div class="server_block">
+            	<{foreach from=$admin_sys_quantity item=theno name=allServer}>
+               		<{if ($agent_name=="baidu" || $agent_name=="skycn") && $theno<10}>
+               		   <{if $smarty.foreach.allServer.index == 0}>
+               		   <div class=server_n  id="gateway"><a>S<{$theno}></a></div>
+               		   <{else}>
+               			<div class=server_n id='<{$admin_url_prefix}>0<{$theno}>'><a>S<{$theno}></a></div>
+               			<{/if}>
+               		<{else}>
+               		   <{if $smarty.foreach.allServer.index == 0}>
+                       <div  class=server_n  id="gateway"><a>S<{$theno}></a></div>
+                       <{else}>
+                        <div class=server_n id='<{$admin_url_prefix}><{$theno}>'><a>S<{$theno}></a></div>
+                        <{/if}>
+               		<{/if}> 
+            	<{/foreach}>
+            </div>
+            <div id="logout">
+                <{if $isdebug != true}>
+                <b><{$username}></b><a id="out" href="#">『注销』</a>
+                <{else}>
+                <b><{$username}></b><a id="bugout" href="./login.php?action=logout" target="main">『注销』</a>
+                <{/if}>
+            </div>
+    </div>
+</body>
+</html>

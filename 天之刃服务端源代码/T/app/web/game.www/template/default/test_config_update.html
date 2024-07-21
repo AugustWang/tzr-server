@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>配置文件更新辅助工具</title>
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+<script type="text/javascript">
+updateConfig = function() {
+	$('#update_msg').html('<font color="#000000">正在准备更新config中，该过程可能需要几秒钟，请稍等......</font>');
+	$.post('test_config_update.php', 'action=update', rtnUpdateConfig, 'text');
+}
+rtnUpdateConfig = function(result) {
+	$('#update_msg').html('<font color="#0000FF">配置更新结果：' + result +'</font>');
+}
+reloadConfig = function(file) {
+	$('#reload_msg').html('<font color="#000000">正在准备reload config中，该过程可能需要几秒钟，请稍等......</font>');
+	$.post('test_config_update.php', 'action=reload&config='+file, rtnReloadConfig, 'text');
+}
+rtnReloadConfig = function(result) {
+	$('#reload_msg').html('<font color="#0000FF">配置更新结果：' + result + '</font>');
+}
+</script>
+<style type="text/css">
+body {font-size:12px; line-height:1.8;}
+</style>
+</head>
+
+<body>
+<div style="border:1px #ccc solid;">
+	<div id="update_msg" style="margin:4px; border:1px #ccc dashed; text-indent:2em;"><{$defaultUpdateMsg}></div>
+    <div>
+		<input type="button" value="更新配置文件" title="更新后记得reload配置文件，有些配置直接reload是没用的，reload之前看看是否右侧有对应的功能可以直接用的" onclick="updateConfig();" /> （<font color="#FF0000">更新后需要reload配置文件, reload在下面</font>）
+    </div>
+</div>
+
+<div>
+    <div style="float:left; width:850px; border:1px #ccc dashed; margin:4px; padding:4px; ">
+    	<div id="reload_msg">配置更新通常需要几秒钟，按HOME直接到顶部</div>
+        <table style="border:1px #ccc solid;">
+        <{foreach from=$configFileList key=key item=configFileName name=configList}>
+        	<{if $smarty.foreach.configList.iteration % 4 == 0}>
+            	<tr><td><input type="button" onclick="reloadConfig('<{$key}>');" value="<{$configFileName}>" /></td>
+            <{elseif $smarty.foreach.configList.iteration % 4 == 1}>
+            	<td><input type="button" onclick="reloadConfig('<{$key}>');" value="<{$configFileName}>" /></td>
+            <{elseif $smarty.foreach.configList.iteration % 4 == 2}>
+            	<td><input type="button" onclick="reloadConfig('<{$key}>');" value="<{$configFileName}>" /></td>
+            <{elseif $smarty.foreach.configList.iteration % 4 == 3}>
+            	<td><input type="button" onclick="reloadConfig('<{$key}>');" value="<{$configFileName}>" /></td></tr>
+            <{/if}>
+        <{/foreach}>
+        </table>
+    </div>
+    
+    <div style="float:left; width:200px; margin:4px; min-height:400px; border:1px #ccc dashed;">
+    	<div id="op_msg"></div>
+        <table>
+        	<tr><td><input type="button" value="更新商店" title="尚未实现" /></td></tr>
+            <tr><td><input type="button" value="更新任务数据" title="尚未实现" /></td></tr>
+            <tr><td><input type="button" value="更新怪物配置" title="尚未实现" /></td></tr>
+            <tr><td><input type="button" value="更新MCM" title="尚未实现" /></td></tr>
+            <tr><td><input type="button" value="更新" title="尚未实现" /></td></tr>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

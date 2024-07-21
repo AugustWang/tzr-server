@@ -1,0 +1,210 @@
+import "common.proto";
+
+option java_package = "proto.chat";
+
+//==========================================Key 认证 ==========================================
+
+//客户端发来的请求登陆信息
+message m_chat_auth_tos {
+	required string 				account 					= 1;//平台账户名
+	required int32					roleid 						= 2;//角色id
+	required string					key 						= 3;//验证key
+	required int32					timestamp					= 4;//验证时间戳
+}
+//服务器发送给客户端的登陆验证结果
+message m_chat_auth_toc {
+	required bool		succ		= 1 [default = true];//成功失败标记
+	optional string		reason		= 2;//失败原因
+	repeated p_channel_info	channel_list	= 3;//频道列表
+	repeated p_chat_role	black_list	= 4;//黑名单列表
+	repeated string		gm_auth		= 5;//GM管理权限
+}
+
+//=======================================频道==================================
+
+//通知客户端某玩家进入频道
+message m_chat_join_channel_toc{
+	required p_channel_info channel_info 	= 1;//频道信息
+	optional p_chat_role role_info 		= 2;//角色信息 以后可能会通知其他人某人离开了 这里保留着吧
+}
+
+//离开频道
+message m_chat_leave_channel_toc{
+	required string channel_sign 		= 1;//频道标记
+	required int32	channel_type 		= 2;//类型
+}
+
+//频道聊天
+message m_chat_in_channel_tos{
+	required string channel_sign		= 1;//频道标记
+	required string msg			= 2;//聊天内容
+}
+
+message m_chat_in_channel_toc{
+	required bool		succ		= 1 [default = true];//成功失败标记
+	optional string		reason		= 2;//失败原因
+	optional string		channel_sign 	= 3;//频道标记
+	optional string		msg  		= 4;//聊天内容
+	optional p_chat_role	role_info 	= 5;//信息发送者角色信息
+	optional int32			tstamp		= 6;//时间戳
+}
+
+//=======================================私聊======================================
+message m_chat_in_pairs_tos{
+	required string		msg		= 1;//私聊信息
+	required string		to_rolename	= 2;//要聊天的角色名
+	required int32		show_type	= 3 [default = 1];//1密聊 2对话
+}
+
+message m_chat_in_pairs_toc{
+	required bool			succ		= 1 [default = true];//成功失败标记
+	required int32			show_type	= 2 [default = 1];//1密聊 2对话
+	optional string			reason		= 3;//失败原因
+	optional string			msg  		= 4;//聊天内容
+	optional p_chat_role	from_role_info 	= 5;//发送者角色信息
+	optional p_chat_role	to_role_info 	= 6;//接受者角色信息
+	optional int32			tstamp		= 7;//时间戳
+	optional int32          error_code	= 8[default = 0];//错误码	
+	optional int32          to_role_id	= 9[default = 0];//对方RoleID	
+}
+
+//=======================================黑名单======================================
+
+//加黑
+message m_chat_add_black_tos{
+	required string rolename	= 1;//角色名
+}
+
+message m_chat_add_black_toc{
+	required bool succ		= 1;//成功失败标记
+	optional string reason		= 2;//失败原因
+	optional p_chat_role role_info	= 3;//角色信息
+}
+
+//移黑
+message m_chat_remove_black_tos{
+	required string rolename	= 1;//角色名
+}
+
+message m_chat_remove_black_toc{
+	required bool succ		= 1;//成功失败标记
+	optional string reason		= 2;//失败原因
+	optional p_chat_role role_info	= 3;//角色信息
+}
+
+message m_chat_get_black_toc{
+	required bool succ		= 1;//成功失败标记
+	optional string reason		= 2;//失败原因
+	repeated p_chat_role role_list	= 3;//黑名单列表
+}
+
+//=======================================管理模块==================================
+
+//禁言
+message m_chat_manage_mute_tos {
+	required string 	rolename	= 1;//要被禁言角色
+	required int32 	        duration	= 2;//持续时间(秒)
+}
+
+message m_chat_manage_mute_toc {
+	required bool 		succ		= 1 [default = true];// 失败成功标记
+	optional string 	reason	 	= 2; //失败理由
+}
+
+//踢下线
+message m_chat_manage_kick_tos {
+	required string 	rolename	= 1;//要被Kick的角色名
+}
+
+message m_chat_manage_kick_toc {
+	required bool 		succ		= 1 [default = true];// 失败成功标记
+	optional string 	reason	 	= 2; //失败理由
+}
+
+//禁止登陆
+message m_chat_manage_ban_tos {
+	required string 	rolename	= 1;//要被禁登的角色名
+	required int32 	        duration	= 2;//持续时间(秒)
+}
+
+message m_chat_manage_ban_toc {
+	required bool 		succ		= 1 [default = true];// 失败成功标记
+	optional string 	reason	 	= 2; //失败理由
+}
+
+message m_chat_limit_notify_toc {
+	required string		limit_type	= 1;//受限类型
+	required string 	reason	 	= 2; //受限理由
+}
+
+//=====================================群聊===========================================
+message m_chat_status_change_toc{
+	required int32		role_id			= 1;//角色ID
+	required string		channel_sign 	= 2;//频道标记
+	required int32		channel_type	= 3;//频道类型
+	required int32		status			= 4;//1下线，2上线
+}
+message m_chat_quick_toc{
+	required int32			role_id			= 1;//角色ID
+	required string			channel_sign 	= 2;//频道标记
+	required int32			channel_type	= 3;//频道类型
+}
+message m_chat_new_join_toc{
+	required p_chat_channel_role_info		role_info		= 1;//角色信息
+	required string							channel_sign 	= 2;//频道标记
+	required int32							channel_type	= 3;//频道类型
+}
+message m_chat_get_roles_tos{
+	required string							channel_sign = 1;//频道标记
+}
+message m_chat_get_roles_toc{
+	required bool							succ = 1;//是否成功
+	optional string							reason = 2;//失败原因
+	optional string							channel_sign = 3;//频道标记
+	optional int32							channel_type = 4;//频道类型
+	repeated p_chat_channel_role_info		roles = 5;//玩家列表
+}
+
+
+// 王座争霸战的结果
+message m_chat_warofking_toc {
+	required string							family_name = 1;
+	required string							role_name	= 2;
+}
+
+// 物品炫耀
+message m_chat_get_goods_tos {
+        required int32                  goods_id                = 1;
+}
+
+message m_chat_get_goods_toc {
+        required bool                   succ                    = 1 [default=true];
+        optional int32                  goods_id                = 2;
+        optional p_goods                goods_info              = 3;
+        optional string                 reason                  = 4;
+}
+
+
+message m_chat_reconnect_tos{
+}
+message m_chat_reconnect_toc {
+    required bool succ = 1;//重连获取信息是否成功
+    optional string reason = 2;//重连失败理由
+    optional string account = 3;//平台账户名
+    optional int32 roleid = 4;//角色id
+    optional int32 timestamp = 5;//时间戳
+    optional string key = 6;//验证key
+}
+
+//国王禁言
+message m_chat_king_ban_tos {
+	required int32			roleid			= 1; //角色ID
+	required string			rolename                = 2; //角色姓名
+	required int32			total_times		= 3;
+}
+
+message m_chat_king_ban_toc {
+        required bool                   succ                    = 1 [default=true];
+        optional string                 reason                  = 2;
+        optional int32			bantimes		= 3;
+}

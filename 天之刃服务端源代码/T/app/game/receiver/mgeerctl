@@ -1,0 +1,239 @@
+#!/bin/bash
+
+# add by odinxu, 2009-10-05, fix bug: [emfile] open too many files.
+ulimit -SHn 51200
+
+# define default configuration
+POLL=true
+SMP=auto
+ERL_MAX_PORTS=32000
+ERL_PROCESSES=250000
+ERL_MAX_ETS_TABLES=1400
+
+# define default environment variables
+PORT=10001
+
+ARGS=
+while [ $# -ne 0 ] ; do
+    PARAM=$1
+    shift
+    case $PARAM in
+		-id) ID=$1 ; shift ;;
+        --) break ;;
+        *) ARGS="$ARGS $PARAM" ;;
+    esac
+done
+
+NODE=receiver_$ID
+HOST=127.0.0.1
+ERLANG_NODE=$NODE@$HOST
+ERL=/usr/local/bin/erl
+
+EXEC_CMD="sh -c"
+
+NAME=-name
+[ "$ERLANG_NODE" = "${ERLANG_NODE%.*}" ] && NAME=-sname
+
+here=`which "$0" 2>/dev/null || echo .`
+base="`dirname $here`"
+MGEERDIR=`(cd "$base"; echo $PWD)`
+TMP_DIR="`dirname $MGEERDIR`"
+TMP_DIR2="`dirname $TMP_DIR`"
+MGE_ROOT=/data/tzr/server
+
+LOCK_FILE=$MGEERDIR/run.lock
+
+##额外的ebin目录
+PROTO_EBIN_PATH="-pa $MGE_ROOT/ebin/proto/behavior"
+COMMON_EBIN_PATH="-pa $MGE_ROOT/ebin/common -pa $MGE_ROOT/ebin/common/mod -pa $MGE_ROOT/ebin/common/library -pa $MGE_ROOT/ebin/common/library/json"
+LIB_EBI_PATH=$MGE_ROOT/ebin/library
+MGEER_PA="-pa $LIB_EBI_PATH -pa $MGE_ROOT/ebin -pa $MGE_ROOT/ebin/proto -pa $MGE_ROOT/ebin/receiver -pa $MGE_ROOT/ebin/receiver/mod $PROTO_EBIN_PATH $COMMON_EBIN_PATH"
+
+APP_NAME=mgeer
+
+##设置mnesia数据存放目录
+MGEED_DB=/data/database/tzr/
+
+LOG_DIR=/data/logs/tzr
+
+##设置输出日志文件
+MGEEA_LOG_PATH=$LOG_DIR/$NODE.log
+##设置sasl日志输出目录
+SASL_LOG_PATH=$LOG_DIR/${NODE}_sasl.log
+##设置coredump输出目录
+DATETIME=`date "+%Y%m%d-%H%M%S"`
+ERL_CRASH_DUMP=$LOG_DIR/${NODE}_erl_crash_$DATETIME.dump
+HOME=$SPOOLDIR
+COOKIE=123456
+
+ERLANG_OPTS="-id $ID +K $POLL -smp $SMP -setcookie $COOKIE -test a +P $ERL_PROCESSES"
+
+# create the home dir with the proper user if doesn't exist, because it stores cookie file
+[ -d $HOME ] || $EXEC_CMD "mkdir -p $HOME"
+
+# export global variables
+export ERL_CRASH_DUMP
+export ERL_MAX_PORTS
+export ERL_MAX_ETS_TABLES
+export HOME
+export EXEC_CMD
+
+
+# start server
+start ()
+{
+	started
+	if [ $? = 1 ] ; then
+		rm -rf "$LOCK_FILE"
+		$EXEC_CMD "$ERL \
+		  $NAME $ERLANG_NODE \
+		  -noinput -detached \
+		  $MGEER_PA \
+		  -port ${PORT} \
+		  -s mgeer \
+		  -log_file $MGEER_LOG_PATH \
+		  -sasl sasl_error_logger \\{file,\\\"$SASL_LOG_PATH\\\"\\} \
+		  $ERLANG_OPTS $ARGS \"$@\""
+	fi
+}
+
+# attach to server
+debug ()
+{
+    echo "--------------------------------------------------------------------"
+    echo ""
+    echo "重要提示: 我们将试图连接一个交互式的SHELL到一个已运行中的mgeer结点"
+    echo "如果打印了任何错误，代表连接尝试失败了."
+    echo "记住:退出请按 control+c, control+c ！"
+    echo ""
+    echo "--------------------------------------------------------------------"
+    echo "任意键继续"
+    read foo
+    echo ""
+    $EXEC_CMD "$ERL \
+      $NAME debug-${ERLANG_NODE} \
+      -remsh $ERLANG_NODE \
+      -hidden \
+      $ERLANG_OPTS $ARGS \"$@\""
+}
+
+# start interactive server
+live ()
+{
+    echo "--------------------------------------------------------------------"
+    echo ""
+    echo "重要提示: mgeer 将会以交互式模式启动"
+    echo "所有的消息都会被直接打印在终端上."
+    echo ""
+    echo "如果想退出该模式请输入 q()，然后回车"
+    echo ""
+    echo "--------------------------------------------------------------------"
+    echo "任意键继续"
+    read foo
+    echo ""
+	rm -rf "$LOCK_FILE"
+    $EXEC_CMD "$ERL \
+      $NAME $ERLANG_NODE \
+      $MGEER_PA \
+      -port ${PORT} \
+      -s mgeer \
+	  -sasl sasl_error_logger \\{file,\\\"$SASL_LOG_PATH\\\"\\} \
+      $ERLANG_OPTS $ARGS \"$@\""
+}
+
+help ()
+{
+    echo ""
+    echo "mgeer结点管理命令:"
+    echo "  start  以正常服务器方式启动"
+    echo "  debug  以交互式命令行的方式连接到已有mgeer结点"
+    echo "  live  以交互方式启动服务器"
+    echo ""
+	echo "-- 所有命令都必须加上 '-id ID号' 命令行参数，如: ./mgeerctl start -id 1"
+	echo ""
+}
+
+## 检查服务器是否已经启动
+started ()
+{
+	PID=`ps awux | grep $ERLANG_NODE | grep -v "grep" | awk '{print $2}'`
+	if [ -f "$LOCK_FILE" ] && [ "$PID" != '' ] ; then
+		return 0
+	else 
+		return 1
+	fi
+}
+
+# common control function
+ctl ()
+{
+    COMMAND=$@
+    $EXEC_CMD "$ERL \
+      $NAME ctl-${ERLANG_NODE} \
+      -setcookie $COOKIE \
+      -noinput \
+      -hidden \
+      $MGEER_PA \
+      -s mgeer_ctl -extra $ERLANG_NODE $COMMAND"
+    result=$?
+    case $result in
+    0) :;;
+    1) :;;
+    2) help;;
+    3) help;;
+    esac
+    return $result
+}
+
+# display ctl usage
+usage ()
+{
+    ctl
+    exit
+}
+
+# stop epmd if there is no other running node
+stop_epmd()
+{
+    epmd -names | grep -q name || epmd -kill
+}
+
+# allow sync calls
+wait_for_status()
+{
+    # args: status try delay
+    # return: 0 OK, 1 KO
+    timeout=$2
+    status=4
+    while [ $status -ne $1 ]; do
+        sleep $3
+        let timeout=timeout-1
+        [ $timeout -eq 0 ] && {
+            status=$1
+        } || {
+            ctl status > /dev/null
+            status=$?
+        }
+    done
+    [ $timeout -eq 0 ] && {
+        status=1
+    } || {
+        status=0
+    }
+    return $status
+}
+
+## 判断是否正确设置了分线号
+if [ "${ID}" = "" ] ; then
+	help
+	exit 1
+fi
+
+case $ARGS in
+    ' start') start;;
+    ' debug') debug;;
+    ' live') live;;
+    ' started') wait_for_status 0 30 2;; # wait 30x2s before timeout
+    ' stopped') wait_for_status 3 15 2; stop_epmd;; # wait 15x2s before timeout
+    *) ctl $ARGS;;
+esac

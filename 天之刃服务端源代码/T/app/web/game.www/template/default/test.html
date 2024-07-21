@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>TZR测试登录</title>
+<style type="text/css">
+body { text-align:center; font-family:"Courier New", Courier, monospace; font-size:12px; margin:auto;}
+#all { text-align:left; margin:auto; width:540px; height:100%; clear:both; border:1px #ccc solid;}
+</style>
+</head>
+
+<body>
+    <div id="all">
+    	<form action="" method="post">
+    		<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                <tr bgcolor="#E5F9FF"> 
+                    <td colspan="3" background="/admin/static/images/wbg.gif"><font color="#666600" class="STYLE2"><b>◆测试登录</b></font></td>
+                </tr>
+                <tr bgcolor="#FFFFFF"> 
+                  <td width="25%">账号名：</td>
+                  <td width="50%"><input type="text" name="account"  /></td>
+                  <td width="25%"></td>
+                </tr>
+                <tr bgcolor="#FFFFFF"> 
+                  <td width="25%">服务器IP：</td>
+                  <td width="50%"><input type="text" name="conn_host" /></td>
+                  <td width="25%">(默认为空即可)</td>
+                </tr>
+                <tr bgcolor="#FFFFFF"> 
+                  <td width="25%">客户端版本：</td>
+                  <td width="50%">
+                  	<select name="cvs">
+                    <{section name=version loop=$clientVersions}>
+                    <{if $smarty.section.version.rownum eq 1}>
+                    <option value="<{$clientVersions[version]}>" selected="selected"><{$clientVersions[version]}></option>
+                    <{else}>
+                    <option value="<{$clientVersions[version]}>"><{$clientVersions[version]}></option>
+                    <{/if}>
+                    <{/section}>
+                    </select>
+                  </td>
+                  <td width="25%">(默认为空即可)</td>
+                </tr>
+                <tr bgcolor="#FFFFFF"> 
+                  <td width="25%">防沉迷：</td>
+                  <td width="50%">
+                  	<select name="fcm">
+                        <option value="1" selected="selected">通过</option>
+                        <option value="0">未通过</option>
+                    </select>
+                  </td>
+                  <td width="25%">(默认为空即可)</td>
+                </tr>
+                <tr bgcolor="#FFFFFF"> 
+                  <td width="25%"></td>
+                  <td width="50%"><input type="submit" name="" value="登录" /></td>
+                  <td width="25%"></td>
+                </tr>
+            </table>
+        </form>
+        <table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                <tr bgcolor="#E5F9FF"> 
+                    <td background="/admin/static/images/wbg.gif"><font color="#666600" class="STYLE2"><b>◆常用测试功能</b></font></td>
+                </tr>
+                <tr bgcolor="#FFFFFF"> 
+                  <td width="100%"><a href="/test/test_pay.php" target="_blank">模拟充值</a></td>
+                </tr>
+                <tr bgcolor="#FFFFFF"> 
+                 <td width="100%"><a href="/admin/" target="_blank">管理后台</a></td>
+                </tr>
+                <tr bgcolor="#FFFFFF"> 
+                 <td width="100%"><a href="/test/test_config_update.php" target="_blank">配置文件更新辅助工具</a></td>
+                </tr>
+                <tr bgcolor="#FFFFFF"> 
+                 <td width="100%"><a href="/test/test_svn_log.php" target="_blank">svn日志查看工具</a></td>
+                </tr>
+                <tr bgcolor="#FFFFFF"> 
+                 <td width="100%"><a href="/user/guest.php" target="_blank">游客模式下进入游戏</a></td>
+                </tr>
+        </table>
+    </div>
+
+</body>
+</html>

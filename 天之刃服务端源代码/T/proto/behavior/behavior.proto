@@ -1,0 +1,99 @@
+import "common.proto";
+
+//行为日志服务proto结构 
+// tos 表示发给集群
+// toc 表示集群返回结果给游戏服
+// 一般是用不到 toc 的
+// 所有结构必须加上时间戳 dateline
+
+
+//behavior.server连接远程集群时需要先认证
+message b_server_auth_tos {
+    required string                     agent_name                      = 1; //代理商名称
+    required int32                      game_id                         = 2; //游戏服标示
+    required string                     ticket                          = 3; //认证字符串
+}
+
+message b_server_auth_toc {
+    required bool                       succ                            = 1[default=true];
+    optional string                     reason                          = 2;
+    //有可能返回一个新的IP和Port
+    optional string                     ip                              = 3;
+    optional int32                      port                            = 4;
+}
+
+//服务端发消息给游戏服
+message b_server_msg_toc {
+    required string                     msg                             = 1;
+}
+
+
+//服务端告诉游戏服已经收到某个unique的包了
+message b_server_unique_toc {
+    required int32                      unique                          = 1;
+}
+
+///////////////////////// 充值和消费相关 ///////////////////////////////
+// 元宝消费记录
+message b_consume_gold_tos{
+	required int32 	role_id = 1;
+	optional string role_name = 2;
+	optional string account_name = 3;
+	optional int32 level = 4;
+	optional int32 gold_bind = 5;
+	optional int32 gold_unbind = 6;
+	optional int32 mtime = 7;
+	optional int32 mtype = 8;
+	optional string mdetail = 9;
+	optional int32 itemid = 10;
+	optional int32 amount = 11;
+}
+
+// 新玩家充值记录
+message b_pay_log_tos{
+    required string account_name=1;
+    required string role_name=2;
+    required int32  role_id=3;
+    required string  order_id = 4;
+    optional double  pay_money = 5;
+    optional int32  pay_gold = 6;
+    optional int32  give_gold = 7;
+    optional int32  role_level = 8;
+    optional int32  pay_time = 9;
+    optional int32  pay_date_time=10;
+    optional int32  year = 11;
+    optional int32  month = 12;
+    optional int32  day = 13;
+    optional int32  hour = 14;
+    optional int32  online_day = 15;
+}
+
+//客户投诉的单个格式
+message adm_gm_complaint {
+    required     string             account_name    = 1;
+    required     int32              role_id         = 2;
+    required     string             role_name       = 3;
+    required     int32              pay_amount      = 4;
+    required     int32              level           = 5;
+    required     int32              mtime           = 6;
+    required     int32              mtype           = 7;
+    required     string             mtitle          = 8;
+    required     string             content         = 9;
+}
+
+//玩家投诉评价
+message adm_gm_evaluate {
+    required     int32              reply_id        = 1;
+    required     int32              role_id         = 3;
+    required     int32              mark            = 5;
+}
+
+//GM信件
+message adm_gm_notify_reply{
+    required     int32              reply_id        = 1;
+    required     bool               succ            = 2;
+    optional     string             reason          = 3; 
+}
+ 
+
+ 

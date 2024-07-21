@@ -1,0 +1,558 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>消息广播管理</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<style type="text/css">
+body {font-size:14px; font-family:"Courier New", Courier, monospace; text-align:center; margin:auto;}
+#all {text-align:left;margin-left:4px;}
+#nodes {width:100%; float:left;border:1px #ccc solid;}
+#result {width: 100%; height:100%; clear:both; border:1px #ccc solid;}
+
+</style>
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/admin/static/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="/admin/static/js/MValidate.js"></script>
+<script type="text/javascript">
+</script>
+</head>
+
+<body>
+	<div id="all">	
+    	<div><{$errorMsg}></div>
+        <div id="main">
+            <div class="box">
+                <div id="nodes">
+                	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                        <tr bgcolor="FFFFFF"> 
+                       		<td width="15%">
+                       		消息类型说明：
+                       		</td>
+                       		<td>
+【中央广播】不可以使用html代码，其他类型可以
+                       		</td>
+                        </tr>
+                        <tr bgcolor="FFFFFF"> 
+                            <td width="15%">
+                            发送类型说明：
+                            </td>
+                            <td>
+<li>【日期时间范围】、【按星期】、【开服后】：循环消息，在指定日期内，每天的时间段内开始循环，开始时间＜结束时间</li>
+<li>【连续时间区间】：循环消息，从开始日期 的 开始时间 到结束日期的 结束时间，不间断发布消息</li>
+                            </td>
+                        </tr>
+                            <td colspan="2" background="/admin/static/images/wbg.gif">
+                            	<font color="#666600" class="STYLE2">
+                            		<b>
+                            			◆消息广播-<{if $action eq "add"}>新增<{elseif $action eq "edit"}>修改<{else}>查看<{/if}>
+                            		</b>
+                            	</font>
+                            </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="15%">消息类型:</td>
+                          <td >
+                          	<select id="type" name="type" >
+                          		<option value="">请选择</option>
+                          		<option value="2906">系统消息</option>
+                          		<option value="2908">喇叭消息</option>
+                          		<option value="2909">中央广播消息</option>
+                          		<option value="2910">聊天频道消息</option>
+                          		<option value="2911">弹窗消息</option>
+                          		<option value="2920">走马灯</option>
+                          	</select>
+                          	<input type="hidden" id="id" name="id" value="<{$broadcastVo.id|trim}>" />
+                          	<input type="hidden" id="foreign_id" name="foreign_id" value="<{$broadcastVo.foreign_id|trim}>" />
+                          </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="15%">发送类型:</td>
+                          <td >
+                          	<select id="send_strategy" name="send_strategy" onchange="selectSendStrategy();">
+                          		<option value="">请选择</option>
+                          		<option value="0">立即</option>
+                          		<option value="1">日期时间</option>
+                          		<option value="2">星期</option>
+                          		<option value="3">开服后</option>
+                          		<option value="4">一段时间</option>
+                          	</select>
+                          </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="15%"><span id="start_date_label">开始日期</span>:</td>
+                          <td >
+                          	<div ></div>
+                          	<input type="text" id="start_date_date" name="start_date_date" 
+                          	value="<{$broadcastVo.start_date|trim}>" 
+                          	class="Wdate"
+                          	readonly
+                          	onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
+                          	<input type="text" id="start_date_text" name="start_date_text" value="<{$broadcastVo.start_date|trim}>" />
+                          	<input type="hidden" id="start_date" name="start_date" value="<{$broadcastVo.start_date|trim}>" />
+                          </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="15%"><span id="end_date_label">结束日期</span>:</td>
+                          <td >
+                          	<input type="text" id="end_date_date" name="end_date_date" 
+                          	value="<{$broadcastVo.end_date|trim}>"
+                          	class="Wdate"
+                          	readonly 
+                          	onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'});" />
+                          	<input type="text" id="end_date_text" name="end_date_text" value="<{$broadcastVo.end_date|trim}>" />
+                          	<input type="hidden" id="end_date" name="end_date" value="<{$broadcastVo.end_date|trim}>" />
+                          </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="15%">开始时间:</td>
+                          <td >
+                          	<input type="text" id="start_time" name="start_time" 
+                          	class="Wdate"
+                          	value="<{$broadcastVo.start_time|trim}>"
+                          	readonly
+                          	onfocus="WdatePicker({dateFmt:'HH:mm:ss'});" />
+                          </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="15%">结束时间:</td>
+                          <td >
+                          	<input type="text" id="end_time" name="end_time" 
+                          	class="Wdate"
+                          	value="<{$broadcastVo.end_time|trim}>" 
+                          	readonly 
+                          	onfocus="WdatePicker({dateFmt:'HH:mm:ss'});" />
+                          </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="15%">间隔时间单位（秒）:</td>
+                          <td >
+                          	<input type="text" id="interval" name="interval" 
+                          	value="<{$broadcastVo.interval|trim}>" />
+                          </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="15%">消息内容:</td>
+                          <td >
+                          		<textarea rows="5" cols="60" id="content" name="content"><{$broadcastVo.content|base64_decode|escape}></textarea>
+                          </td>
+                        </tr>
+                     </table>
+                     <table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                        <tr bgcolor="#E5F9FF"> 
+                            <td colspan="2" >
+                            	<{if $action eq "add" || $action eq "edit"}>
+                            		<input type="button" name ="save" id="save" value="保存" onclick="save();"/>
+                            	<{/if}>
+                            	<input type="button" name ="back" id="back" value="返回" onclick="back();"/>
+                            	<input type="button" name ="back" id="tips" value="小提示" onclick="tips();"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <br />
+<div id="tipsDiv" style="display:none">
+<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+	<tr align="left" valign="top" bgcolor="FFFFFF"> 
+		<td>
+【小提示】：
+<br />
+超级链接：&lt;a href=&quot;这里写网址&quot; target=&quot;_blank&quot;&gt;&lt;U&gt;这里写链接描述&lt;/U&gt;&lt;/a&gt;<br>
+文字颜色：&lt;font color=&quot;#FF0000&quot;&gt;这里写文字&lt;/font&gt;<br>
+文字粗体：&lt;B&gt;文字是粗体&lt;/B&gt;<br>
+换行标签：&lt;br&gt;<br>
+<font color="#FF0000">红色：</font>#FF0000 &nbsp;&nbsp;&nbsp;&nbsp;  
+<font color="#0000FF">蓝色：</font>#0000FF &nbsp;&nbsp;&nbsp;&nbsp;
+<font color="#00FF00">绿色：</font>#00FF00 &nbsp;&nbsp;&nbsp;&nbsp;
+<font color="#FF00FF">紫色：</font>#FF00FF &nbsp;&nbsp;&nbsp;&nbsp;
+<font color="#000000">黑色：</font>#000000 &nbsp;&nbsp;&nbsp;&nbsp;
+<font color="#FFFF00" style="background-color:black">黄色：</font>&nbsp; #FFFF00 &nbsp;&nbsp;&nbsp;&nbsp;
+<font color="#FFFFFF" style="background-color:black">白色：</font>&nbsp; #FFFFFF &nbsp;&nbsp;&nbsp;&nbsp;
+		</td>
+	</tr>
+</table>
+</div>
+
+	</div>
+
+	
+<script language="JavaScript" type="text/JavaScript">
+var tipsFlag = 1;
+function tips(){
+	if (tipsFlag == 1){
+	    $("#tipsDiv").show();
+		tipsFlag = 0;
+	}else{
+		$("#tipsDiv").hide();
+	    tipsFlag = 1;
+	}
+}
+		
+initpage();
+//selectSendStrategy();
+function initpage(){
+	var action = "<{$action|trim}>";
+	if(action == "add" || action == "edit"){
+		var send_strategy = "<{$broadcastVo.send_strategy|trim}>";
+		var type = "<{$broadcastVo.type|trim}>";
+		$("#type").val(type);
+		$("#send_strategy").val(send_strategy);
+		if(send_strategy == 0){
+			$("#start_date_date").hide();
+			$("#end_date_date").hide();
+			$("#start_date_text").val("0").show().attr("disabled","true");
+			$("#end_date_text").val("0").show().attr("disabled","true");
+			$("#start_time").val("0").attr("disabled","true");
+			$("#end_time").val("0").attr("disabled","true");
+			$("#interval").val("0").attr("disabled","true");
+			$("#start_date_label").text("开始日期");
+			$("#end_date_label").text("结束日期");
+		}else if(send_strategy == 1 || send_strategy == 4){
+			$("#start_date_date").show();
+			$("#end_date_date").show();
+			$("#start_date_text").hide();
+			$("#end_date_text").hide();
+			$("#start_time").attr("disabled","");
+			$("#end_time").attr("disabled","");
+			$("#interval").attr("disabled","");
+			$("#start_date_label").text("开始日期");
+			$("#end_date_label").text("结束日期");
+		}else if(send_strategy == 2 || send_strategy == 3){
+			$("#start_date_date").hide();
+			$("#end_date_date").hide();
+			$("#start_date_text").show().attr("disabled","");
+			$("#end_date_text").show().attr("disabled","");
+			$("#start_time").attr("disabled","");
+			$("#end_time").attr("disabled","");
+			$("#interval").attr("disabled","");
+			if(send_strategy == 2){
+				$("#start_date_label").text("开始星期");
+				$("#end_date_label").text("结束星期");
+			}else{
+				$("#start_date_label").text("开始天数");
+				$("#end_date_label").text("结束开数");
+			}
+		}else{
+			$("#start_date_date").hide();
+			$("#end_date_date").hide();
+			$("#start_date_text").show().attr("disabled","true");
+			$("#end_date_text").show().attr("disabled","true");
+			$("#start_time").attr("disabled","true");
+			$("#end_time").attr("disabled","true");
+			$("#interval").attr("disabled","true");
+			$("#start_date_label").text("开始日期");
+			$("#end_date_label").text("结束日期");
+		}
+	}else{
+		var send_strategy = "<{$broadcastVo.send_strategy|trim}>";
+		var type = "<{$broadcastVo.type|trim}>";
+		$("#type").val(type);
+		$("#send_strategy").val(send_strategy);
+		$("input:text").each(function(){
+				var textId = $(this).attr("id");
+				if (!(textId == "start_date_date" || textId == "end_date_date")){
+					$(this).replaceWith($(this).val());
+				}else{
+					$(this).replaceWith("");
+				}
+				});
+		$("select").each(function(){
+					//var str = "";
+					//str +=$(this).find("option:selected").val();
+					//str +=":";
+					var str = $(this).find("option:selected").text();
+					$(this).replaceWith(str);
+				});
+		$("textarea").each(function(){
+				//alert($(this).val());
+				//$(this).replaceWith($(this).val());
+				$(this).attr("disabled","true");
+				});
+		
+	}
+}
+
+function selectSendStrategy(){
+	var send_strategy = $("#send_strategy").val();
+	if (send_strategy == ""){
+		$("#start_date_date").val("").hide();
+		$("#end_date_date").val("").hide();
+		$("#start_date_text").val("").show().attr("disabled","true");
+		$("#end_date_text").val("").show().attr("disabled","true");
+		$("#start_time").val("").attr("disabled","true");
+		$("#end_time").val("").attr("disabled","true");
+		$("#interval").val("").attr("disabled","true");
+		$("#start_date_label").text("开始日期");
+		$("#end_date_label").text("结束日期");
+	}else if(send_strategy == 0){
+		$("#start_date_date").val("").hide();
+		$("#end_date_date").val("").hide();
+		$("#start_date_text").val("0").show().attr("disabled","true");
+		$("#end_date_text").val("0").show().attr("disabled","true");
+		$("#start_time").val("0").attr("disabled","true");
+		$("#end_time").val("0").attr("disabled","true");
+		$("#interval").val("0").attr("disabled","true");
+		$("#start_date_label").text("开始日期");
+		$("#end_date_label").text("结束日期");
+	}else if(send_strategy == 2 || send_strategy == 3 ){
+		$("#start_date_date").val("").hide();
+		$("#end_date_date").val("").hide();
+		$("#start_date_text").val("").show().attr("disabled","");
+		$("#end_date_text").val("").show().attr("disabled","");
+		$("#start_time").val("").attr("disabled","");
+		$("#end_time").val("").attr("disabled","");
+		$("#interval").val("").attr("disabled","");
+		if(send_strategy == 2){
+			$("#start_date_label").text("开始星期");
+			$("#end_date_label").text("结束星期");
+		}else{
+			$("#start_date_label").text("开始天数");
+			$("#end_date_label").text("结束天数");
+		}
+	}else{
+	    $("#start_date_date").val("").show();
+		$("#end_date_date").val("").show();
+		$("#start_date_text").val("").hide();
+		$("#end_date_text").val("").hide();
+		$("#start_time").val("").attr("disabled","");
+		$("#end_time").val("").attr("disabled","");
+		$("#interval").val("").attr("disabled","");
+		$("#start_date_label").text("开始日期");
+		$("#end_date_label").text("结束日期");
+	}
+}
+
+function back(){
+	window.location.href = "?action=list"
+}
+
+function getNowDate(){
+	var d = new Date();
+	var s = "";
+	s += d.getFullYear() + "-";
+	s += (d.getMonth() + 1) + "-";
+	s += d.getDate();
+	return s;      
+}
+function save(){
+	//$("#BroadcastForm").action = "?action=save";
+	//$("#BroadcastForm").submit();
+	var action = "<{$action|trim}>";
+	var id = $("#id").val();
+	var foreign_id = $("#foreign_id").val();
+	var interval = $("#interval").val();
+	var type = $("#type").val();
+	var send_strategy = $("#send_strategy").val();
+	var start_date = $("#start_date").val();
+	var end_date = $("#end_date").val();
+	var start_time = $("#start_time").val();
+	var end_time = $("#end_time").val();
+	var content = $.trim($("#content").val());
+	if(type == ""){
+		alert("请选择消息类型！");
+		$("#type").focus();
+		return;
+	}
+	if(send_strategy == ""){
+		alert("请选择发送类型！");
+		$("#send_strategy").focus();
+		return;
+	}
+	if(content == ""){
+		alert("请输入消息内容！");
+		$("#content").focus();
+		return;
+	}
+	var NowDate = getNowDate();
+	if(send_strategy == 0){
+		start_date = "0";
+		end_date = "0";
+		start_time = "0";
+		end_time = "0";
+		interval = 0;
+	}else if(send_strategy == 1 || send_strategy == 4) {
+		start_date = $("#start_date_date").val();
+		end_date = $("#end_date_date").val();
+		if(!MValidate.isDate(start_date,"yyyy-MM-dd")){
+			alert("请输入合法的开始日期");
+			$("#start_date").focus();
+			return;
+		}
+		if(!MValidate.isDate(end_date,"yyyy-MM-dd")){
+			alert("请输入合法的结束日期");
+			$("#end_date").focus();
+			return;
+		}
+		
+		if(!MValidate.isTime(start_time,"HH:mm:ss")){
+			alert("请输入合法的开始时间");
+			$("#start_time").focus();
+			return;
+		}
+		
+		if(!MValidate.isTime(end_time,"HH:mm:ss")){
+			alert("请输入合法的结束时间");
+			$("#end_time").focus();
+			return;
+		}
+		if(send_strategy == 1){
+			if(!(MValidate.compareToDate(end_date,NowDate) >= 0)){
+				alert("结束日期不能小于当前日期");
+				$("#end_date").focus();
+				return;
+			}
+			if(!(MValidate.compareToDate(end_date,start_date) >= 0
+				 && MValidate.compareToDate(end_date,NowDate) >= 0
+				 && MValidate.compareToTime(end_time,start_time) >= 0)){
+				 	alert("请输入的合法的时间段");
+					return;
+				 }
+		}
+		if(send_strategy == 4){
+			var d1 = "" + start_date + " " + start_time;
+			var d2 = "" + end_date + " " + end_time;
+			if (!(MValidate.compareToDatetime(d2,d1) >= 0)){
+				alert("请输入的合法的时间段");
+				return;
+			}
+		}
+		if(!MValidate.isPNumeric(interval)){
+			alert("此发送时间间隔必须为数字，且大于0");
+			$("#interval").focus();
+			return;
+		}
+	}else if(send_strategy == 2){
+		start_date = $("#start_date_text").val();
+		end_date = $("#end_date_text").val();
+		if(!MValidate.isPNumeric(start_date)){
+			alert("此发送类型开始星期必须为数字，且大于0");
+			$("#start_date").focus();
+			return;
+		}
+		if(!MValidate.isPNumeric(end_date)){
+			alert("此发送类型结束星期必须为数字，且大于0");
+			$("#end_date").focus();
+			return;
+		}
+		if(!MValidate.betweenNumber(start_date, 1,7)){
+			alert("此发送类型开始星期必须是1到7整数");
+			$("#start_date").focus();
+			return;
+		}
+		if(!MValidate.betweenNumber(end_date, 1,7)){
+			alert("此发送类型结束星期必须是1到7整数");
+			$("#end_date").focus();
+			return;
+		}
+		if(!MValidate.betweenNumber(end_date, start_date,7)){
+			alert("此发送类型结束星期必须大于结束星期");
+			return;
+		}
+		if(!MValidate.isTime(start_time,"HH:mm:ss")){
+			alert("请输入合法的开始时间");
+			$("#start_time").focus();
+			return;
+		}
+		
+		if(!MValidate.isTime(end_time,"HH:mm:ss")){
+			alert("请输入合法的结束时间");
+			$("#end_time").focus();
+			return;
+		}
+	    if(!(MValidate.compareToTime(end_time,start_time) >= 0)){
+	    	alert("开始时间必须大于结束时间");
+	    	$("#start_time").focus();
+			return;
+	    }
+		if(!MValidate.isPNumeric(interval)){
+			alert("此发送时间间隔必须为数字，且大于0");
+			$("#interval").focus();
+			return;
+		}
+	}else if(send_strategy == 3){
+		start_date = $("#start_date_text").val();
+		end_date = $("#end_date_text").val();
+		if(!MValidate.isPNumeric(start_date)){
+			alert("此发送类型开始天数必须为数字，且大于0");
+			$("#start_date").focus();
+			return;
+		}
+		if(!MValidate.isPNumeric(end_date)){
+			alert("此发送类型结束天数必须为数字，且大于0");
+			$("#end_date").focus();
+			return;
+		}
+		if(parseInt(start_date) <= 0 ){
+			alert("此发送类型开始天数必须大于0整数");
+			$("#start_date").focus();
+			return;
+		}
+		if(!MValidate.betweenNumber(end_date, 1,100000)){
+			alert("此发送类型结束天数大于 100000");
+			return;
+		}
+		if(!MValidate.betweenNumber(end_date, start_date,100000)){
+			alert("此发送类型结束天数必须大于结束天数");
+			return;
+		}
+		if(!MValidate.isTime(start_time,"HH:mm:ss")){
+			alert("请输入合法的开始时间");
+			$("#start_time").focus();
+			return;
+		}
+		
+		if(!MValidate.isTime(end_time,"HH:mm:ss")){
+			alert("请输入合法的结束时间");
+			$("#end_time").focus();
+			return;
+		}
+	    if(!(MValidate.compareToTime(end_time,start_time) >= 0)){
+	    	alert("开始时间必须大于结束时间");
+	    	$("#start_time").focus();
+			return;
+	    }
+	    if(!MValidate.isPNumeric(interval)){
+			alert("此发送时间间隔必须为数字，且大于0");
+			$("#interval").focus();
+			return;
+		}
+	}else{
+			alert("请输入合法的发送类型");
+			$("#send_strategy").focus();
+			return;
+	}
+	if(type == "2909"){
+		if(MValidate.bigLength(content,30)){
+			alert("中央广播消息长度不可以超过30");
+			$("#content").focus();
+			return;
+		}
+	}
+	if(action == "add"){
+		id = 0;
+	}else if(action == "edit"){
+		if(id == 0 || id == ""){
+			alert("此记录修改操作出错，请返回列表重新操作");
+			return;
+		}
+	}
+	var HrefUrl = "?action=save" + "&id=" + id;
+	HrefUrl = HrefUrl + "&foreign_id=" + foreign_id;
+	HrefUrl = HrefUrl + "&type=" + type;
+	HrefUrl = HrefUrl + "&send_strategy=" + send_strategy;
+	HrefUrl = HrefUrl + "&start_date=" + start_date;;
+	HrefUrl = HrefUrl + "&end_date=" + end_date;
+	HrefUrl = HrefUrl + "&start_time=" + start_time;
+	HrefUrl = HrefUrl + "&end_time=" + end_time;
+	HrefUrl = HrefUrl + "&interval=" + interval
+	HrefUrl = HrefUrl + "&content=" + encodeURIComponent(content);
+    //alert(HrefUrl);
+	window.location.href = HrefUrl;
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,566 @@
+#!/usr/bin/env bash
+
+##-----------------------------------------------------------
+##  命令分为多级命令：game web
+##-----------------------------------------------------------
+ulimit -c unlimited
+ulimit -SHn 51200
+
+##获取脚本执行目录
+here=`which "$0" 2>/dev/null || echo .`
+base="`dirname $here`"
+MGEDIR=`(cd "$base"; echo $PWD)`
+ERLANG_COOKIE=`cat ~/.erlang.cookie`
+SERVER_EBIN="/data/tzr/server/ebin"
+
+help ()
+{
+    echo "mgectl 使用说明"
+    echo "基本语法: mgectl 命令模块 [option]"
+    echo "命令模块："
+    echo "help                  	显示当前帮助内容"
+    echo "web                   	游戏管理后台相关操作"
+    echo "game                  	游戏服相关操作"
+    echo "game_web              	游戏服web页面相关操作"
+    echo "debug                 	debug相关操作"
+    echo "live                  	live相关操作"
+    echo "stop                  	stop相关操作"
+    echo "start                 	start相关操作"
+    echo "backup mgeed          	备份游戏"
+    echo "stop_gateway manager    	游戏踢人"
+    echo ""
+    exit 0
+}
+
+
+cp_file() 
+{
+	echo "拷贝配置及脚本文件到服务器运行目录"
+	rm -rf /data/tzr/server/config
+	mkdir /data/tzr/server/config
+	mkdir -p /data/tzr/server/setting
+	[ ! -f /data/logs/tzr_manager.log ] || echo '' > /data/logs/tzr_manager.log
+	[ -d /data/tzr/server/ebin/library/ ] || mkdir -p /data/tzr/server/ebin/library/
+	[ -d /data/tzr/server/ebin/mochiweb/ ] || mkdir -p /data/tzr/server/ebin/mochiweb/
+	[ -d /data/tzr/server/ebin/proto/ ] || mkdir -p /data/tzr/server/ebin/proto/
+	
+	\cp -rf $MGEDIR/ebin/proto /data/tzr/server/ebin/
+	
+	rm -rf /data/tzr/server/script/*
+	mkdir -p /data/tzr/server/script
+	
+	\cp -rf $MGEDIR/ebin/library/ /data/tzr/server/ebin/
+	\cp -rf $MGEDIR/ebin/mochiweb /data/tzr/server/ebin/
+	
+	\cp -rf $MGEDIR/config/app/* 		/data/tzr/server/ebin/
+	\cp -rf $MGEDIR/config 	   /data/tzr/server/
+	
+	\cp -rf $MGEDIR/setting /data/tzr/server/
+	
+	\cp -rf $MGEDIR/mgectl /data/tzr/server/
+	\cp -rf $MGEDIR/script /data/tzr/server/
+	
+	find /data/tzr/server -type d -name "*.svn*" | xargs rm -rf
+}
+
+make_make()
+{
+	echo "编译开始"
+	#切换到代码根目录
+	cd $MGEDIR
+	#切换到脚本目录
+	cd script
+	echo `pwd`
+	make all
+	cp_file
+        cd $MGEDIR/app/game/common/
+	make
+
+	if [ "$1" != "no_config" ] ; then
+	    echo '将重新编译配置文件 ----（使用 ./mgectl make_erl命令可以避免编译配置）'
+	    cd $MGEDIR/script/
+            bash make_config_beam.sh
+        else
+            echo '你选择了不重新编译配置文件，请确认配置木有修改----（使用 ./mgectl make命令可以重新编译配置）'
+        fi        
+
+	
+	cd $MGEDIR/app/game/manager/
+	make
+	
+	cd $MGEDIR/app/game/behavior/
+	make
+	
+	cd $MGEDIR/app/game/chat/
+	make
+	
+	cd $MGEDIR/app/game/db/
+	make
+	
+	cd $MGEDIR/app/game/gateway/
+	make
+	
+	cd $MGEDIR/app/game/login/
+	make
+	
+	cd $MGEDIR/app/game/map/
+	make
+	
+	#cd $MGEDIR/app/game/port/
+	#make
+	
+	cd $MGEDIR/app/game/receiver/
+	make
+	
+	cd $MGEDIR/app/game/security/
+	make
+	
+	cd $MGEDIR/app/game/world/
+	make
+	
+	cd $MGEDIR/app/game/mgeeweb
+	make
+	
+	cd $MGEDIR/update
+    erl -make
+	
+	cp_file
+}
+
+
+
+make_help()
+{
+	echo "mgectl game make 使用说明"
+	echo "基本语法: mgectl game make [命令]"
+	echo "命令为空则为直接编译项目"
+	echo "命令模块："
+	echo "help 		显示当前帮助内容"
+	echo "clean 	清理所有子项目编译内容"
+	echo "dialyzer 	运行所有子项目的dialyzer"
+	echo "debug		以debug方式编译"
+	echo ""
+	exit 0
+}
+
+make_clean()
+{
+	rm -f $SERVER_EBIN/config/*
+
+	cd $MGEDIR/app/game/common/
+	make clean
+	
+	cd $MGEDIR/app/game/manager/
+	make clean
+	
+	cd $MGEDIR/app/game/behavior/
+	make clean
+	
+	cd $MGEDIR/app/game/chat/
+	make clean
+	
+	
+	cd $MGEDIR/app/game/db/
+	make clean
+	
+	cd $MGEDIR/app/game/gateway/
+	make clean
+	
+	cd $MGEDIR/app/game/login/
+	make clean
+	
+	cd $MGEDIR/app/game/map/
+	make clean
+	
+	cd $MGEDIR/app/game/receiver/
+	make clean
+	
+	cd $MGEDIR/app/game/security/
+	make clean
+	
+	cd $MGEDIR/app/game/world/
+	make clean
+	
+	cd $MGEDIR/app/game/mgeeweb
+	make clean
+}
+
+make_dialyzer()
+{
+
+	cd $MGEDIR/app/game/common/
+	make dialyzer
+	
+	cd $MGEDIR/app/game/behavior/
+	make dialyzer
+	
+	cd $MGEDIR/app/game/chat/
+	make dialyzer
+	
+	
+	cd $MGEDIR/app/game/db/
+	make dialyzer
+	
+	cd $MGEDIR/app/game/line/
+	make dialyzer
+	
+	cd $MGEDIR/app/game/login/
+	make dialyzer
+	
+	cd $MGEDIR/app/game/map/
+	make dialyzer
+	
+	cd $MGEDIR/app/game/receiver/
+	make dialyzer
+	
+	cd $MGEDIR/app/game/security/
+	make dialyzer
+	
+	cd $MGEDIR/app/game/world/
+	make dialyzer
+}
+
+make_debug()
+{
+	
+	cd $MGEDIR/app/game/common/
+	make debug
+	
+	cd $MGEDIR/app/game/behavior/
+	make debug
+	
+	cd $MGEDIR/app/game/chat/
+	make debug
+	
+	
+	cd $MGEDIR/app/game/db/
+	make debug
+	
+	cd $MGEDIR/app/game/line/
+	make debug
+	
+	cd $MGEDIR/app/game/login/
+	make debug
+	
+	cd $MGEDIR/app/game/map/
+	make debug
+	
+	cd $MGEDIR/app/game/receiver/
+	make debug
+	
+	cd $MGEDIR/app/game/security/
+	make debug
+	
+	cd $MGEDIR/app/game/world/
+	make debug
+}
+
+make_map ()
+{
+	cd $MGEDIR/app/game/map/
+	make
+}
+
+sub_make ()
+{
+	##继续检查是否还有参数，当前只识别几种参数 clean dialyzer debug
+	if [ $# -ne 0 ] ; then
+		MAKE_CODE=$1
+		case $MAKE_CODE in
+			clean) make_clean ;;
+			dialyzer) make_dialyzer ;;
+			debug) make_debug ;;
+			map) make_map ;;
+			line) make_line ;;
+			world) make_world ;;
+			login) make_login ;;
+			db) make_db ;;
+			chat) make_chat ;;
+			security) make_security ;;
+			erlang_web) make_erlang_web ;;
+			common) make_common ;;
+			*) make_help ;;
+		esac
+	else
+		make_make
+	fi
+}
+
+if [ $# -eq 0 ]; then
+	help
+fi
+
+game_make_erl(){
+	make_make no_config
+}
+
+game_rebuild()
+{
+	make_clean
+	make_make
+}
+
+game_help() 
+{
+	echo "mgectl game 使用说明"
+	echo "基本语法: mgectl game 命令 [option]"
+	echo "命令模块："
+	echo "help 		显示当前帮助内容"
+	echo "make 		同make语法"
+	echo "rebuild 	重新编译，相当于 make clean && make"
+	echo ""
+	exit 0
+}
+
+parse_game()
+{
+	SUB_TARGET=$1
+	shift
+	case $SUB_TARGET in
+		help) game_help ;;
+		make) sub_make $* ;;
+		make_erl) game_make_erl ;;
+		rebuild) game_rebuild ;;
+		*) game_help ;;
+	esac
+}
+
+live_app()
+{
+	NODE=$1
+	COMMAND=`php $MGEDIR/script/host_info.php get_live_command $NODE; exit $?`
+	if [ $? -eq 0 ] ; then 
+		echo "$COMMAND" >> /data/logs/tzr_manager.log
+		bash -c "$COMMAND"
+	else
+		echo $COMMAND;
+		exit
+	fi
+}
+
+start_app()
+{
+	NODE=$1
+	COMMAND=`php $MGEDIR/script/host_info.php get_start_command $NODE; exit $?`
+	if [ $? -eq 0 ] ; then 
+		echo "$COMMAND" >> /data/logs/tzr_manager.log
+		bash -c "$COMMAND"
+	else
+		echo $COMMAND;
+		exit
+	fi
+}
+
+start_game()
+{
+	if [ $# -ne 0 ] ; then
+		TARGET_NODE=$1
+		start_app $TARGET_NODE
+	else 
+		## 运行manager节点
+		start_app manager 
+		tail -f /data/logs/tzr_manager.log
+	fi
+}
+
+live_game() 
+{
+	if [ $# -ne 0 ] ; then
+		TARGET_NODE=$1
+		live_app $TARGET_NODE
+	else 
+		## 运行manager节点
+		live_app manager 
+		tail -f /data/logs/tzr_manager.log
+	fi
+}
+
+send_notice() {
+	CLOSED_TIME_LIMIT=$1
+	HOST=$2
+	MSG=$3
+	erl -noshell -name system@127.0.0.1 -setcookie $ERLANG_COOKIE -eval " \
+		Result = net_adm:ping('${HOST}'),
+		if
+			Result =:= pong ->
+				lists:foreach(
+					fun(N) ->
+						rpc:call('${HOST}', common_misc, chat_broadcast_to_world, [29, 2901, {m_broadcast_general_toc, 2909, 2912, \"${MSG}\"++integer_to_list(N)++\"\"}]),
+						timer:sleep(1000)
+					end, lists:reverse(lists:seq(1, ${CLOSED_TIME_LIMIT})));
+			true ->
+				ignore
+		end,
+		init:stop().
+		"
+}
+
+stop_all()
+{
+	stop_app manager
+}
+
+stop_app()
+{
+	NODE=$1
+	COMMAND=`php $MGEDIR/script/host_info.php get_stop_command $NODE; exit $?`
+	if [ $? -eq 0 ] ; then 
+		bash -c "$COMMAND"
+	else
+		echo $COMMAND;
+		exit
+	fi
+}
+
+stop_game()
+{
+	if [ $# -ne 0 ] ; then
+		stop_app $1
+	else
+		stop_all
+	fi
+}
+
+
+debug_app()
+{
+	NODE=$1
+	REAL_IP=$2
+	COMMAND=`php $MGEDIR/script/host_info.php get_debug_command $NODE $REAL_IP; exit $?`
+	if [ $? -eq 0 ] ; then 
+		bash -c "$COMMAND"
+	else
+		echo $COMMAND;
+		exit
+	fi
+}
+
+debug_game()
+{
+	if [ $# -ne 0 ] ; then
+		debug_app $1 $2
+	else
+		help
+	fi
+}
+
+backup() 
+{
+	NODE=$1
+	COMMAND=`php $MGEDIR/script/host_info.php backup $NODE; exit $?`
+	if [ $? -eq 0 ] ; then 
+		bash -c "$COMMAND"
+	else
+		echo $COMMAND;
+		exit
+	fi
+}
+
+start_gateway()
+{
+	NODE=$1
+	COMMAND=`php $MGEDIR/script/host_info.php start_gateway $NODE; exit $?`
+	if [ $? -eq 0 ] ; then 
+		bash -c "$COMMAND"
+	else
+		echo $COMMAND;
+		exit
+	fi
+}
+
+stop_gateway() 
+{
+	NODE=$1
+	COMMAND=`php $MGEDIR/script/host_info.php stop_gateway $NODE; exit $?`
+	if [ $? -eq 0 ] ; then 
+		bash -c "$COMMAND"
+	else
+		echo $COMMAND;
+		exit
+	fi
+}
+
+## 重新载入配置文件
+reload_config()
+{
+	FILE=$1
+	COMMAND=`php $MGEDIR/script/host_info.php reload_config manager $FILE; exit $?`
+	if [ $? -eq 0 ] ; then 
+		bash -c "$COMMAND"
+	else
+		echo $COMMAND;
+		exit
+	fi
+}
+
+hot_update() 
+{	
+	FILE=$1
+	COMMAND=`php $MGEDIR/script/host_info.php hot_update manager $FILE; exit $?`
+	if [ $? -eq 0 ] ; then 
+		bash -c "$COMMAND"
+	else
+		echo $COMMAND;
+		exit
+	fi
+}
+
+mnesia_update()
+{
+	AGENT_NAME=`grep agent_name /data/tzr/server/setting/common.config | awk -F\" '{print $2}'`
+	SERVER_ID=`grep game_id /data/tzr/server/setting/common.config | awk '{print $2}' | cut -f 1 -d "}"`
+	MODULE=$1
+	METHOD=$2
+	COMMAND=`php $MGEDIR/script/host_info.php mnesia_update mgeed $MODULE $METHOD; exit $?`
+	if [ $? -eq 0 ] ; then 
+		bash -c "$COMMAND"
+		result=$?
+		case $result in
+		0) :;;
+		1) :;;
+		2) help;;
+		3) help;;
+		4) echo "${AGENT_NAME}_S${SERVER_ID}:mnesia updating!";;
+		5) echo "${AGENT_NAME}_S${SERVER_ID}:mnesia update done!";;
+		6) echo "${AGENT_NAME}_S${SERVER_ID}:mnesia update error!";;
+		esac
+		return $result
+	else
+		echo $COMMAND;
+		exit
+	fi
+}
+
+## 管理功能
+mananger() 
+{
+	COMMAND=$1
+	shift
+	case $COMMAND in
+		reload_config) reload_config $*;;
+		hot_update) hot_update $*;;
+		mnesia_update) mnesia_update $*;;
+		*) help ;;
+	esac
+}
+
+## 获取子shell命令
+TARGET=$1
+shift
+case $TARGET in
+	help) help ;;
+	web) shift ;;
+	game) parse_game $* ;;
+	make) sub_make $* ;;
+	make_erl) game_make_erl $* ;;
+	rebuild) game_rebuild $* ;;
+	start) start_game $*;;
+	live) live_game $*;;
+	stop) stop_game $*;;
+	debug) debug_game $*;;
+	backup) backup $*;;
+	start_gateway) start_gateway $*;;
+	stop_gateway) stop_gateway $*;;
+	manager) mananger $*;;
+	*) help ;;
+esac

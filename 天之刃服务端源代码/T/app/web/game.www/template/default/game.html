@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><{$title}></title>         
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+<script type="text/javascript" src="/static/js/common.js"></script>
+<script type="text/javascript" src="/static/js/swfobject.js"></script>
+<script type="text/javascript">
+</script>
+<style type="text/css" media="screen"> 
+html,body{height:100%;width:100%;padding:0px;margin:0px;}
+body {
+		padding:0; height:100%; overflow:hidden; 
+		clear:both; text-align:center; 
+		background-color: #000000; width:100%; 
+		//background:url(/static/images/backGroud.png);
+} 
+a:link {
+	color: #333333;
+	text-decoration: none;
+}
+a:visited {
+	text-decoration: none;
+	color: #333333;
+}
+a:hover {
+	text-decoration: underline;
+	color: #FF3300;
+	ackground:#f29901;
+}
+a:active {
+	text-decoration: none;
+}
+.jianju{
+margin: 0 5px;
+}
+#flashContent {display:none;}
+.top {background-image:url(/static/images/topbg.png);height:20px;margin:auto;width:100%;font-size:12px; clear:both; overflow:hidden; text-align:center;}
+.top-0{height:20px;width:1002px;margin:auto;}
+.top-logo{
+height:20px;
+width:100px;
+line-height:20px;
+float:left;
+overflow: hidden;
+}
+.top-1{
+height:20px;
+width:300px;
+line-height:20px;
+float:left;
+overflow: hidden;
+}
+.top-3 .ic0{background:url(/static/images/icon.png) no-repeat 0 5px; display:block;padding:0 10px 0 18px;float:left;}
+.top-0 .ic1{background:url(/static/images/icon.png) no-repeat 0 -26px; display:block;padding:0 10px 0 18px;float:left;}
+.top-0 .ic2{background:url(/static/images/icon.png) no-repeat 0 -56px; display:block;padding:0 10px 0 18px;float:left;}
+.top-0 .ic3{background:url(/static/images/icon.png) no-repeat 0 -86px; display:block;padding:0 10px 0 18px;float:left;}
+.top-2{
+height:20px;
+width:150px;
+line-height:20px;
+float:left;
+text-align:center;
+overflow: hidden;
+}
+.top-3{
+height:20px;
+width:250px;
+line-height:20px;
+float:right;
+text-align:right;
+overflow: hidden;
+}
+</style>
+
+<script type="text/javascript">
+var swfVersionStr = "10.0.0";
+var xiSwfUrlStr = "<{$clientRootUrl}>/playerProductInstall.swf";
+var flashvars = {};
+var account_name='<{$account}>';
+var role_id='<{$role_id}>';
+flashvars.faction="<{$faction}>";
+flashvars.manName="<{$manName}>";
+flashvars.womenName="<{$womenName}>";
+flashvars.sessionid="<{$sessionID}>";
+flashvars.account='<{$account}>';
+flashvars.account_type='<{$account_type}>';
+flashvars.role_id='<{$role_id}>';
+flashvars.map_id='<{$map_id}>';
+flashvars.level='<{$level}>';
+flashvars.gatewayStr='<{$gatewayStr}>';
+flashvars.bgp_host='<{$bgpHost}>';
+flashvars.bgp_port='<{$bgpPort}>';
+flashvars.directly_use_bgp = '<{$directlyUseBgp}>';
+flashvars.showException = '<{$showException}>';
+flashvars.shareURL = document.location.href;
+flashvars.proxyName = '<{$agentName}>';
+flashvars.resourceHost='<{$clientRootUrl}>/';
+flashvars.serviceHost ='<{$gameRoot}>';
+flashvars.serviceVersion ='<{$serverVersion}>';
+flashvars.selectPageURL ='<{$selectPageURL}>';
+flashvars.gm_link_1='<{$officialWebSite}>';
+flashvars.gm_link_2='<{$payAPIUrl}>';
+flashvars.gm_link_3='<{$GMOnline}>';
+flashvars.content_1='<{$qqQun1}>';
+flashvars.content_2='<{$qqQun2}>';
+flashvars.content_3='<{$qqQun3}>';
+flashvars.loginPage='<{$web_auth_url}>'  ;  
+flashvars.loginError='<{$officialWebSite}>';
+flashvars.fcmApiUrl='<{$fcmApiUrl}>';
+flashvars.pkTip='<{$pkTip}>';
+flashvars.to_game_url='<{$toGameUrl}>';
+flashvars.activateCodeUrl='<{$activateCodeUrl}>';
+flashvars.recharge='<{$payAPIUrl}>';
+flashvars.bbs='<{$bbsUrl}>';
+flashvars.debug='<{$isDebug}>';
+//官网
+flashvars.officeSite="<{$officialWebSite}>";
+
+var params = {};
+var wmodeOpaque = 0;
+var isFF = 0;
+if(navigator.userAgent.toLowerCase().indexOf("firefox") != -1)
+	isFF = 1;
+var isChrome = 0;
+if(navigator.userAgent.toLowerCase().indexOf("chrome") != -1)
+	isChrome = 1;
+var isOpera = 0;
+if(navigator.userAgent.toLowerCase().indexOf("opera") != -1)
+	isOpera = 1;
+
+if(!isOpera && !isFF && !isChrome && wmodeOpaque){
+	params.wmode = "opaque"; 
+} else {
+	params.wmode = "window"; 
+} 
+
+params.quality = "high";
+params.bgcolor = "#000000";
+params.allowscriptaccess = "always";
+params.allowfullscreen = "true";
+            
+var attributes = {};
+attributes.id = "Main";
+attributes.name = "Main";
+attributes.align = "middle";
+swfobject.embedSWF(
+                   "<{$clientRootUrl}>/Main.swf", "mccq_game", 
+                   "<{$defaultWidth}>", "<{$defaultHeight}>", 
+                   swfVersionStr, xiSwfUrlStr, 
+                   flashvars, params, attributes);
+swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+var htmlImg = '<{$htmlImg}>';
+setTimeout(function(){ document.getElementById('preload').innerHTML = htmlImg;document.getElementById('preload').height = 12; document.getElementById('preload').width=1;}, 2000);
+</script>
+<script type="text/javascript"> 
+bindunloadevent = function() {
+	window.onbeforeunload = function() {
+		<{if $level < 3}>
+		addfavor(document.location.href, '<{$title}>'); 
+		<{/if}>
+	}
+}
+function bookmarkit(){
+	addfavor('<{$domain}>', '<{$title}>');
+}
+function reloadPage(){
+	window.location.reload();
+}
+function bookmarkit() {
+	addfavor(document.location.href, '<{$title}>');
+}
+function onBodyLoad(){
+	var div = document.getElementById('mccq_game'); 
+	if(div){
+		div.focus();
+	}
+	<{if $agentName == '360' && ($level == '' || $level <= 1)}>
+		var url = "http://s.1360.cn/game_event?game=mccq&event=beforeloadflash&qid=<{$account}>&server=<{$server_id}>";
+		ajax.invoke("get", url, "", null);
+	<{/if}>
+}
+function touristRegSucc(account){
+    window.location.href = '<{$gameRoot}>' + "guest.php?action=login&account=" + account;
+}
+</script> 
+</head>
+<body onload="javascript:return bindunloadevent();" onload="document.getElementById('mccq_game').focus()">
+<div id="container" style="margin:auto; height:<{$defaultHeight}>;width:<{$defaultWidth}>;">
+<div id="mccq_game">
+    <a href="http://www.adobe.com/go/getflashplayer">
+                <font style="font-size:18px; color:#FFF; font-weight:800;">Get Adobe Flash player</font>
+        </a>
+</div>
+</div>
+<div id="preload" style="height:6px; overflow:hidden; visibility:hidden; width:6px; clear:both;">
+</div>
+</body>
+</html>

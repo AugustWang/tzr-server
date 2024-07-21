@@ -1,0 +1,24 @@
+option java_package = "proto.proxy";
+
+// m_ 开头的，为网络传输的包的最外围，编码解码就是调用这个生成的类。
+// p_ 开头的，为基础结构数据，会被包含在 m_ 开头的数据内部。
+//
+// 规定：消息名和字段名，不使用大写字母，全部由小写字母，下划线，以及数字组成。
+//
+
+message m_flash_proxy_server_tos {
+		required string servername 	= 1;
+}
+
+
+message m_server_disconnect_flash_toc {
+		required string Reason 	= 1;
+}
+
+//更改端口转发服务器中保存的各个服务器的网络地址配置
+message m_server_update_proxy_address_config_tos {
+		required int32 type 	= 1;	//1为add  ，2为delete  ，3为update
+		required string servername 	= 2;
+		required string ip 	= 3;
+		required int32 port 	= 4;
+}

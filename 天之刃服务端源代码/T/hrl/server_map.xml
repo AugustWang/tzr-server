@@ -1,0 +1,918 @@
+<?xml  version="1.0" encoding="UTF-8"?>
+<modules>
+  <package name="login">
+    <module name="LOGIN" id="1">
+      <method name="LOGIN_FLASH" id="101"></method>
+      <method name="LOGIN_PHP" id="102"></method>
+    </module>
+    <module name="ROLE" id="2">
+      <method name="ROLE_ADD" id="201"></method>
+      <method name="ROLE_CHOSE" id="202"></method>
+      <method name="ROLE_DEL" id="203"></method>
+      <method name="ROLE_LIST" id="204"></method>
+      <method name="ROLE_ENTER" id="205"></method>
+    </module>
+  </package>
+
+  <package name="line">
+    <module name="ROLE2" id="5">
+      <method name="ROLE2_ATTR_CHANGE" id="501"></method>
+      <method name="ROLE2_LEVELUP" id="502"></method>
+      <method name="ROLE2_LEVELUP_OTHER" id="503"></method>
+      <method name="ROLE2_NEWBUFFS" id="504"></method>
+      <method name="ROLE2_DEAD" id="505"></method>
+      <method name="ROLE2_DEAD_OTHER" id="506"></method>
+      <method name="ROLE2_RELIVE" id="507"></method>
+      <method name="ROLE2_ATTR_RELOAD" id="508"></method>
+      <method name="ROLE2_POINTASSIGN" id="509"></method>
+      <method name="ROLE2_GETROLEATTR" id="510"></method>
+      <method name="ROLE2_GETROLEMAPINFO" id="511"></method>
+      <method name="ROLE2_GETSKILLINFO" id="512"></method>
+      <method name="ROLE2_SKILLASSIGN" id="513"></method>
+      <method name="ROLE2_SKILLLEARN" id="514"></method>
+      <method name="ROLE2_PKMODEMODIFY" id="515"></method>
+      <method name="ROLE2_ZAZEN" id="516"></method>
+      <method name="ROLE2_FIVE_ELE_ATTR" id="517"></method>
+      <method name="ROLE2_GRAY_NAME" id="518"></method>
+      <method name="ROLE2_BASE_RELOAD" id="519"></method>
+      <method name="ROLE2_RELOAD" id="520"></method>
+      <method name="ROLE2_SHOW_CLOTH" id="521"></method>
+      <method name="ROLE2_PKPOINT_LEFT" id="522"></method>
+      <method name="ROLE2_UNBUND_CHANGE" id="523"></method>
+      <method name="ROLE2_EXP_FULL" id="524"></method>
+      <method name="ROLE2_RELY_MAIN" id="525"></method>
+      <method name="ROLE2_HAIR" id="526"></method>
+      <method name="ROLE2_SEX" id="527"></method>
+      <method name="ROLE2_EVENT" id="528"></method>
+      <method name="ROLE2_ON_HOOK_BEGIN" id="529"></method>
+      <method name="ROLE2_ON_HOOK_END" id="530"></method>
+      <method name="ROLE2_ON_HOOK_STATUS" id="531"></method>
+      <method name="ROLE2_HEAD" id="532"></method>
+      <method name="ROLE2_SHOW_EQUIP_RING" id="533"></method>
+      <method name="ROLE2_SYSTEM_BUFF" id="534"></method>
+      <method name="ROLE2_REMOVE_SKIN_BUFF" id="535"></method>
+	  <method name="ROLE2_ADD_ENERGY" id="536"></method>
+	  <method name="ROLE2_ONLINE_BROADCAST" id="537"></method>
+	  <method name="ROLE2_QUERY_FACTION_ONLINE_RANK" id="538"></method>
+    </module>
+    <module name="MAP" id="3">
+      <method name="MAP_ENTER" id="301"></method>
+      <method name="MAP_QUIT" id="302"></method>
+      <method name="MAP_DROPTHING_ENTER" id="303"></method>
+      <method name="MAP_DROPTHING_QUIT" id="304"></method>
+      <method name="MAP_DROPTHING_PICK" id="305"></method>
+      <method name="MAP_UPDATE_ACTOR_MAPINFO" id="306"></method>
+      <method name="MAP_CHANGE_MAP" id="307"></method>
+      <method name="MAP_CHANGE_POS" id="308"></method>
+      <method name="MAP_SLICE_ENTER" id="309"></method>
+      <method name="MAP_TRANSFER" id="310"></method>
+      <method name="MAP_ROLE_KILLED" id="311"></method>
+    </module>
+    <module name="AUTH" id="4">
+      <method name="AUTH_KEY" id="401"></method>
+      <method name="AUTH_CHAT_KEY" id="402"></method>
+    </module>
+    <module name="FIGHT" id="6">
+      <method name="FIGHT_ATTACK" id="601"></method>
+      <method name="FIGHT_BUFF_EFFECT" id="602"></method>    
+    </module>
+    <module name="MOVE" id="7">
+      <method name="MOVE_WALK_PATH" id="701"></method>
+      <method name="MOVE_WALK" id="702"></method>
+      <method name="MOVE_KEYWALK" id="703"></method>
+      <method name="MOVE_KEYSTOP" id="704"></method>
+      <method name="MOVE_SYNC" id="705"></method>
+    </module>
+    <module name="EQUIP" id="8">
+      <method name="EQUIP_SWAP" id="801"></method>
+      <method name="EQUIP_LOAD" id="802"></method>
+      <method name="EQUIP_UNLOAD" id="803"></method>
+      <method name="EQUIP_LOADED_LIST" id="804"></method>
+      <method name="EQUIP_ENDURANCE_CHANGE" id="805"></method>
+      <method name="EQUIP_FIX" id="806"></method>
+      <method name="EQUIP_MOUNTUP" id="807"></method>
+      <method name="EQUIP_MOUNTDOWN" id="808"></method>
+      <method name="EQUIP_MOUNT_CHANGECOLOR" id="809"></method>
+      <method name="EQUIP_MOUNT_RENEWAL" id="810"></method>
+    </module>
+    <module name="FRIEND" id="10">
+      <method name="FRIEND_REQUEST" id="1001"></method>
+      <method name="FRIEND_ACCEPT" id="1002"></method>
+      <method name="FRIEND_DELETE" id="1003"></method>
+      <method name="FRIEND_ONLINE" id="1004"></method>
+      <method name="FRIEND_OFFLINE" id="1005"></method>
+      <method name="FRIEND_BLACK" id="1006"></method>
+      <method name="FRIEND_LIST" id="1007"></method>
+      <method name="FRIEND_INFO" id="1008"></method>
+      <method name="FRIEND_MODIFY" id="1009"></method>
+      <method name="FRIEND_OFFLINE_REQUEST" id="1010"></method>
+      <method name="FRIEND_REFUSE" id="1011"></method>
+      <method name="FRIEND_ENEMY" id="1012"></method>
+      <method name="FRIEND_CHANGE_RELATIVE" id="1013"></method>
+      <method name="FRIEND_ADD_FRIENDLY" id="1014"></method>
+      <method name="FRIEND_CREATE_FAMILY" id="1015"></method>
+      <method name="FRIEND_UPGRADE" id="1016"></method>
+      <method name="FRIEND_GET_INFO" id="1017"></method>
+      <method name="FRIEND_UPDATE_FAMILY" id="1018"></method>
+      <method name="FRIEND_RECOMMEND" id="1019"></method>
+      <method name="FRIEND_CONGRATULATION" id="1020"></method>
+	  <method name="FRIEND_ADVERTISE" id="1021"></method>
+	  <method name="FRIEND_BOTTLE" id="1022"></method>
+    </module>
+    <module name="ITEM" id="11">
+      <method name="ITEM_USE" id="1102"></method>
+      <method name="ITEM_NEW_EXTEND_BAG" id="1103"></method>
+      <method name="ITEM_SHRINK_BAG" id="1104"></method>
+      <method name="ITEM_TRACE" id="1105"></method>
+      <method name="ITEM_BATCH_SELL" id="1106"></method>
+      <method name="ITEM_USE_SPECIAL" id="1107"></method>
+    </module>
+    <module name="STONE" id="12">
+      <method name="STONE_LOAD" id="1202"></method>
+    </module>
+    <module name="SHOP" id="13">
+      <method name="SHOP_BUY" id="1301"></method>
+      <method name="SHOP_SHOPS" id="1302"></method>
+      <method name="SHOP_ALL_GOODS" id="1303"></method>
+      <method name="SHOP_SEARCH" id="1304"></method>
+      <method name="SHOP_NPC" id="1305"></method>
+      <method name="SHOP_SALE" id="1306"></method>
+      <method name="SHOP_ITEM" id="1307"></method>
+      <method name="SHOP_BUY_BACK" id="1308"></method>
+    </module>
+    <module name="MISSION" id="15">
+      <method name="MISSION_LIST" id="1501"></method>
+      <method name="MISSION_DO" id="1502"></method>
+      <method name="MISSION_CANCEL" id="1503"></method>
+      <method name="MISSION_UPDATE" id="1504"></method>
+      <method name="MISSION_LISTENER" id="1505"></method>
+      <method name="MISSION_LIST_AUTO" id="1506"></method>
+      <method name="MISSION_DO_AUTO" id="1507"></method>
+      <method name="MISSION_CANCEL_AUTO" id="1508"></method>
+    </module>
+    <module name="SKIN" id="16">
+      <method name="SKIN_CHANGE" id="1601"></method>
+    </module>
+    <module name="TEAM" id="17">
+      <method name="TEAM_INVITE" id="1701"></method>
+      <method name="TEAM_ACCEPT" id="1702"></method>
+      <method name="TEAM_REFUSE" id="1703"></method>
+      <method name="TEAM_LEAVE" id="1704"></method>
+      <method name="TEAM_KICK" id="1705"></method>
+      <method name="TEAM_OFFLINE" id="1706"></method>
+      <method name="TEAM_CHANGE_LEADER" id="1707"></method>
+      <method name="TEAM_DISBAND" id="1708"></method>
+      <method name="TEAM_PICK" id="1709"></method>
+      <method name="TEAM_AUTO_DISBAND" id="1710"></method>
+      <method name="TEAM_AUTO_LIST" id="1711"></method>
+      <method name="TEAM_MEMBER_INVITE" id="1712"></method>
+      <method name="TEAM_MEMBER_RECOMMEND" id="1713"></method>
+      <method name="TEAM_APPLY" id="1714"></method>
+      <method name="TEAM_QUERY" id="1715"></method>
+      <method name="TEAM_CREATE" id="1716"></method>
+    </module>
+    <module name="MONSTER" id="18">
+      <method name="MONSTER_ENTER" id="1801"></method>
+      <method name="MONSTER_QUIT" id="1802"></method>
+      <method name="MONSTER_DEAD" id="1803"></method>
+      <method name="MONSTER_ATTR_CHANGE" id="1804"></method>
+      <method name="MONSTER_WALK_PATH" id="1805"></method>
+      <method name="MONSTER_WALK" id="1806"></method>
+      <method name="MONSTER_SUMMON" id="1807"></method>
+      <method name="MONSTER_TALK" id="1808"></method>
+      <method name="MONSTER_QUERY" id="1809"></method>
+    </module>
+    <module name="CONFIG" id="19">
+      <method name="CONFIG_GETSKILLS" id="1901"></method>
+      <method name="CONFIG_GETBUFFS" id="1902"></method>
+    </module>
+    <module name="GOODS" id="20">
+      <method name="GOODS_INFO" id="2001"></method>
+      <method name="GOODS_SWAP" id="2002"></method>
+      <method name="GOODS_INBAG_LIST" id="2003"></method>
+      <method name="GOODS_DESTROY" id="2004"></method>
+      <method name="GOODS_DIVIDE" id="2005"></method>
+      <method name="GOODS_UPDATE" id="2006"></method>
+      <method name="GOODS_TIDY" id="2007"></method>
+      <method name="GOODS_SHOW_GOODS" id="2008"></method>
+    </module>
+    <module name="LETTER" id="21">
+      <method name="LETTER_P2P_SEND" id="2101"></method>
+      <method name="LETTER_CLAN_SEND" id="2102"></method>
+      <method name="LETTER_BATCH_SEND" id="2103"></method>
+      <method name="LETTER_GET" id="2104"></method>
+      <method name="LETTER_GET_SEND" id="2105"></method>
+      <method name="LETTER_GET_RECEIVE" id="2106"></method>
+      <method name="LETTER_OPEN" id="2107"></method>
+      <method name="LETTER_DELETE" id="2108"></method>
+      <method name="LETTER_STATE_CHANGE" id="2109"></method>
+      <method name="LETTER_ACCEPT_GOODS" id="2110"></method>
+      <method name="LETTER_SEND" id="2111"></method>
+      <method name="LETTER_FAMILY_SEND" id="2112"></method>
+    </module>
+    <module name="EXCHANGE" id="22">
+      <method name="EXCHANGE_REQUEST" id="2201"></method>
+      <method name="EXCHANGE_AGREE" id="2202"></method>
+      <method name="EXCHANGE_REFUSE" id="2203"></method>
+      <method name="EXCHANGE_CONFIRM" id="2204"></method>
+      <method name="EXCHANGE_LOCK" id="2205"></method>
+      <method name="EXCHANGE_CANCEL" id="2206"></method>
+      <method name="EXCHANGE_NPC_DEAL" id="2207"></method>
+	  <method name="EXCHANGE_EQUIP_INFO" id="2208"></method>
+    </module> 
+    <module name="STALL" id="23">
+      <method name="STALL_REQUEST" id="2301"></method>
+      <method name="STALL_DETAIL" id="2302"></method>
+      <method name="STALL_LIST" id="2303"></method>
+      <method name="STALL_BUY" id="2305"></method>
+      <method name="STALL_CHAT" id="2306"></method>
+      <method name="STALL_FINISH" id="2307"></method>
+      <method name="STALL_EMPLOY" id="2308"></method>
+      <method name="STALL_OPEN" id="2310"></method>
+      <method name="STALL_SEARCH" id="2311"></method>
+      <method name="STALL_PUTIN" id="2312"></method>
+      <method name="STALL_GETOUT" id="2313"></method>
+      <method name="STALL_GETALL" id="2315"></method>
+      <method name="STALL_EXTRACTMONEY" id="2316"></method>
+      <method name="STALL_MOVE" id="2317"></method>
+      <method name="STALL_STATE" id="2318"></method>
+    </module>   
+    <module name="REFINING" id="24">
+      <method name="REFINING_REINFORCE_EQUIP" id="2401"></method>
+      <method name="REFINING_COMPOSE" id="2402"></method>
+      <method name="REFINING_PUNCH" id="2403"></method>
+      <method name="REFINING_INLAY" id="2404"></method>
+      <method name="REFINING_UNLOAD" id="2405"></method>
+      <method name="REFINING_INBAG_LIST" id="2406"></method>
+      <method name="REFINING_INFO"  id="2407"></method>
+      <method name="REFINING_1DESTROY" id="2408"></method>
+      <method name="REFINING_SWAP" id="2409"></method>
+      <method name="REFINING_DIVIDE" id="2410"></method>
+      <method name="REFINING_DESTROY" id="2411"></method>
+      <method name="REFINING_EQUIP_BIND" id="2412"></method>
+      <method name="REFINING_FORGING" id="2413"></method>
+      <method name="REFINING_FIRING" id="2414"></method>
+      <method name="REFINING_BOX" id="2415"></method>
+    </module>  
+    <module name="MESSAGE" id="25">
+      <method name="MESSAGE_ERROR" id="2501"></method>
+    </module>
+    <module name="BANK" id="26">
+      <method name="BANK_INIT" id="2601"></method>
+      <method name="BANK_SELL_REQUEST" id="2602"></method>
+      <method name="BANK_BUY_REQUEST" id="2603"></method>
+      <method name="BANK_SELL" id="2604"></method>
+      <method name="BANK_BUY" id="2605"></method>
+      <method name="BANK_UNDO" id="2606"></method>
+      <method name="BANK_ADD_SILVER" id="2607"></method>
+      <method name="BANK_ADD_GOLD" id="2608"></method>
+    </module>
+    <module name="DEPOT" id="27">
+      <method name="DEPOT_GET_GOODS" id="2701"></method>
+      <method name="DEPOT_DREDGE" id="2702"></method>
+      <method name="DEPOT_DESTROY" id="2703"></method>
+      <method name="DEPOT_SWAP" id="2704"></method>
+      <method name="DEPOT_DRAG" id="2705"></method>
+      <method name="DEPOT_TAKE" id="2706"></method>
+      <method name="DEPOT_DIVIDE" id="2707"></method>
+      <method name="DEPOT_TIDY" id="2708"></method>
+    </module>
+    <module name="SKILL" id="28">
+      <method name="SKILL_LEARN" id="2801"></method>
+      <method name="SKILL_RESET" id="2802"></method>
+      <method name="SKILL_GETSKILLS" id="2803"></method>
+      <method name="SKILL_USE_TIME" id="2804"></method>
+      <method name="SKILL_PERSONAL_FORGET" id="2805"></method>
+    </module>  
+    <module name="BROADCAST" id="29">
+      <method name="BROADCAST_GENERAL" id="2901"></method>
+      <method name="BROADCAST_COUNTDOWN" id="2902"></method>
+      <method name="BROADCAST_CYCLE" id="2903"></method>
+      <method name="BROADCAST_ADMIN" id="2904"></method>
+      <method name="BC_MSG_TYPE_OPERATE" id="2905"></method>
+      <method name="BC_MSG_TYPE_SYSTEM" id="2906"></method>
+      <method name="BC_MSG_TYPE_COUNTDOWN" id="2907"></method>
+      <method name="BC_MSG_TYPE_ALL" id="2908"></method>
+      <method name="BC_MSG_TYPE_CENTER" id="2909"></method>
+      <method name="BC_MSG_TYPE_CHAT" id="2910"></method>
+      <method name="BC_MSG_TYPE_POP" id="2911"></method>
+      <method name="BC_MSG_SUB_TYPE" id="2912"></method>
+      <method name="BC_MSG_TYPE_COUNTDOWN_DUNGEON" id="2913"></method>
+      <method name="BC_MSG_TYPE_COUNTDOWN_TASK" id="2914"></method>
+      <method name="BC_MSG_TYPE_CHAT_WORLD" id="2915"></method>
+      <method name="BC_MSG_TYPE_CHAT_COUNTRY" id="2916"></method>
+      <method name="BC_MSG_TYPE_CHAT_FAMILY" id="2917"></method>
+      <method name="BC_MSG_TYPE_CHAT_TEAM" id="2918"></method>
+      <method name="BROADCAST_LABA" id="2919"></method>
+      <method name="BC_MSG_TYPE_ROLL" id="2920"></method>
+    </module>   
+    <module name="YBC" id="30">
+      <method name="YBC_ENTER" id="3001"></method>
+      <method name="YBC_QUIT" id="3002"></method>
+      <method name="YBC_DEAD" id="3003"></method>
+      <method name="YBC_ATTR_CHANGE" id="3004"></method>
+      <method name="YBC_WALK" id="3005"></method>
+      <method name="YBC_INFO" id="3006"></method>
+      <method name="YBC_POS" id="3007"></method>
+      <method name="YBC_NOTIFY_POS" id="3008"></method>
+      <method name="YBC_FARAWAY" id="3009"></method>
+      <method name="YBC_SPEED" id="3010"></method>
+    </module>  
+    <module name="FAMILY" id="31">
+      <method name="FAMILY_CREATE" id="3101"></method>
+      <method name="FAMILY_REQUEST" id="3102"></method>
+      <method name="FAMILY_INVITE" id="3103"></method>
+      <method name="FAMILY_AGREE" id="3104"></method>
+      <method name="FAMILY_REFUSE" id="3105"></method>
+      <method name="FAMILY_AGREE_F" id="3106"></method>
+      <method name="FAMILY_REFUSE_F" id="3107"></method>
+      <method name="FAMILY_FIRE" id="3108"></method>
+      <method name="FAMILY_UNSET_SECOND_OWNER" id="3109"></method>
+      <method name="FAMILY_UPDATE_PUB_NOTICE" id="3111"></method>
+      <method name="FAMILY_UPDATE_PRI_NOTICE" id="3112"></method>
+      <method name="FAMILY_LEAVE" id="3113"></method>
+      <method name="FAMILY_DISMISS" id="3114"></method>
+      <method name="FAMILY_LIST" id="3115"></method>
+      <method name="FAMILY_SET_TITLE" id="3116"></method>
+      <method name="FAMILY_SET_OWNER" id="3117"></method>
+      <method name="FAMILY_SET_SECOND_OWNER" id="3118"></method>
+      <method name="FAMILY_SELF" id="3119"></method>
+      <method name="FAMILY_MEMBER_JOIN" id="3120"></method>
+      <method name="FAMILY_PANEL" id="3121"></method>
+      <method name="FAMILY_ENTER_MAP" id="3122"></method>
+      <method name="FAMILY_LEAVE_MAP" id="3123"></method>
+      <method name="FAMILY_CALL_COMMONBOSS" id="3124"></method>
+      <method name="FAMILY_ENTER_BOSS_MAP" id="3125"></method>
+      <method name="FAMILY_LEAVE_BOSS_MAP" id="3126"></method>
+      <method name="FAMILY_CALL_UPLEVELBOSS" id="3127"></method>
+      <method name="FAMILY_CANCEL_INVITE" id="3128"></method>
+      <method name="FAMILY_ROLE_ONLINE" id="3129"></method>
+      <method name="FAMILY_ROLE_OFFLINE" id="3130"></method>
+      <method name="FAMILY_CAN_INVITE" id="3131"></method>
+      <method name="FAMILY_CANCEL_TITLE" id="3132"></method>
+      <method name="FAMILY_ENABLE_MAP" id="3133"></method>
+      <method name="FAMILY_UPLEVEL" id="3134"></method>
+      <method name="FAMILY_ACTIVE_POINTS" id="3135"></method>
+      <method name="FAMILY_DOWNLEVEL" id="3136"></method>
+      <method name="FAMILY_MONEY" id="3137"></method>
+      <method name="FAMILY_SEARCH" id="3138"></method>
+      <method name="FAMILY_CALLMEMBER" id="3139"></method>
+      <method name="FAMILY_MEMBER_ENTER_MAP" id="3140"></method>
+      <method name="FAMILY_MAINTAINFAIL" id="3141"></method>
+      <method name="FAMILY_MEMBERUPLEVEL" id="3142"></method>
+      <method name="FAMILY_MEMBERGATHER" id="3143"></method>
+      <method name="FAMILY_YBC_AGREE_PUBLISH" id="3144"></method>
+      <method name="FAMILY_YBC_COMMIT" id="3145"></method>
+      <method name="FAMILY_YBC_CALL_HELP" id="3146"></method>
+      <method name="FAMILY_YBC_ACCEPT_HELP" id="3147"></method>
+      <method name="FAMILY_YBC_COLLECT" id="3148"></method>
+      <method name="FAMILY_YBC_ACCEPT_COLLECT" id="3149"></method>
+      <method name="FAMILY_YBC_LIST" id="3150"></method>
+      <method name="FAMILY_YBC_KICK" id="3151"></method>
+      <method name="FAMILY_YBC_ADD_HP" id="3152"></method>
+      <method name="FAMILY_YBC_PUBLISH" id="3153"></method>
+      <method name="FAMILY_YBC_ALERT" id="3154"></method>
+      <method name="FAMILY_YBC_STATUS" id="3156"></method>
+      <method name="FAMILY_GATHERREQUEST" id="3155"></method>
+      <method name="FAMILY_DETAIL" id="3157"></method>
+      <method name="FAMILY_YBC_SURE" id="3158"></method>
+      <method name="FAMILY_YBC_GIVEUP" id="3159"></method>
+      <method name="FAMILY_YBC_JOIN" id="3160"></method>
+      <method name="FAMILY_YBC_INVITE" id="3161"></method>
+      <method name="FAMILY_MAP_CLOSED" id="3162"></method>
+      <method name="FAMILY_DEL_REQUEST" id="3163"></method>
+      <method name="FAMILY_INFO_CHANGE" id="3164"></method>
+      <method name="FAMILY_COMBINE_PANEL" id="3165"></method>
+      <method name="FAMILY_COMBINE_REQUEST" id="3166"></method>
+      <method name="FAMILY_COMBINE" id="3167"></method>
+      <method name="FAMILY_SET_BONFIRE_START_TIME" id="3168"></method>
+      <method name="FAMILY_ACTIVESTATE" id="3169"></method>
+	  <method name="FAMILY_SET_INTERIOR_MANAGER" id="3170"></method>	
+	  <method name="FAMILY_LEFTRIGHT_PROTECTOR" id="3171"></method>
+	  <method name="FAMILY_UNSET_INTERIOR_MANAGER" id="3172"></method>
+	  <method name="FAMILY_NOTIFY_ONLINE" id="3173"></method>
+	  <method name="FAMILY_GET_DONATE_INFO" id="3174"></method>
+	  <method name="FAMILY_DONATE" id="3175"></method> 
+    </module>
+    <module name="SHORTCUT" id="32">
+      <method name="SHORTCUT_INIT" id="3201"></method>
+      <method name="SHORTCUT_UPDATE" id="3202"></method>
+    </module>
+    <module name="BUBBLE" id="33">
+      <method name="BUBBLE_SEND" id="3301"></method>
+      <method name="BUBBLE_MSG" id="3302"></method>
+    </module>
+    <module name="EQUIP_BUILD" id="34">
+      <method name="EQUIP_BUILD_LIST" id="3401"></method>
+      <method name="EQUIP_BUILD_BUILD" id="3402"></method>
+      <method name="EQUIP_BUILD_GOODS" id="3403"></method>
+      <method name="EQUIP_BUILD_QUALITY_GOODS" id="3404"></method>
+      <method name="EQUIP_BUILD_QUALITY" id="3405"></method>
+      <method name="EQUIP_BUILD_SIGNATURE" id="3406"></method>
+      <method name="EQUIP_BUILD_UPGRADE_GOODS" id="3407"></method>
+      <method name="EQUIP_BUILD_UPGRADE" id="3408"></method>
+      <method name="EQUIP_BUILD_DECOMPOSE" id="3409"></method>
+      <method name="EQUIP_BUILD_UPGRADE_LINK" id="3410"></method>
+      <method name="EQUIP_BUILD_FIVEELE_GOODS" id="3411"></method>
+      <method name="EQUIP_BUILD_FIVEELE" id="3412"></method>
+    </module>
+    <module name="DRIVER" id="35">
+      <method name="DRIVER_GO" id="3501"></method>
+    </module>  
+    <module name="SYSTEM" id="36">
+      <method name="SYSTEM_FCM" id="3601"></method>
+      <method name="SYSTEM_CONFIG" id="3602"></method>
+      <method name="SYSTEM_CONFIG_CHANGE" id="3603"></method>
+      <method name="SYSTEM_HEARTBEAT" id="3604"></method>
+      <method name="SYSTEM_SET_FCM" id="3605"></method>
+      <method name="SYSTEM_ERROR" id="3606"></method>
+      <method name="SYSTEM_NEED_FCM" id="3607"></method>
+      <method name="SYSTEM_MESSAGE" id="3608"></method>
+      <method name="SYSTEM_PK_NOT_AGREE" id="3609"></method>
+    </module> 
+    <module name="EDUCATE" id="37">
+      <method name="EDUCATE_REPLY_INVITE_APPRENTICE" id="3701"></method>
+      <method name="EDUCATE_REPLY_INVITE_ADMISSIONS" id="3702"></method>
+      <method name="EDUCATE_SWORN_MENTORING" id="3703"></method>
+      <method name="EDUCATE_FILTER_STUDENT" id="3704"></method>
+      <method name="EDUCATE_FILTER_TEACHER" id="3705"></method>
+      <method name="EDUCATE_EXPEL" id="3706"></method>
+      <method name="EDUCATE_DROPOUT" id="3707"></method>
+      <method name="EDUCATE_GET_CLAN_INFO" id="3708"></method>
+      <method name="EDUCATE_GET_INFO" id="3709"></method>
+      <method name="EDUCATE_MORAL_VALUE_TO_EXP" id="3710"></method>
+      <method name="EDUCATE_UPGRADE" id="3711"></method>
+      <method name="EDUCATE_INVITE_APPRENTICE" id="3712"></method>
+      <method name="EDUCATE_INVITE_ADMISSIONS" id="3713"></method>
+      <method name="EDUCATE_GET_STUDENTS_INFO" id="3714"></method>
+      <method name="EDUCATE_INVITE_APPRENTICE_RESULT" id="3715"></method>
+      <method name="EDUCATE_INVITE_ADMISSIONS_RESULT" id="3716"></method>
+      <method name="EDUCATE_TEACHER_ONLINE" id="3717"></method>
+      <method name="EDUCATE_STUDENT_ONLINE" id="3718"></method>
+      <method name="EDUCATE_MORAL_VALUE_TO_PKPOINT" id="3719"></method>
+      <method name="EDUCATE_GET_EXPEL_MORAL_VALUE" id="3720"></method>
+      <method name="EDUCATE_GET_DROPOUT_MORAL_VALUE" id="3721"></method>
+      <method name="EDUCATE_TIP_CAPTAIN" id="3722"></method>
+      <method name="EDUCATE_CALL_HELPER" id="3723"></method>
+      <method name="EDUCATE_AGREE_HELP" id="3724"></method>
+      <method name="EDUCATE_GET_RELATE_PEOPLE" id="3725"></method>
+      <method name="EDUCATE_TRANSFER" id="3726"></method>
+      <method name="EDUCATE_RELEASE" id="3727"></method>
+    </module>
+    <module name="GM" id="40">
+      <method name="GM_COMPLAINT" id="4001"></method>
+      <method name="GM_SCORE" id="4002"></method>
+    </module>
+    <module name="RANKING" id="41">
+      <method name="RANKING_CONFIG" id="4101"></method>
+      <method name="RANKING_GET_RANKINFO" id="4102"></method>
+      <method name="RANKING_ROLE_LEVEL_RANK" id="4103"></method>
+      <method name="RANKING_FAMILY_ACTIVE_RANK" id="4104"></method>
+      <method name="RANKING_EQUIP_REFINING_RANK" id="4105"></method>
+      <method name="RANKING_EQUIP_REINFORCE_RANK" id="4106"></method>
+      <method name="RANKING_EQUIP_STONE_RANK" id="4107"></method>
+      <method name="RANKING_ROLE_WORLD_PKPOINT_RANK" id="4108"></method>
+      <method name="RANKING_ROLE_PKPOINT_RANK" id="4109"></method>
+      <method name="RANKING_EQUIP_JOIN_RANK" id="4110"></method>
+      <method name="RANKING_ROLE_ALL_RANK" id="4111"></method>
+      <method name="RANKING_ROLE_GONGXUN_RANK" id="4112"></method>	
+      <method name="RANKING_FAMILY_GONGXUN_RANK" id="4113"></method>	
+      <method name="RANKING_ROLE_TODAY_GONGXUN_RANK" id="4114"></method>	
+      <method name="RANKING_ROLE_YESTERDAY_GONGXUN_RANK" id="4115"></method>	
+      <method name="RANKING_ROLE_GIVE_FLOWERS_RANK" id="4116"></method>
+      <method name="RANKING_ROLE_GIVE_FLOWERS_TODAY_RANK" id="4117"></method>
+      <method name="RANKING_ROLE_GIVE_FLOWERS_YESTERDAY_RANK" id="4118"></method>
+      <method name="RANKING_ROLE_RECE_FLOWERS_RANK" id="4119"></method>
+      <method name="RANKING_ROLE_RECE_FLOWERS_TODAY_RANK" id="4120"></method>
+      <method name="RANKING_ROLE_RECE_FLOWERS_YESTERDAY_RANK" id="4121"></method>
+      <method name="RANKING_ROLE_RECE_FLOWERS_LAST_WEEK_RANK" id="4122"></method>
+      <method name="RANKING_ROLE_GIVE_FLOWERS_LAST_WEEK_RANK" id="4123"></method>
+      <method name="RANKING_ROLE_RECE_FLOWERS_THIS_WEEK_RANK" id="4124"></method>
+      <method name="RANKING_ROLE_GIVE_FLOWERS_THIS_WEEK_RANK" id="4125"></method>
+      <method name="RANKING_ROLE_PET_RANK" id="4126"></method>
+      <method name="RANKING_PET_JOIN_RANK" id="4127"></method>
+	  <method name="RANKING_HERO_FB_RANK" id="4128"></method>
+      <method name="RANKING_GET_RANK" id="4140"></method>
+    </module>
+    <module name="WAROFKING" id="42">
+      <method name="WAROFKING_HOLD" id="4201"></method>
+      <method name="WAROFKING_GETMARKS" id="4202"></method>
+      <method name="WAROFKING_APPLY" id="4203"></method>
+      <method name="WAROFKING_COLLECT" id="4204"></method>
+      <method name="WAROFKING_AGREE_ENTER" id="4205"></method>
+      <method name="WAROFKING_BREAK" id="4206"></method>
+      <method name="WAROFKING_HOLDING" id="4207"></method>
+      <method name="WAROFKING_END" id="4208"></method>
+      <method name="WAROFKING_SAFETIME" id="4209"></method>
+      <method name="WAROFKING_ENTER" id="4210"></method>
+    </module>
+    <module name="TRAININGCAMP" id="43">
+      <method name="TRAININGCAMP_EXCHANGE" id="4301"></method>
+      <method name="TRAININGCAMP_START" id="4302"></method>
+      <method name="TRAININGCAMP_STOP" id="4303"></method>
+      <method name="TRAININGCAMP_STATE" id="4304"></method>
+      <method name="TRAININGCAMP_REMAIN_POINT" id="4305"></method>
+    </module>
+    <module name="TITLE" id="44">
+      <method name="TITLE_GET_ROLE_TITLES" id="4401"></method>
+      <method name="TITLE_CHANGE_CUR_TITLE" id="4402"></method>
+    </module>
+    <module name="WAROFFACTION" id="45">
+      <method name="WAROFFACTION_WARINFO" id="4501"></method>
+      <method name="WAROFFACTION_DECLARE" id="4502"></method>
+      <method name="WAROFFACTION_BUY_GUARDER" id="4503"></method>
+      <method name="WAROFFACTION_CONVENE" id="4504"></method>
+      <method name="WAROFFACTION_TRANSFER" id="4505"></method>
+      <method name="WAROFFACTION_TOWER_DESTROYED" id="4506"></method>
+      <method name="WAROFFACTION_GENERAL_KILLED" id="4507"></method>
+      <method name="WAROFFACTION_FLAG_DESTROYED" id="4508"></method>
+      <method name="WAROFFACTION_COLLECT" id="4509"></method>
+      <method name="WAROFFACTION_AGREE_COLLECT" id="4510"></method>
+      <method name="WAROFFACTION_STATUS" id="4511"></method>
+      <method name="WAROFFACTION_GATHER_FACTIONIST" id="4512"></method>
+      <method name="WAROFFACTION_GATHER_CONFIRM" id="4513"></method>
+      <method name="WAROFFACTION_RECORD" id="4514"></method>
+      <method name="WAROFFACTION_COUNT_DOWN" id="4515"></method>
+      <method name="WAROFFACTION_RANK" id="4516"></method>
+    </module>
+    <module name="OFFICE" id="46">
+      <method name="OFFICE_APPOINT" id="4602"></method>
+      <method name="OFFICE_DISAPPOINT" id="4603"></method>
+      <method name="OFFICE_AGREE_APPOINT" id="4604"></method>
+      <method name="OFFICE_REFUSE_APPOINT" id="4605"></method>
+      <method name="OFFICE_CANCEL_APPOINT" id="4606"></method>
+      <method name="OFFICE_LAUNCH_COLLECTION" id="4607"></method>
+      <method name="OFFICE_DONATE" id="4608"></method>
+      <method name="OFFICE_PANEL" id="4609"></method>
+      <method name="OFFICE_SET_NOTICE" id="4610"></method>
+      <method name="OFFICE_EQUIP_PANEL" id="4611"></method>
+      <method name="OFFICE_TAKE_EQUIP" id="4612"></method>
+    </module>
+    <module name="WAROFCITY" id="47">
+      <method name="WAROFCITY_APPLY" id="4702"></method>
+      <method name="WAROFCITY_COLLECT" id="4703"></method>
+      <method name="WAROFCITY_GET_MARK" id="4704"></method>
+      <method name="WAROFCITY_HOLD" id="4705"></method>
+      <method name="WAROFCITY_END" id="4706"></method>
+      <method name="WAROFCITY_GET_SAFETIME" id="4708"></method>
+      <method name="WAROFCITY_AGREE_ENTER" id="4709"></method>
+      <method name="WAROFCITY_BREAK" id="4710"></method>
+      <method name="WAROFCITY_HOLD_SUCC" id="4711"></method>
+      <method name="WAROFCITY_PANEL" id="4712"></method>
+      <method name="WAROFCITY_PANEL_MANAGE" id="4713"></method>
+      <method name="WAROFCITY_GET_REWARD" id="4714"></method>
+    </module>
+
+    <module name="ACHIEVEMENT" id="48">
+      <method name="ACHIEVEMENT_NOTICE" id="4801"></method>
+      <method name="ACHIEVEMENT_AWARD" id="4802"></method>
+      <method name="ACHIEVEMENT_QUERY" id="4803"></method>
+    </module>  
+    <module name="SERVER_NPC" id="50">
+      <method name="SERVER_NPC_ENTER" id="5001"></method>
+      <method name="SERVER_NPC_QUIT" id="5002"></method>
+      <method name="SERVER_NPC_DEAD" id="5003"></method>
+      <method name="SERVER_NPC_ATTR_CHANGE" id="5004"></method>
+      <method name="SERVER_NPC_WALK_PATH" id="5005"></method>
+      <method name="SERVER_NPC_WALK" id="5006"></method>
+    </module>
+    <module name="VIE_WORLD_FB" id="51">
+      <method name="VIE_WORLD_FB_ENTER" id="5101"></method>
+      <method name="VIE_WORLD_FB_QUIT" id="5102"></method>
+    </module>
+    <module name="COLLECT" id="52">
+      <method name="COLLECT_GET_GRAFTS_INFO" id="5201"></method>
+      <method name="COLLECT_GRAFTS" id="5202"></method>
+      <method name="COLLECT_REMOVE_GRAFTS" id="5203"></method>
+      <method name="COLLECT_STOP" id="5204"></method>
+      <method name="COLLECT_UPDATA_GRAFTS" id="5205"></method>
+    </module>
+    <module name="PERSONYBC" id="54">
+      <method name="PERSONYBC_PUBLIC" id="5401"></method>
+      <method name="PERSONYBC_CANCEL" id="5402"></method>
+      <method name="PERSONYBC_COMMIT" id="5403"></method>
+      <method name="PERSONYBC_INFO" id="5404"></method>
+      <method name="PERSONYBC_COLOR_CHANGE" id="5405"></method>
+      <method name="PERSONYBC_TIMER" id="5406"></method>
+      <method name="PERSONYBC_POS" id="5407"></method>
+      <method name="PERSONYBC_FACTION" id="5408"></method>
+      <method name="PERSONYBC_FACTION_NOTICE" id="5409"></method>
+      <method name="PERSONYBC_SOS" id="5410"></method>
+	  <method name="PERSONYBC_AUTO" id="5411"></method>
+	  <method name="PERSONYBC_SET_AUTO" id="5412"></method>
+	  <method name="PERSONYBC_AUTO_REFRESH_COLOR" id="5413"></method>
+    </module>
+    <module name="EQUIPONEKEY" id="55">
+      <method name="EQUIPONEKEY_LIST" id="5501"></method>
+      <method name="EQUIPONEKEY_INFO" id="5502"></method>
+      <method name="EQUIPONEKEY_SAVE" id="5503"></method>
+      <method name="EQUIPONEKEY_LOAD" id="5504"></method>
+    </module>
+    <module name="ACTIVITY" id="56">
+      <method name="ACTIVITY_TODAY" id="5601"></method>
+      <method name="ACTIVITY_BENEFIT_LIST" id="5605"></method>
+      <method name="ACTIVITY_BENEFIT_REWARD" id="5606"></method>
+      <method name="ACTIVITY_BENEFIT_BUY" id="5607"></method>
+      <method name="ACTIVITY_GETGIFT" id="5608"></method>
+	  <method name="ACTIVITY_PAY_GIFT_INFO" id="5609"></method>
+	  <method name="ACTIVITY_BOSS_GROUP" id="5610"></method>
+    </module>
+    <module name="NEWCOMER" id="57">
+      <method name="NEWCOMER_ACTIVATE_CODE" id="5701"></method>
+    </module>
+    <module name="TRADING" id="58">
+      <method name="TRADING_SHOP" id="5801"></method>
+      <method name="TRADING_BUY" id="5802"></method>
+      <method name="TRADING_SALE" id="5803"></method>
+      <method name="TRADING_GET" id="5804"></method>
+      <method name="TRADING_RETURN" id="5805"></method>
+      <method name="TRADING_EXCHANGE" id="5806"></method>
+      <method name="TRADING_STATUS" id="5807"></method>
+    </module>
+    <module name="FLOWERS" id="59">
+      <method name="FLOWERS_GET_ACCEPT_LIST" id="5901"></method>
+      <method name="FLOWERS_UPDATE_ACCEPT" id="5902"></method>
+      <method name="FLOWERS_ACCEPT" id="5903"></method>
+      <method name="FLOWERS_GIVE" id="5904"></method>
+      <method name="FLOWERS_GIVE_WORLD_BROADCAST" id="5905"></method>
+      <method name="FLOWERS_GIVE_FACTION_BROADCAST" id="5906"></method>
+      <method name="FLOWERS_GIVE_MAP_BROADCAST" id="5907"></method>
+      <method name="FLOWERS_GET_RECEVER_INFO" id="5908"></method>
+    </module>
+    <!-- 种植模块 -->
+    <module name="PLANT" id="60">
+      <method name="PLANT_FAMILY_FARM" id="6001"></method>
+      <method name="PLANT_UPDATE_FARM" id="6002"></method>
+      <method name="PLANT_ASSART" id="6003"></method>
+      <method name="PLANT_SOW" id="6004"></method>
+      <method name="PLANT_FERTILIZE" id="6005"></method>
+      <method name="PLANT_LIST_LOG" id="6006"></method>
+      <method name="PLANT_CLEAR_LOG" id="6007"></method>
+      <method name="PLANT_HARVEST" id="6008"></method>
+      <method name="PLANT_SHOW_SKILL" id="6009"></method>
+      <method name="PLANT_UPGRADE_SKILL" id="6010"></method>
+      <method name="PLANT_LIST_SEEDS" id="6011"></method>
+    </module>
+    <!-- 大明宝藏副本 -->
+    <module name="COUNTRY_TREASURE" id="61">
+      <method name="COUNTRY_TREASURE_ENTER" id="6101"></method>
+      <method name="COUNTRY_TREASURE_QUIT" id="6102"></method>
+      <method name="COUNTRY_TREASURE_POINTS" id="6103"></method>
+      <method name="COUNTRY_TREASURE_QUERY" id="6104"></method>
+    </module>
+    <!-- 等级礼包 -->
+    <module name="LEVEL_GIFT" id="62">
+      <method name="LEVEL_GIFT_LIST" id="6201"></method>
+      <method name="LEVEL_GIFT_ACCEPT" id="6202"></method>
+      <method name="TIME_GIFT_LIST" id="6203"></method>
+      <method name="TIME_GIFT_ACCEPT" id="6204"></method>
+    </module>
+    <!-- 宠物系统 -->
+    <module name="PET" id="63">
+      <method name="PET_ENTER" id="6301"></method>
+      <method name="PET_QUIT" id="6302"></method>
+      <method name="PET_DEAD" id="6303"></method>
+      <method name="PET_ATTR_CHANGE" id="6304"></method>
+      <method name="PET_SUMMON" id="6305"></method>
+      <method name="PET_CALL_BACK" id="6306"></method>
+      <method name="PET_THROW" id="6307"></method>
+      <method name="PET_LEARN_SKILL" id="6308"></method>
+      <method name="PET_LEVEL_UP" id="6309"></method>
+      <method name="PET_INFO" id="6310"></method>
+      <method name="PET_BAG_INFO" id="6311"></method>
+      <method name="PET_ATTR_ASSIGN" id="6312"></method>
+      <method name="PET_ADD_LIFE" id="6313"></method>
+      <method name="PET_REFRESH_APTITUDE" id="6314"></method>
+      <method name="PET_ADD_UNDERSTANDING" id="6315"></method>
+      <method name="PET_CHANGE_NAME" id="6316"></method>
+      <method name="PET_FEED_INFO" id="6317"></method>
+      <method name="PET_FEED_BEGIN" id="6318"></method>
+      <method name="PET_FEED_COMMIT" id="6319"></method>
+      <method name="PET_FEED_GIVE_UP" id="6320"></method>
+      <method name="PET_FEED_OVER" id="6321"></method>
+      <method name="PET_FEED_STAR_UP" id="6322"></method>
+      <method name="PET_GROW_INFO" id="6323"></method>
+      <method name="PET_GROW_BEGIN" id="6324"></method>
+      <method name="PET_GROW_OVER" id="6325"></method>
+      <method name="PET_GROW_GIVE_UP" id="6326"></method>
+      <method name="PET_GROW_COMMIT" id="6327"></method>
+	  <method name="PET_ADD_SKILL_GRID" id="6328"></method>
+	  <method name="PET_FORGET_SKILL" id="6329"></method>
+	  <method name="PET_CHANGE_POS" id="6330"></method>
+	  <method name="PET_REFINING" id="6331"></method>
+	  <method name="PET_REFINING_EXP" id="6332"></method>
+	  <method name="PET_EGG_USE" id="6333"></method>
+	  <method name="PET_EGG_REFRESH" id="6334"></method>
+	  <method name="PET_EGG_ADOPT" id="6335"></method>
+	  <method name="PET_TRICK_LEARN" id="6336"></method>
+	  <method name="PET_TRICK_UPGRADE" id="6337"></method>
+	  <method name="PET_ADD_BAG" id="6338"></method>
+      <method name="PET_TRAINING_REQUEST" id = "6339"></method>
+    </module>
+    <!-- 统计模块 -->
+    <module name="STAT" id="64">
+      <method name="STAT_BUTTON" id="6401"></method>
+      <method name="STAT_CONFIG" id="6402"></method>
+    </module>
+    <!-- 刺探模块 -->
+    <module name="SPY" id="65">
+      <method name="SPY_FACTION" id="6501"></method>
+      <method name="SPY_FACTION_TIME" id="6502"></method>
+      <method name="SPY_TIME" id="6503"></method>
+    </module>
+    <!-- 师门同心副本 -->
+    <module name="EDUCATE_FB" id="66">
+      <method name="EDUCATE_FB_ENTER" id="6601"></method>
+      <method name="EDUCATE_FB_QUIT" id="6602"></method>
+      <method name="EDUCATE_FB_AWARD" id="6603"></method>
+      <method name="EDUCATE_FB_QUERY" id="6604"></method>
+      <method name="EDUCATE_FB_GAMBLING" id="6605"></method>
+      <method name="EDUCATE_FB_ITEM" id="6606"></method>
+    </module>
+    <!-- 监狱模块 -->
+    <module name="JAIL" id="67">
+      <method name="JAIL_OUT" id="6701"></method>
+      <method name="JAIL_DONATE" id="6702"></method>
+      <method name="JAIL_OUT_FORCE" id="6703"></method>
+    </module>
+    <!-- 赠送礼品模块  -->
+    <module name="PRESENT" id="68">
+      <method name="PRESENT_NOTIFY" id="6801"></method>
+      <method name="PRESENT_GET" id="6802"></method>
+    </module>
+    <!-- 连续登录奖励 -->
+    <module name="CONLOGIN" id="69">
+      <method name="CONLOGIN_FETCH" id="6901"></method>
+      <method name="CONLOGIN_INFO" id="6902"></method>
+      <method name="CONLOGIN_NOTSHOW" id="6903"></method>
+	  <method name="CONLOGIN_CLEAR" id="6904"></method>
+    </module>
+    <!-- 门派技能,门派BUFF-->
+    <module name="FMLSKILL" id="70">
+      <method name="FMLSKILL_RESEARCH" id="7001"></method>
+      <method name="FMLSKILL_FORGET" id="7002"></method>
+      <method name="FMLSKILL_LIST" id="7003"></method>
+      <method name="FMLSKILL_LIST_BUFF" id="7004"></method>
+      <method name="FMLSKILL_FETCH_BUFF" id="7005"></method>
+    </module>
+    <!-- 个人副本-->
+    <module name="PERSONAL_FB" id="71">
+      <method name="PERSONAL_FB_LIST" id="7101"></method>
+      <method name="PERSONAL_FB_ENTER" id="7102"></method>
+      <method name="PERSONAL_FB_LOST" id="7103"></method>
+      <method name="PERSONAL_FB_QUIT" id="7104"></method>
+      <method name="PERSONAL_FB_NEXT_LEVEL" id="7105"></method>
+      <method name="PERSONAL_FB_PASS" id="7106"></method>
+      <method name="PERSONAL_FB_STATE" id="7107"></method>
+    </module>
+    <!-- 累积经验 -->
+    <module name="ACCUMULATE_EXP" id="72">
+      <method name="ACCUMULATE_EXP_REFRESH" id="7201"></method>
+      <method name="ACCUMULATE_EXP_INFO" id="7202"></method>
+      <method name="ACCUMULATE_EXP_FETCH" id="7203"></method>
+      <method name="ACCUMULATE_EXP_NOTIFY" id="7204"></method>
+      <method name="ACCUMULATE_EXP_LIST" id="7205"></method>
+      <method name="ACCUMULATE_EXP_VIEW" id="7206"></method>
+	  <method name="ACCUMULATE_EXP_GET" id="7207"></method>
+	  <method name="ACCUMULATE_EXP_REF" id="7208"></method> 	
+    </module>
+    <!-- 陷阱 -->
+    <module name="TRAP" id="73">
+      <method name="TRAP_ENTER" id="7301"></method>
+      <method name="TRAP_QUIT" id="7302"></method>
+    </module>
+    <!-- 门派仓库-->
+    <module name="FMLDEPOT" id="75">
+      <method name="FMLDEPOT_LIST_GOODS" id="7501"></method>
+      <method name="FMLDEPOT_CREATE" id="7502"></method>
+      <method name="FMLDEPOT_PUTIN" id="7503"></method>
+      <method name="FMLDEPOT_GETOUT" id="7504"></method>
+      <method name="FMLDEPOT_UPDATE_GOODS" id="7505"></method>
+      <method name="FMLDEPOT_LIST_LOG" id="7506"></method>
+    </module>
+    <!-- VIP -->
+    <module name="VIP" id="74">
+      <method name="VIP_ACTIVE" id="7401"></method>
+      <method name="VIP_MULTI_EXP" id="7402"></method>
+      <method name="VIP_INFO" id="7403"></method>
+      <method name="VIP_STOP_NOTIFY" id="7404"></method>
+	  <method name="VIP_LIST" id="7405"></method>
+	  <method name="VIP_REMOTE_DEPOT" id="7406"></method>
+	  <method name="VIP_EXCHANGE_PRESTIGE" id="7407"></method>
+    </module>
+    <!-- 师门同心副本 -->
+    <module name="SCENE_WAR_FB" id="76">
+      <method name="SCENE_WAR_FB_ENTER" id="7601"></method>
+      <method name="SCENE_WAR_FB_QUIT" id="7602"></method>
+      <method name="SCENE_WAR_FB_QUERY" id="7603"></method>
+      <method name="SCENE_WAR_FB_CALL_MONSTER" id="7604"></method>
+    </module>
+    <!-- BGP -->
+    <module name="BGP" id="77">
+      <method name="BGP_LOGIN" id="7701"></method>
+    </module>
+    <!-- 礼包模块-->
+    <module name="GIFT" id="78">
+      <method name="GIFT_ITEM_AWARD" id="7801"></method>
+      <method name="GIFT_ITEM_QUERY" id="7802"></method>
+    </module>
+    <module name="BONFIRE" id="79">
+      <method name="BONFIRE_UP" id="7901"></method>
+      <method name="BONFIRE_RM" id="7902"></method>
+      <method name="BONFIRE_ADD_FAGOT" id="7903"></method>
+      <method name="BONFIRE_GET" id="7904"></method>
+    </module>
+	<!-- 英雄副本模块-->
+	<module name="HERO_FB" id="80">
+      <method name="HERO_FB_PANEL" id="8001"></method>
+      <method name="HERO_FB_REPORT" id="8002"></method>
+      <method name="HERO_FB_ENTER" id="8003"></method>
+      <method name="HERO_FB_STATE" id="8004"></method>
+      <method name="HERO_FB_QUIT" id="8005"></method>
+      <method name="HERO_FB_REWARD" id="8006"></method>
+      <method name="HERO_FB_BUY" id="8007"></method>
+      <method name="HERO_FB_POKER_REWARD" id="8008"></method>
+    </module>
+    <module name="FAMILY_COLLECT" id="81">
+      <method name="FAMILY_COLLECT_INFO" id="8101"></method>
+      <method name="FAMILY_COLLECT_PRIZE_INFO" id="8102"></method>
+      <method name="FAMILY_COLLECT_REFRESH_PRIZE" id="8103"></method>
+      <method name="FAMILY_COLLECT_GET_PRIZE" id="8104"></method>
+      <method name="FAMILY_COLLECT_BEGIN" id="8105"></method>
+      <method name="FAMILY_COLLECT_GET_ROLE_INFO" id="8106"></method>
+    </module>
+    <!-- 任务副本模块-->
+    <module name="MISSION_FB" id="82">
+      <method name="MISSION_FB_ENTER" id="8201"></method>
+      <method name="MISSION_FB_QUIT" id="8202"></method>
+      <method name="MISSION_FB_PROP" id="8203"></method>
+	</module>
+	<!--传奇目标-->
+	<module name="GOAL" id="84">
+      <method name="GOAL_INFO" id="8401"></method>
+	  <method name="GOAL_FETCH" id="8402"></method>
+      <method name="GOAL_UPDATE" id="8403"></method>
+    </module>
+    <!-- 声望兑换-->
+    <module name="PRESTIGE" id="85">
+      <method name="PRESTIGE_QUERY" id="8501"></method>
+      <method name="PRESTIGE_DEAL" id="8502"></method>
+    </module>
+    <!--活动编辑器的活动-->
+    <module name="SPECIAL_ACTIVITY" id="87">
+      <method name="SPECIAL_ACTIVITY_GET_PRIZE" id="8701"></method>
+      <method name="SPECIAL_ACTIVITY_ABLE_GET" id="8702"></method>
+      <method name="SPECIAL_ACTIVITY_LIST" id="8703"></method>
+      <method name="SPECIAL_ACTIVITY_DETAIL" id="8704"></method>
+      <method name="SPECIAL_ACTIVITY_STAT" id="8705"></method>
+    </module>
+    <!--刷棋副本-->
+    <module name="SHUAQI_FB" id="88">
+      <method name="SHUAQI_FB_REQUEST" id="8801"></method>
+    </module>
+    <!--练功房副本-->
+    <module name="EXERCISE_FB" id="89">
+      <method name="EXERCISE_FB_REQUEST" id="8901"></method>
+    </module>
+  </package>
+  
+  <package name="chat">
+    <module name="CHAT" id="9">
+      <method name="CHAT_AUTH" id="901"></method>
+      <method name="CHAT_IN_CHANNEL" id="902"></method>
+      <method name="CHAT_IN_PAIRS" id="903"></method>
+      <method name="CHAT_LEAVE_CHANNEL" id="904"></method>
+      <method name="CHAT_MANAGE_MUTE" id="905"></method>
+      <method name="CHAT_MANAGE_KICK" id="906"></method>
+      <method name="CHAT_MANAGE_BAN" id="907"></method>
+      <method name="CHAT_JOIN_CHANNEL" id="908"></method>
+      <method name="CHAT_ADD_BLACK" id="909"></method>
+      <method name="CHAT_REMOVE_BLACK" id="910"></method>
+      <method name="CHAT_BLACK_LIST" id="911"></method>
+      <method name="CHAT_LIMIT_NOTIFY" id="912"></method>
+      <method name="CHAT_NEW_JOIN" id="913"></method>
+      <method name="CHAT_QUICK" id="914"></method>
+      <method name="CHAT_STATUS_CHANGE" id="915"></method>
+      <method name="CHAT_GET_ROLES" id="916"></method>
+      <method name="CHAT_WAROFKING" id="917"></method>
+      <method name="CHAT_GET_GOODS" id="918"></method>
+      <method name="CHAT_RECONNECT" id="919"></method>
+	  <method name="CHAT_KING_BAN" id="920"></method>	
+    </module>
+  </package>
+  
+	<!--
+		The method-interface below are to be identified <package name="proxy">
+		<module name="FLASH" id="11"> <method name="PROXY_SERVER"
+		id="1101"></method> </module> <module name="SERVER" id="12"> <method
+		name="DISCONNECT_FLASH" id="1201"></method> <method
+		name="UPDATE_PROXY_ADDRESS_CONFIG" id="1202"></method> </module>
+		</package> <package name="common"> <module name="GAME" id="13">
+		<method name="ROLE_DISPLAY" id="1301"></method> <method name="ROLE"
+		id="1302"></method> <method name="SKIN" id="1303"></method> </module>
+		<module name="ROLE" id="14"> <method name="LIST" id="1401"></method>
+		<method name="ATTR" id="1402"></method> </module> <module
+		name="CHANNEL" id="15"> <method name="INFO" id="1501"></method>
+		</module> </package>
+		-->
+</modules>

@@ -1,0 +1,7 @@
+{ ["unittest/*","fix/*" ]
+	, [	
+		{i, "include" }, 
+		{i, "../../../hrl" }, 
+		{outdir, "/data/tzr/server/ebin/db/"}
+	  ]
+}.

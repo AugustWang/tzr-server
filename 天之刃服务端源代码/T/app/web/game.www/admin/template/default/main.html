@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+<style type="text/css">
+body {font-size:12px; font-family:"Courier New", Courier, monospace;}
+</style>
+</head>
+
+<body>
+	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+        <tr bgcolor="#E5F9FF"> 
+        	<td colspan="2" background="/admin/static/images/wbg.gif"><font color="#666600" class="STYLE2"><b>◆系统基本信息</b></font></td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">游戏运行模式：</td>
+          <td width="75%">
+          	<{if $isDebug}><font style="font-weight:800; color:red;">测试模式[警告：外服和发布服绝对不能是这种模式]</font>
+            <{else}><font style="font-weight:800; color:red;">正常模式</font>
+            <{/if}>
+          </td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">ERLANG_WEB_URL：</td>
+          <td width="75%">
+            <{if $erlangWebUrl == "http://127.0.0.1:8000"}>
+                <font style="font-weight:800; color:red;">正常</font>
+            <{else}><font style="font-weight:800; color:red;">测试模式[警告：外服和发布服绝对不能是这种模式]</font>
+            <{/if}>
+          </td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">产品版本：</td>
+          <td width="75%"><{$product_version}></td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">Erlang版本：</td>
+          <td width="75%"><{$erlang_version}></td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">开发团队：</td>
+          <td width="75%">天之刃服务端</td>
+        </tr>
+      </table>
+
+	<div>
+    	<p>1.左侧菜单放在left.html中</p>
+        <p>2.菜单中对应的模块全部放在module目录下</p>
+        <p>3.所有的模块页面必须由html结尾</p>
+        <p>4.通常情况下CSS和JS全部嵌入在对应的module/你的模块.html文件中即可。如果需要重用，则js文件放在/js/目录下，css放在/css/目录下</p>
+        <p></p>
+    </div>
+</body>
+</html>

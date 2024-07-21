@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>累积经验</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+</head>
+
+<body>
+<form action="" method="post">
+	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+        <tr bgcolor="#E5F9FF"> 
+        	<td colspan="2" background="/admin/static/images/wbg.gif"><font color="#666600" class="STYLE2"><b>◆累积经验测试工具</b></font></td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">账号名</td>
+          <td width="75%"><input type="text" name="account" value="" /></td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">设置项</td>
+          <td>
+          <select name="acc_id">
+          	<option value="1">个人拉镖</option>
+            <option value="2">门派拉镖</option>
+            <option value="3">守卫国土</option>
+            <option value="4">刺探国情</option>
+          </select>
+          </td>
+        </tr>
+         <tr bgcolor="#FFFFFF"> 
+          <td width="25%">设置未完成天数</td>
+          <td>
+          	<input type="text" width="64" name="days" />天
+          </td>
+          </tr>
+         <tr bgcolor="#FFFFFF"> 
+          <td width="25%">设置最后完成时间</td>
+          <td>
+          	<input type="text" width="64" name="year" />年
+            <input type="text" width="64" name="month" />月
+            <input type="text" width="64" name="day"  />日
+          </td>
+          </tr>
+        </tr>
+         <tr bgcolor="#FFFFFF"> 
+          <td width="25%"></td>
+          <td><input type="submit" value="确定" /></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

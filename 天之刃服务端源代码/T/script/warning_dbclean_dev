@@ -1,0 +1,54 @@
+#!/bin/bash
+# db clean
+bash ./check_in_dev_machine.sh
+if [ $? = 1 ] ; then
+    exit 1
+fi
+
+echo "================================警告警告============================="
+echo "================================警告警告============================="
+echo "==================确认要删除数据库请输入 yes-yes-yes================="
+echo "================================警告警告============================="
+echo "================================警告警告============================="
+read CONFIRM
+if [ "$CONFIRM" = 'yes-yes-yes' ] ; then
+	echo "将重新初始化所有数据库，请谨慎使用！！"
+else
+	echo "数据库没有被清除"
+    exit 1
+fi
+
+## clean the mnesia
+rm -f /data/database/tzr/*
+
+
+## clean the mysql
+mysql -uroot -p`cat /data/save/mysql_root` <<EOF
+drop database tzr_game;
+drop database tzr_logs;
+EOF
+
+mysql -uroot -p`cat /data/save/mysql_root` <<EOF
+source /data/mtzr/hrl/sql/create_db_user.sql;
+source /data/mtzr/hrl/sql/tzr_game.sql;
+EOF
+
+
+IP=`ifconfig eth0 | grep inet | cut -d : -f 2 | cut -d " " -f 1`
+if [ "$IP" = '' ] ; then
+    IP=`ifconfig eth1 | grep inet | cut -d : -f 2 | cut -d " " -f 1`
+fi
+
+mysql -uroot -p`cat /data/save/mysql_root` <<EOF
+use tzr_game;
+source /data/mtzr/hrl/sql/persistent_tables.sql;
+UPDATE t_config set cvalue = 'http://static.tzrgame-debug.com/' where ckey='WEB_STATIC';
+UPDATE t_config set cvalue = 'http://127.0.0.1:8000' where ckey='ERLANG_WEB_URL';
+EOF
+
+cd /data/mtzr/app/web/game.www/admin/update
+php /data/mtzr/app/web/game.www/admin/update/init_tables.php
+
+## 勿删！
+echo ""
+echo ""

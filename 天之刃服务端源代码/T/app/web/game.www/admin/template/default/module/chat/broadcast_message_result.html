@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>消息广播管理</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<style type="text/css">
+body {font-size:14px; font-family:"Courier New", Courier, monospace; text-align:center; margin:auto;}
+#all {text-align:left;margin-left:4px;}
+#nodes {width:100%; float:left;border:1px #ccc solid;}
+#result {width: 100%; height:100%; clear:both; border:1px #ccc solid;}
+
+</style>
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+<script language="JavaScript" type="text/JavaScript" >
+function cancel(){
+	window.location.href = "?action=list";
+}
+</script>
+</head>
+
+<body>
+<div id="all">
+<div><{$errorMsg}></div>
+<div id="main">
+<div class="box">
+<div id="nodes">
+
+<input type="hidden" name="msg" id="msg" value="{$msg}" >
+<table width="100%" border="0" cellpadding="4" cellspacing="1"
+	bgcolor="#A5D0F1">
+	<tr bgcolor="#E5F9FF">
+		<td colspan="7" background="/admin/static/images/wbg.gif"><font
+			color="#666600" class="STYLE2"><b>◆消息同步结果</b></font></td>
+	</tr>
+	<tr bgcolor="#E5F9FF">
+		<td> 服务器列表</td>
+		<{foreach from = $msg_ids item =msg_id }>
+			<td><{$msg_id}></td>
+		<{/foreach}>
+	</tr>
+	<{foreach from=$sendResult item=server_msg key=server_id}>	
+	<tr bgcolor="#FFFFFF">
+		<td><{$server_id}>服</td>
+		<{foreach from = $server_msg item = msg }>
+			<td><{$msg}></td>
+		<{/foreach}>
+	</tr>
+	<{/foreach}>
+	<tr>
+
+	<input type="button" name ="back" id="back" value="返回" onclick="cancel();" />
+		
+		</td>
+	
+	</tr>
+
+</table>
+
+</div>
+</div>
+</div>
+</div>
+
+
+</body>
+</html>

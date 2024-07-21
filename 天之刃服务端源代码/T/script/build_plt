@@ -1,0 +1,2 @@
+#!/bin/bash
+dialyzer --build_plt  --output_plt /data/mtzr/.dialyzer_plt --apps erts kernel stdlib mnesia

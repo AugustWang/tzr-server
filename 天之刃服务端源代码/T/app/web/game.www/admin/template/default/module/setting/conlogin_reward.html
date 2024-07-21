@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>设置用户登录奖励</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+<link rel="stylesheet" href="/admin/static/css/style.css" type="text/css">
+
+</head>
+
+<body style="margin:10px">
+
+<b><a style="color:red;" href="?job=type&action=export">点击导出配置文件</a></b> 
+<br />
+	
+<b>设置用户登录奖励</b>
+<br/>
+<form name="myform" method="post" action="">
+	<input type="hidden" name="job" value="type" />
+	<input type="hidden" name='action' value='add'/>
+    <table id="tb" width="100%" align="center" cellpadding="1" cellspacing="1" style="border:1px #ccc solid;">   
+        <tr style="background:#E0F0F0;">   
+            <td style="width: 120px;">
+              <!-- 用来标示操作对象是奖励类型 -->
+              <label>标题(只用于后台显示)</label>
+            </td>
+            <td>
+              <input id="title" type="text" name="title" size="18" value="默认奖励标题" onfocus="select();" />
+           	</td>
+        </tr>
+        <tr style="background:#E0F0F0;">
+           	<td style="width: 120px;">
+              <label>连续登录天数:</label>
+            </td>
+            <td>
+              <input type='text' name='begin_day' style='width:50px;' value='1'> 天到
+              <input type='text' name='end_day' style='width:50px;' value='1'> 天
+            </td> 
+        </tr>
+        <tr style="background:#E0F0F0;">
+            <td><input type="submit" name='send' value='添加' /></td>
+            <td>&nbsp;</td>
+        </tr>  
+    </table>
+</form>
+<br><br>
+<b>奖励类型列表</b>
+<table cellspacing="1" cellpadding="3" border="0" class='table_list' >
+	<tr class='table_list_head'>
+		<td></td>
+        <td >最低连续登陆天数</td>
+		<td>最高连续登陆天数</td>
+        <td>操作</td>
+	</tr>
+	<{foreach name=loop item=item from=$awardlist}>
+	<{if $smarty.foreach.loop.index % 2 == 0}>
+	<tr class='trEven'>
+	<{else}>
+	<tr class='trOdd'> 
+	<{/if}>
+                <td>
+                  <a href='?aid=<{$item.id}>&job=type&action=edit'><{$item.title}></a>
+                </td>
+                <td>
+                  <{$item.begin_day}>
+                </td>
+                <td>
+                  <{$item.end_day}>
+                </td>
+                <td>
+                  <a href='?aid=<{$item.id}>&job=type&action=del'>删除</a>
+                </td>
+	</tr>
+	<{/foreach}>
+</table>
+
+</body>
+</html>

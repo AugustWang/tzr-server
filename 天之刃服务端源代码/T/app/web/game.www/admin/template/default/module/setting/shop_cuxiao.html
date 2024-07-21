@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>商店促销信息控制后台</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+<link rel="stylesheet" href="/admin/static/css/style.css" type="text/css">
+<script type="application/javascript">
+updateCuxiao = function(key) {
+	var num = $('#num_' + key).val();
+	if (num < 0) {
+		alert("商品数量不能小于0，你填写的为：" + num);
+		return;
+	}
+	var price = $('#price_' + key).val();
+	if (price < 0) {
+		alert("商品价格不能小于0，你填写的为：" + price);
+		return;
+	}
+	var name = $('#name_' + key).text();
+	if (confirm("严重警告：确定更新【"+ name +"】的价格为：" + price + " 元宝， 数量为：" + num + "个")) {
+		$('#form_' + key).submit();
+	}
+	return false;
+}
+</script>
+<style type="text/css">
+.desc {color:#F00;}
+</style>
+
+</head>
+
+<body style="margin:10px">
+<div style="color:red; font-weight:800; border:1px #ccc solid; padding:2px;">说明：<br />1. 促销信息修改后，可能需要稍等1、2秒才能在管理后台看到结果</div>
+<b>商店促销信息</b>
+<br/>
+<{foreach name=loop item=item from=$shopCuxiaoItemList}>
+<form id="form_<{$item.key}>" name="form_<{$item.key}>" method="post" action="">
+	<input type="hidden" name="action" value="set" />
+    <input type="hidden" name="key" value='<{$item.key}>' />
+    <table id="tb" width="100%" align="center" cellpadding="1" cellspacing="1" style="border:1px #ccc solid;">   
+        <tr style="background:#E0F0F0;">   
+            <td style="width: 120px;">
+              <label>道具ID</label>
+            </td>
+            <td><{$item.id}></td>
+        </tr>
+        <tr style="background:#E0F0F0;">
+           	<td style="width: 120px;">
+              <label>道具名称:</label>
+            </td>
+            <td>
+              <font id="name_<{$item.key}>"><{$item.name}></font>
+            </td> 
+        </tr>
+        <tr style="background:#E0F0F0;">
+           	<td style="width: 120px;">
+              <label>剩余数量:</label>
+            </td>
+            <td>
+              <input type='text' id='num_<{$item.key}>' name='num' style='width:50px;' value='<{$item.num}>'>
+            </td> 
+        </tr>
+        <tr style="background:#E0F0F0;">
+           	<td style="width: 120px;">
+              <label>价格:</label>
+            </td>
+            <td>
+              <input type='text' id="price_<{$item.key}>" name='price' style='width:50px;' value='<{$item.real_price}>'> 元宝
+            </td> 
+        </tr>
+        <tr style="background:#E0F0F0;">
+            <td><input type="button" onclick="updateCuxiao('<{$item.key}>');" name='send' value='更新' /></td>
+            <td>&nbsp;</td>
+        </tr>  
+    </table>
+</form>
+<br />
+<{/foreach}>
+</body>
+</html>

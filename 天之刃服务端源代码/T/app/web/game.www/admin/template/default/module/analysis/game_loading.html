@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>游戏Loading页数据分析</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+</head>
+
+<body>
+	<div>
+    </div>
+	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+        <tr bgcolor="#E5F9FF"> 
+        	<td colspan="2" background="/admin/static/images/wbg.gif"><font color="#666600" class="STYLE2"><b>◆游戏页loading数据分析</b></font></td>
+       </tr>
+       <tr bgcolor="#FFFFFF"> 
+          <td width="25%">统计总量</td>
+          <td width="75%"><{$allSize}></td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">已成功进入游戏玩家数量</td>
+          <td width="75%"><{$allEnterSize}></td>
+        </tr>
+       <tr bgcolor="#FFFFFF"> 
+          <td width="25%">流失率：</td>
+          <td width="75%"><{$leavePercentage}>%</td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">平均加载时间</td>
+          <td width="75%"><{$averageLoadTime}>s</td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">最慢加载时间</td>
+          <td width="75%"><{$maxLoadTime}>s</td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">最快加载时间</td>
+          <td width="75%"><{$minLoadTime}>s</td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">最快加载速度</td>
+          <td width="75%"><{$maxLoadSpeed}>KB/s</td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">最慢加载速度</td>
+          <td width="75%"><{$minLoadSpeed}>KB/s</td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">平均加载速度</td>
+          <td width="75%"><{$averageLoadSpeed}>KB/s</td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">进入游戏有过移动的玩家比例</td>
+          <td width="75%"><{$movePercentage}>%</td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">平均打开的NPC面板数量</td>
+          <td width="75%"><{$averageNpcOpenNum}></td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">进入游戏后第一次打开NPC的时间(平均)</td>
+          <td width="75%"><{$averageOpenNpcTime}></td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">进入游戏后第一次打开NPC的时间(最小)</td>
+          <td width="75%"><{$minOpenNpcTime}></td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">进入游戏后第一次打开NPC的时间(最大)</td>
+          <td width="75%"><{$maxOpenNpcTime}></td>
+        </tr>
+        
+        
+         <tr bgcolor="#FFFFFF"> 
+          <td width="25%">死亡玩家比例</td>
+          <td width="75%"><{$deadPercentage}>%</td>
+        </tr>
+         <tr bgcolor="#FFFFFF"> 
+          <td width="25%">复活比例（死亡后）</td>
+          <td width="75%"><{$relivePercentage}>%</td>
+        </tr>
+         <tr bgcolor="#FFFFFF"> 
+          <td width="25%">玩家平均死亡次数</td>
+          <td width="75%"><{$avgDeadTimes}></td>
+        </tr>
+         <tr bgcolor="#FFFFFF"> 
+          <td width="25%">玩家平均复活次数</td>
+          <td width="75%"><{$avgReliveTimes}></td>
+        </tr>
+         <tr bgcolor="#FFFFFF"> 
+          <td width="25%">打开背包玩家比例</td>
+          <td width="75%"><{$openBagPercentage}>%</td>
+        </tr>
+         <tr bgcolor="#FFFFFF"> 
+          <td width="25%">看到欢迎页平均所需要的时间</td>
+          <td width="75%"><{$welcomeAvgTime}>s</td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<style type="text/css">
+#all {
+	text-align: left;
+	margin-left: 4px;
+	line-height: 1;
+}
+
+#nodes {
+	width: 100%;
+	float: left;
+	border: 1px #ccc solid;
+}
+
+#result {
+	width: 100%;
+	height: 100%;
+	clear: both;
+	border: 1px #ccc solid;
+}
+</style>
+	        
+        <!-- start 支持as3 的富文本编辑器	-->
+        <link rel="stylesheet" type="text/css" href="/admin/static/richTextEditor/richTextEditor.css" />
+        <script type="text/javascript" src="/admin/static/richTextEditor/history/history.js"></script>
+        <script type="text/javascript" src="/admin/static/richTextEditor/swfobject.js"></script>
+        <script type="text/javascript">
+            var swfVersionStr = "10.0.0";
+            var xiSwfUrlStr = "/admin/static/richTextEditor/playerProductInstall.swf";
+            var flashvars = {};
+            var params = {};
+            params.quality = "high";
+            params.bgcolor = "#ffffff";
+            params.allowscriptaccess = "sameDomain";
+            params.allowfullscreen = "true";
+            var attributes = {};
+            attributes.id = "richTextEditor";
+            attributes.name = "richTextEditor";
+            attributes.align = "middle";
+            swfobject.embedSWF(
+                "/admin/static/richTextEditor/richTextEditor.swf", "flashContent", 
+                "100%", "100%", 
+                swfVersionStr, xiSwfUrlStr, 
+                flashvars, params, attributes);
+			swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+			
+			
+			function setHtmlToEditor(){
+				var str = '<{$content}>';
+				return str;
+			}
+			
+			function getHtmlFromEditor(strHtml){
+				document.getElementById("content").value = strHtml;
+			}
+        </script>
+        <!-- end 支持as3 的富文本编辑器	-->
+
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+</head>
+
+<body>
+<br>
+
+<div id="all">
+<div id="main">
+<div class="box">
+<div id="nodes">
+<table id="tb" width="100%" align="center" cellpadding="1" cellspacing="1" style="border:1px #ccc solid;">   
+    <tr style="background:#E0F0F0;">   
+        <td style="width: 80px;"><a href="?action=syn">同步到游戏</a></td>
+        
+    </tr>
+    <tr style="background:#E0F0F0;">   
+    <td style="width: 80px;"><a href="?action=export">导出配置</a></td>
+    </tr>
+</table>
+<form action="?action=do" method="post">
+<table width="100%" border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+	<tr bgcolor="#E5F9FF">
+		<td background="/admin/static/images/wbg.gif"><font	color="#666600" class="STYLE2"><b>登录公告设置</b></font></td>
+	</tr>
+	<tr bgcolor="#FFFFFF">
+		<td>请输入公告内容<br/>(编辑器背景色、内容区域宽度与游戏中公告一致，<font color="Red">URL必须有“http://”前缀！</font>)：
+		</td>
+	</tr>
+    <tr style="background:#E0F0F0;">
+    	<td><font color="#0000FF"><{$msg}></font></td>
+    </tr>
+	<tr>
+		<td>
+		<!-- start 支持as3 的富文本编辑器	-->
+		<div id="richTextEditorDiv" style="width:290px; height:312px;">
+        <!-- start 若版本不支持 打印提示	-->
+        <div id="flashContent">
+        	<p>
+	        	To view this page ensure that Adobe Flash Player version 
+				10.0.0 or greater is installed. 
+			</p>
+			<script type="text/javascript"> 
+				var pageHost = ((document.location.protocol == "https:") ? "https://" :	"http://"); 
+				document.write("<a href='http://www.adobe.com/go/getflashplayer'><img src='" 
+								+ pageHost + "www.adobe.com/images/shared/download_buttons/get_flash_player.gif' alt='Get Adobe Flash player' /></a>" ); 
+			</script> 
+        </div>
+	   	 <!-- end  若版本不支持 打印提示	-->
+	   	 
+       	<noscript>
+            <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="100%" height="100%" id="richTextEditor">
+                <param name="movie" value="richTextEditor.swf" />
+                <param name="quality" value="high" />
+                <param name="bgcolor" value="#ffffff" />
+                <param name="allowScriptAccess" value="sameDomain" />
+                <param name="allowFullScreen" value="true" />
+                <!--[if !IE]>-->
+                <object type="application/x-shockwave-flash" data="/admin/static/richTextEditor/richTextEditor.swf" width="100%" height="100%">
+                    <param name="quality" value="high" />
+                    <param name="bgcolor" value="#ffffff" />
+                    <param name="allowScriptAccess" value="sameDomain" />
+                    <param name="allowFullScreen" value="true" />
+                <!--<![endif]-->
+                <!--[if gte IE 6]>-->
+                	<p> 
+                		Either scripts and active content are not permitted to run or Adobe Flash Player version
+                		10.0.0 or greater is not installed.
+                	</p>
+                <!--<![endif]-->
+                    <a href="http://www.adobe.com/go/getflashplayer">
+                        <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash Player" />
+                    </a>
+                <!--[if !IE]>-->
+                </object>
+                <!--<![endif]-->
+            </object>
+	    </noscript>	
+		</div>
+		<!-- end 支持as3 的富文本编辑器	-->
+									
+					
+		<textarea style="display:none;" rows="6" cols="80" id="content" name="content">
+		</textarea>
+		<br/>
+		<input type="submit" name="submit" value="保存" />
+		</td>
+	</tr>
+</table>
+</form>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

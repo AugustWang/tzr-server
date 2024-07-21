@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>师徒副本管理</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<style type="text/css">
+body {font-size:14px; font-family:"Courier New", Courier, monospace; text-align:center; margin:auto;}
+#all {text-align:left;margin-left:4px;}
+#nodes {width:100%; float:left;border:1px #ccc solid;}
+#result {width: 100%; height:100%; clear:both; border:1px #ccc solid;}
+
+</style>
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/admin/static/js/MValidate.js"></script>
+<script type="text/javascript">
+</script>
+</head>
+
+<body>
+	<div id="all">	
+    	<div><{$errorMsg}></div>
+        <div id="main">
+            <div class="box">
+                <div id="nodes">
+                	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                		<tr bgcolor="#E5F9FF"> 
+                            <td colspan="2" background="/admin/static/images/wbg.gif">
+                            	<font color="#666600" class="STYLE2"><b>玩家师徒副本信息</b></font>
+                            </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                            <td colspan="2" >
+                            	角色帐号：
+                            	<{if $vo.role_id eq 0}>
+                            		<input type="text" style="width: 150px;" id="roleAccount" name="roleAccount" value="" /> 
+                            		<input type="hidden" style="width: 150px;" id="roleId" name="roleId" value="" /> 
+                            	<{else}>
+                            		<input type="text" style="width: 150px;" id="roleAccount" name="roleAccount" value="<{$vo.account_name|trim}>" /> 
+                            		<input type="hidden" style="width: 150px;" id="roleId" name="roleId" value="<{$vo.role_id|trim}>" /> 
+                            	<{/if}>
+                            	<input type="button" name ="do_start" id="do_query" value="查询" onclick="do_query();"/>
+                            	剩余次数[0,2]：<input type="text" style="width: 50px;" id="newTimes" name="newTimes" value="" /> 
+                            	<input type="button" name ="do_reset" id="do_reset" value="重置次数" onclick="do_reset();"/>
+                            </td>
+                        </tr>
+                    </table>
+                	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="20%">查询信息:</td>
+                          <td >
+<{if $vo.op_code eq 0}>
+请输入玩家角色ID查询
+<{elseif $vo.op_code eq 3 or $vo.op_code eq 6}>
+<li>玩 家 ID：<{$vo.role_id|trim}></li>
+<li>角色帐号：<{$vo.account_name|trim}></li>
+<li>角 色 名：<{$vo.role_name|trim}></li>
+<li>国&nbsp;&nbsp;&nbsp;&nbsp;家：<{$vo.faction_id|trim}></li>
+<li>级&nbsp;&nbsp;&nbsp;&nbsp;别：<{$vo.level|trim}></li>
+<li>剩余次数：<{math equation="(a - b )" a=2 b=$vo.times}></li>
+<{else}>
+&nbsp;
+<{/if}>
+                          </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="20%">操作结果:</td>
+                          <td >
+                          <font color="#FF0000"><b>
+<{if $vo.op_code eq 0}>
+0：请输入玩家角色帐号查询
+<{elseif $vo.op_code eq 1}>
+1：查询不到此玩家
+<{elseif $vo.op_code eq 2}>
+2：玩家未参加过副本
+<{elseif $vo.op_code eq 3}>
+3：查询成功
+<{elseif $vo.op_code eq 4}>
+4：剩余次数出错，只能是0,1,2
+<{elseif $vo.op_code eq 5}>
+5：玩家未参加过副本不需要重置
+<{elseif $vo.op_code eq 6}>
+6：重置玩家副本次数成功
+<{else}>
+ 系统无响应
+<{/if}>
+                          </b></font>
+                          </td>
+                        </tr>
+                     </table>
+                </div>
+            </div>
+        </div>
+ 
+        <br />
+<div id="tipsDiv">
+<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+	<tr align="left" valign="top" bgcolor="FFFFFF"> 
+		<td>
+【重要提示】：
+<br />
+<font color="#FF0000">1、根据玩家师徒副本日志查询完成当前完成的师徒副本次数</font>
+<br />
+<font color="#FF0000">2、查询玩家是不是在同一时刻获得了两个副本道具</font>
+<br />
+<font color="#FF0000">3、查询玩家是否已经领取了师徒副本的奖励</font>
+<br />
+<font color="#FF0000">4、确认已上问题之后才可以重置玩家的师徒副本次数</font>
+<br />
+<font color="#FF0000">5、获取玩家的角色ID可以通过查询玩家状态获取</font>
+		</td>
+	</tr>
+</table>
+</div>
+	</div>
+	
+<script language="JavaScript" type="text/JavaScript">
+function do_query(){
+	var roleAccount = $("#roleAccount").val();
+	if(MValidate.isNull(roleAccount) || MValidate.isEmpty(roleAccount)){
+		alert("请输入角色帐号");
+		$("#roleAccount").focus();
+		return;
+	}
+	window.location.href = "?action=query&roleAccount=" + roleAccount;
+}
+function do_reset(){
+	var roleAccount = $("#roleAccount").val();
+	if(MValidate.isNull(roleAccount) || MValidate.isEmpty(roleAccount)){
+		alert("请输入角色帐号并查询之后才能重置");
+		$("#roleAccount").focus();
+		return;
+	}
+	var roleId = $("#roleId").val();
+	if(!MValidate.isPNumeric(roleId)){
+		alert("请输入角色帐号并查询之后才能重置");
+		$("#roleId").focus();
+		return;
+	}
+	var newTimes = $("#newTimes").val();
+	if(!MValidate.isNotNNumeric(newTimes)){
+		alert("请输入要重置玩家的剩余次数");
+		$("#newTimes").focus();
+		return;
+	}
+	if(!MValidate.betweenNumber(newTimes,0,2)){
+		alert("剩余次数[0,2]");
+		return;
+	}
+	var pNewTimes = 2 - newTimes;
+	if(!confirm('确认要重置“剩余次数”？')){
+		return false;
+	}
+	window.location.href = "?action=reset_times&roleId=" + roleId + "&newTimes=" + pNewTimes + "&roleAccount=" + roleAccount;
+}
+</script>
+
+</body>
+</html>
+

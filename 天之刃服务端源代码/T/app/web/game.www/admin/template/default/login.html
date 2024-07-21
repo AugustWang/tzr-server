@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<title>天之刃后台登陆</title>
+<style type="text/css">
+body{
+	color:#FDF8CE;
+	font-family:"微软雅黑";
+	padding:0px;
+	margin:0px;
+}
+.logo{
+	background:url(static/images/logo.jpg) no-repeat;
+}
+.warp{
+	background:url(static/images/bg.jpg) no-repeat;
+}
+.loginTable tr td input{
+	width:150px;
+}
+</style>
+</head>
+
+<body style="background:url(static/images/bgm.jpg) left top repeat-x #02B8EA;">
+	<div style="margin-top:0px;">
+    	<table>
+        	<tr>
+            	<td><span style="color:red;"><b><{$errorMsg}></b></span></td>
+            </tr>
+        </table>
+	  <table align="center" class="warp" width="1024" height="577" border="0" cellpadding="0" cellspacing="0" style="margin-top:0px;">
+	    <tr>
+	      <td width="234"></td>
+	      <td class="logo" width="204" height="82"  style="background:url(static/images/logo2.jpg) ;"> </td>
+	      <td width="459" align="right" valign="bottom" class="top"  style="background:url(static/images/top_bg.jpg) no-repeat; margin-left:0px;" heigth="82"><font style="font-size:12px;">@广州明朝网络科技有限公司版权所有</font>&nbsp;</td>
+	      <td width="127" height="81"></td>
+        </tr>
+	    <tr>
+	      <td width="234" rowspan="3"></td>
+	      <td height="336" colspan="2"  style="background:url(static/images/center_bg.jpg) no-repeat;">
+          <div style=" margin-top:0px;">
+         <form action="" name="form1" method="post" id="form1">
+         	<input type="hidden" name="action" value="login"/>
+          	<table width="302" class="loginTable" align="center" style="margin-top:0px; padding:0px;" cellpadding="0" cellspacing="5">
+            	<tr>
+                	<td colspan="2" align="center"><h3 style="color:#FDF8CE;">『天之刃』游戏管理后台</h3></td>
+                </tr>
+            	<tr>
+                	<td style="font-weight:bold;" align="right">用户名：</td>
+                    <td><input type="text" name="username" id="username" value=""/></td>
+                </tr>
+                <tr>
+                	<td style="font-weight:bold;" align="right">密&nbsp;&nbsp;码：</td>
+                    <td><input type="password" name="password" id="password" value=""/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+		    <input name="Btn_Login" style="margin-top:10px;" id="submit" 
+		    type="image" src="static/images/bt_on.jpg"
+		    onmouseover="javascript:this.src='static/images/bt_up.jpg' " 
+		    onmouseout="javascript:this.src='static/images/bt_on.jpg'" /></td>
+                </tr>
+		 <tr>
+                    <td colspan="2" align="center"><font color="darkred"></font></td>
+                </tr>
+		
+            </table>
+          </form>
+          </div>
+          </td>
+          <td rowspan="3"></td>
+	    </tr>
+	    <tr>
+	      <td colspan="2">&nbsp;</td>
+        </tr>
+	    <tr>
+	      <td colspan="2">&nbsp;</td>
+        </tr>
+	  </table>
+	</div>
+</body>
+</html>

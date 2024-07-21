@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><{$title}></title>         
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style type="text/css" media="screen"> 
+html, body	{height:100%; }
+body {margin:auto; padding:0; overflow:hidden; text-align:center; background-color: #000000; }   
+#main { background-image:url(/static/images/queue_bg.jpg); background-repeat:no-repeat; height:300px; width:100%; background-position:center; margin:120px auto 0 auto; clear:both; overflow:hidden; text-align:center;}
+#content {color:#FFF; font-size:12px; font-weight:800; width:290px; height:90px; line-height:1.6; margin:auto; margin-top:150px;}
+#wait_time {color:red; font-weight:800; font-size:14px;}
+a {color:#ffff00;}
+</style>
+
+</head>
+
+<body>
+<div id="main">
+	<div id="content">
+    <{if $full}>
+    	亲爱的玩家，本服务器人数已爆满，请不要刷新，稍事等候。目前您排在第<{$queueNum}>名，预计<div id="wait_time"><{$timeWait}></div>秒后可开始您的传奇之旅。您也可前往其他区服体验游戏：<a href="<{$serverListUrl}>">点击前往</a>
+    <{else}>
+    	亲爱的玩家，本服务器已满，预计<div id="wait_time"><{$timeWait}></div>秒后可开始您的传奇之旅。您也可前往其他区服体验游戏：<a href="<{$serverListUrl}>">点击前往</a>
+    <{/if}>
+    </div>
+</div>
+</body>
+</html>
+<script>
+var waitTimeObj = document.getElementById('wait_time');
+var waitTime = parseInt(waitTimeObj.innerHTML);
+function countDown() {
+	waitTime--;
+	if (waitTime < 1) {
+		window.location.href = '/user/game.php';
+	}
+	waitTimeObj.innerHTML = waitTime;
+	window.setTimeout(countDown, 1000);
+}
+window.setTimeout(countDown, 1000);
+</script>

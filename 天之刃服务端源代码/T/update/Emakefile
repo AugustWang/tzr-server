@@ -1,0 +1,9 @@
+{ 
+	["./*"], 
+	[	
+		{outdir, "/data/tzr/server/ebin/common/"},
+		report,
+		warnings_as_errors,
+		verbose
+	  ]
+}.

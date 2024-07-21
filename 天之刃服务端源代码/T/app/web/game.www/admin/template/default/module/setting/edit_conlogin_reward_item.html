@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="/admin/static/css/base.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+.itemlist {
+background-color: #CCC;
+display: none;
+height: 255px;
+height: 255px;
+left: 254px;
+margin: 0px;
+max-height: 260px;
+overflow: hidden;
+padding: 0px;
+position: absolute;
+top: 0px;
+width: 200px;
+}
+</style>
+<script language="javascript" >                                
+	var itemArray = new Array();  
+		<{foreach item=idata from=$itemlists}>       
+			itemArray[<{$idata.typeid}>] = "<{$idata.typeid}> | <{$idata.item_name}> ";                                        
+		<{/foreach}>                                                                  
+function selectItem(iid){                                                       
+	document.getElementById('typeid').value = iid;                            
+	document.getElementById('itemname').value = itemArray[iid];             
+	document.getElementById('itemlist').style.display="none";               
+}                                                                               
+
+function searchItem(){                                                          
+	document.getElementById('itemlist').style.display="block";              
+	var keyword = document.getElementById('itemname').value ;               
+	var onArray = new Array();                                              
+	for(kid in itemArray) {                                                 
+		if(itemArray[kid].indexOf(keyword) !=-1 ){                      
+			onArray[kid] = itemArray[kid];                          
+		}                                                               
+	}                                                                       
+	var str='<ul><li style="text-align:right;"><a href="javascript:;" onclick="hiddenlist();">关闭</a></li>';                                                       
+	for(iid in onArray) {                                                   
+		str += '<li onclick="selectItem('+iid+');">'+onArray[iid]+'</li>';                                                                                      
+	}                                                                       
+	str += '</ul>';                                                         
+	document.getElementById('itemlist').innerHTML = str ;                   
+}                                                                               
+function hiddenlist(){                                                          
+	document.getElementById('itemlist').style.display="none";               
+}                                                                               
+</script>    
+</head>
+
+<body>
+<div style="clear:both; height:auto; overflow:hidden; width: 800px;">
+   <form name="myform" method="post" action="">
+   		<input type="hidden" name="job" value="itemDetail" />
+        <input type='hidden' name='aid' value='<{$aid}>' />
+        <input type="hidden" name="flag" value="do" />
+        <input type='hidden' name='id' value='<{$id}>' />
+        <input type='hidden' name='action' value='edit' />
+        <table style="border:1px #ccc solid;">
+        	<tr style="background:#E0F0F0;">
+            	<td>道具搜索
+                </td style="width: 120px;text-align:right;">
+                <td><input type="text" name="itemname" id="itemname" value="" onKeyUp="searchItem()" onMouseUp="searchItem();" /></td>
+            </tr>
+        	<tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">请选择道具：</td>
+                <td>
+                	
+                    <div id="itemlist" class="itemlist" ></div>         
+                    <input type="text" name="typeid" id="typeid" value="<{$item.type_id}>" />
+                </td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">数量：</td>
+                <td><input type="text" name="num" value="<{$item.num}>" size="4" /></td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">是否绑定：</td>
+                <td><input type="radio" name="bind" value="0" <{if $item.bind == 0}>checked="checked"<{/if}> />不绑定 <input type="radio" name="bind" value="1" <{if $item.bind == 1}>checked="checked"<{/if}> />绑定</td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">价格：</td>
+                <td><input type="text" name="gold" value="<{$item.gold}>" size="4" /> 元宝 <input type="text" name="silver" value="<{$item.silver}>" size="4" /> 银两</td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">等级范围：</td>
+                <td><input type="text" name="minlv" value="<{$item.min_level}>" size="4" /> 级到 <input type="text" name="maxlv" value="<{$item.max_level}>" size="4" /> 级</td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">需要玩家已充值：</td>
+                <td><input type="radio" name="hasPayed" <{if $item.need_payed}>checked="checked"<{/if}> value="1" /> 是 
+                	<input type="radio" name="hasPayed" <{if !($item.need_payed)}>checked="checked"<{/if}> value="0" /> 否
+                </td>
+            </tr>
+            <tr style="background:#E0F0F0;">
+            	<td style="width: 120px;text-align:right;">循环天数：</td>
+                <td><input type="text" size="6" name="loop_day" value="<{$item.loop_day}>" /><label>（为0或1则每天都可以领取）</label></td>
+            </tr>
+			<tr style="background:#EOFOFO;">
+				<td style="width: 120px;text-align:right;">需要VIP等级: </td>
+				<td><input type="text" name="vipLevel" value="<{$item.need_vip_level}>" size="4" /></td>
+			</tr>
+        </table>
+		<input type="submit" value="更新奖励道具" />
+   </form>
+</div>
+</body>
+</html>

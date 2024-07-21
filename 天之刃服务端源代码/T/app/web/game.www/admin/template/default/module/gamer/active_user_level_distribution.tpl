@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>活跃用户等级详情</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<script type="text/javascript" src="/admin/static/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+</head>
+
+<body>
+<b>登录统计：活跃用户等级详情</b>
+	<form action="#" method="POST">
+	<table style="margin:5px;">
+
+	
+		<tr>
+			<td>开始日期：<input type="text" size="10" name="start" id="start" value="<{$start}>"><img onclick="WdatePicker({el:'start'})" 
+			src="/admin/static/js/My97DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle"></td>
+			
+			<td>结束日期：<input type="text" size="10" name="end" id="end" value="<{ $end}>"><img onclick="WdatePicker({el:'end'})" 
+			src="/admin/static/js/My97DatePicker/skin/datePicker.gif" width="16" height="22" align="absmiddle"></td>
+			<td><input type="image" name='search' src="/admin/static/images/search.gif" class="input2" align="absmiddle"  /></td>
+			<td><input type='button' value="前一天" id="prev"></input></td>
+			<td><input type="button" value="后一天" id="succ"></input></td>
+		</tr>
+	</table>
+	</form>
+	<br/><br/>
+		
+		
+<{foreach key=key from=$data item=daily}>
+
+&nbsp;&nbsp;&nbsp;&nbsp;
+<div class="tScroll frm" id="all" >
+<table height="167" cellspacing="1" cellpadding="1" border="0" bgcolor="#CCCCCC" class="paystat">
+
+<tr>
+<td width="70" height="120" align="center" bgcolor="#EBF9FC"><b><{$key}><br/>活跃人数</b></td>
+    <{foreach item=level from=$daily}>
+    <td width="23" bgcolor="#FFFFFF" align="center" valign="bottom">
+      <table width="23" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td align="center" valign="bottom" style="text-align:center"
+          	title="日期：<{$item.date}>  总量：<{$item.crid}>">
+          	<div><{$level.crid}></div>
+            <img src="/admin/static/images/<{if $data_one.red}>red<{else}>green<{/if}>.gif" width="10" height="
+			<{if $max.cid == 0}>
+	            0
+            <{else}>
+            	<{$level.cid/$max.cid}>
+            <{/if}>
+ 	       px"/>            
+		  </td>
+        </tr>
+      </table>
+	</td>
+    <{/foreach}>
+</tr>
+
+
+
+<tr>
+	<td width="22" height="50px" align="center" bgcolor="#EBF9FC"><b>等级</b></td>
+    <{foreach item=level from=$daily}>
+    <td width="22" bgcolor="#FFFFFF">
+    	<{$level.label}>
+  	</td>
+    <{/foreach}>
+ </tr>
+
+<tr>
+</tr>
+</table>
+<br/><br/>
+
+<{/foreach}>
+		
+	
+	
+<script>
+	$('#prev').click(function(){
+		window.location = 'active_user_level_distribution.php?start=<{$prev}>&end=<{$prev}>';		
+	});
+	
+	$('#succ').click(function(){
+		window.location = 'active_user_level_distribution.php?start=<{$succ}>&end=<{$succ}>';
+	});
+
+</script>
+		
+
+	
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+</head>
+
+<body>
+	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+        <tr bgcolor="#E5F9FF"> 
+        	<td colspan="4" background="/admin/static/images/wbg.gif"><font color="#666600" class="STYLE2"><b>◆王座争霸战基本信息</b></font></td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">开始时间</td>
+          <td width="25%"><{$nextBeginTime}></td>
+          <td width="25%">正常结束时间</td>
+          <td width="25%"><{$nextEndTime}></td>
+        </tr>
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">管理</td>
+          <td colspan="3">
+          	<a href="#" onclick="if (confirm('确认要离开开始？如果正在进行中，会被强制结束！')) window.location.href='?action=begin_now';"><font color="#FF0000">立刻开始</font></a> 
+            <a href="?action=begin_after_60s" onclick="return confirm('确认要一分钟后开始？');"><font color="#FF0000">一分钟后开始</font></a> 
+            | <a href="?action=end_now" onclick="return confirm('确认要立刻结束？');"><font color="#FF0000">立刻结束</font></a>
+            | <a href="?action=reset" onclick="return confirm('确认要还原正常设置？');">><font color="#0000FF">还原正常设置</font></a></td>
+        </tr>
+    </table>
+</body>
+</html>

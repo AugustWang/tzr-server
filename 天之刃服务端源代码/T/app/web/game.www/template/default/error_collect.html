@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<style type="text/css">
+body{font-size:12px; color:#030;}
+.block{text-align:left;width:1000px;border:1px solid #cccccc; padding:20px;clear:both;}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>前端报错信息查看工具</title>
+</head>
+
+<body>
+<center>
+<div class="block">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0" class='table_page_num'>
+  <tr>
+    <td height="30" class="even">
+<form method="get" action="">
+ <{foreach key=key item=item from=$page_list}>
+<a href="<{$URL_SELF}>?action=see&page=<{$item}>"><{$key}></a><span style="width:5px;"></span>
+ <{/foreach}>
+总页数(<{$page_count}>)
+	<input name="brand_id" type="hidden" value="<{$search_brandid}>">
+	<input name="q" type="hidden" value="<{$search_keyword}>">
+	<input name="series_id" type="hidden" value="<{$search_seriesid}>">
+	<input name="sort_1" type="hidden" value="<{$search_sort_1}>">	
+	<input name="sort_2" type="hidden" value="<{$search_sort_2}>">	
+  <input name="page" type="text" class="text" size="3" maxlength="6">&nbsp;<input type="submit" class="button" name="Submit" value="GO">
+</form>
+    </td>
+  </tr>
+</table>
+
+                    
+<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+      <tr bgcolor="#E5F9FF"> 
+          <td colspan="3" background="/admin/static/images/wbg.gif">
+              <font color="#666600" class="STYLE2"><b>前端报错信息收集</b></font>
+          </td>
+      </tr>
+      <tr bgcolor="#FFFFFF">
+        <td width="5%">错误NO</td>
+        <td width="25%">错误信息</td>
+        <td width="15%">Module</td>
+        <td width="15%">Method</td>
+        <td width="10%">Method</td>
+        <td width="10%">RoleID</td>
+        <td width="10%">RoleName</td>
+        <td width="10%">Level</td>
+      </tr>
+      <{foreach from=$result item=error}>
+      <tr bgcolor="#FFFFFF">
+        <td width="25%"><{$error.error_id}></td>
+        <td width="25%"><{$error.error}></td>
+        <td width="15%"><{$error.module}></td>
+        <td width="15%"><{$error.method}></td>
+        <td width="10%"><{$error.type}></td>
+        <td width="10%"><{$error.role_id}></td>
+        <td width="10%"><{$error.role_name}></td>
+        <td width="10%"><{$error.level}></td>
+      </tr>
+      <{/foreach}>
+</table>
+</div>
+</center>
+</body>
+</html>

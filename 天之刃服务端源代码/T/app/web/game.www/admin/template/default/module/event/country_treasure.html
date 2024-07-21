@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>大明宝藏管理</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<style type="text/css">
+body {font-size:14px; font-family:"Courier New", Courier, monospace; text-align:center; margin:auto;}
+#all {text-align:left;margin-left:4px;}
+#nodes {width:100%; float:left;border:1px #ccc solid;}
+#result {width: 100%; height:100%; clear:both; border:1px #ccc solid;}
+
+</style>
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/admin/static/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="/admin/static/js/MValidate.js"></script>
+<script type="text/javascript">
+</script>
+</head>
+
+<body>
+	<div id="all">	
+    	<div><{$errorMsg}></div>
+        <div id="main">
+            <div class="box">
+                <div id="nodes">
+                	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                        <tr bgcolor="#E5F9FF"> 
+                            <td colspan="2" background="/admin/static/images/wbg.gif">
+                            	<font color="#666600" class="STYLE2"><b>大明宝藏管理</b></font>
+                            </td>
+                        </tr>
+						<tr bgcolor="#E5F9FF"> 
+                          <td width="20%">大明宝藏副本是否开启：</td>
+                          <td >
+                            <{$ctVo.is_open|trim}>
+                          </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="20%">正常开启配置：</td>
+                          <td >
+                          	<{$ctVo.normal_open_time|trim}>
+                          </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="20%">操作结果：</td>
+                          <td >
+                          <font color="#FF0000"><b>
+<{if $ctVo.op_code eq 0}>
+0：查询成功
+<{elseif $ctVo.op_code eq 1}>
+1：查询失败
+<{elseif $ctVo.op_code eq 2}>
+2：开启成功，请在大明宝藏结束后重置配置
+<{elseif $ctVo.op_code eq 3}>
+3：开启失败
+<{elseif $ctVo.op_code eq 4}>
+4：重置成功
+<{elseif $ctVo.op_code eq 5}>
+5：重置失败
+<{elseif $ctVo.op_code eq 6}>
+6：上次宝藏还未结束，不可重置配置
+<{else}>
+ 系统无响应
+<{/if}>
+                          </b></font>
+                          </td>
+                        </tr>
+                     </table>
+					<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+						<tr bgcolor="#E5F9FF"> 
+                          <td width="20%">开启时间：</td>
+                          <td ><input type="text" id="start_time" name="start_time" class="Wdate" value="13:00" 
+                          		readonly onfocus="WdatePicker({dateFmt:'HH:mm'});" />
+                          		<font color="#FF0000">注：只能修改当天大明宝藏开启的时间</font>
+                           </td>
+                         </tr>
+                         <tr bgcolor="#E5F9FF"> 
+                          <td width="20%">副本开放时间：</td>
+                          <td ><input type="text" style="width: 30px;" id="keepInterval" name="keepInterval" value="30" />（分钟） </td>
+                         </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                            <td colspan="2" >
+								<{if $ctVo.is_open eq "true"}>
+                            	<input type="button" name ="do_start" id="do_start" value="开启宝藏" onclick="do_start();"/>
+                            	<input type="button" name ="do_reset" id="do_reset" value="重置配置" onclick="do_reset();"/>
+								<{else}>
+								<font color="#FF0000">大明宝藏副本未开启，不可以进行相关的操作</font>
+								<{/if}>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+ 
+        <br />
+<div id="tipsDiv">
+<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+	<tr align="left" valign="top" bgcolor="FFFFFF"> 
+		<td>
+【小提示】：
+<br />
+<font color="#FF0000">1、只能修改当天大明宝藏开启的时间</font>
+<br />
+<font color="#FF0000">2、开启之后，并且副本到时间关闭之后，请执行“重置配置”操作</font>
+<br />
+<font color="#FF0000">3、开启时间配置中1,2,3,4,5,6,7分别代码星期一到星期日</font>
+		</td>
+	</tr>
+</table>
+</div>
+	</div>
+	
+<script language="JavaScript" type="text/JavaScript">
+function do_start(){
+	var startTime = $("#start_time").val();
+	var keepInterval = $("#keepInterval").val();
+	if(!MValidate.isPNumeric(keepInterval)){
+		alert("请输入宝藏持续开启时间");
+		$("#keepInterval").focus();
+		return;
+	}
+	if(!MValidate.betweenNumber(keepInterval,5,30)){
+		alert("宝藏持续开启时间范围[5,30]");
+		return;
+	}
+	if(!confirm('确认要开启大明宝藏？')){
+		return false;
+	}
+	window.location.href = "?action=start&startTime=" + startTime + "&keepInterval=" + keepInterval;
+}
+function do_reset(){
+	if(!confirm('确认要“重置配置”？')){
+		return false;
+	}
+	window.location.href = "?action=reset";
+}
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,2 @@
+-define(USER_EVENT_TYPE_FAMILY_YBC_CANCEL_ADD_SILVER, 10001). %% 宗族拉镖取消时要退还银两、还原角色状态
+-define(USER_EVENT_TYPE_FAMILY_YBC_GIVEUP_ADD_SILVER, 10002). %% 族员放弃宗族拉镖时要退还银两、还原角色状态

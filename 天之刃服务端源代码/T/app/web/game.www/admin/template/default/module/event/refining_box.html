@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>天工开物管理</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<style type="text/css">
+body {font-size:14px; font-family:"Courier New", Courier, monospace; text-align:center; margin:auto;}
+#all {text-align:left;margin-left:4px;}
+#nodes {width:100%; float:left;border:1px #ccc solid;}
+#result {width: 100%; height:100%; clear:both; border:1px #ccc solid;}
+
+</style>
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/admin/static/js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript" src="/admin/static/js/MValidate.js"></script>
+<script type="text/javascript">
+</script>
+</head>
+
+<body>
+	<div id="all">	
+    	<div><{$errorMsg}></div>
+        <div id="main">
+            <div class="box">
+                <div id="nodes">
+                	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+                        <tr bgcolor="#E5F9FF"> 
+                            <td colspan="2" background="/admin/static/images/wbg.gif">
+                            	<font color="#666600" class="STYLE2"><b>天工开物管理</b></font>
+                            </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="20%">当前配置：</td>
+                          <td >
+                          	<li>
+                            天工开物功能：
+                            <{if $ctVo.is_box_open eq 1}>
+                             开启
+                            <{else}>
+							 关闭
+							<{/if}>
+							</li>
+							<li>
+							立即刷新功能：
+							<{if $ctVo.is_box_free eq 1}>
+                             关闭
+                            <{else}>
+							 开启
+							<{/if}>
+							</li>
+                          </td>
+                        </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                          <td width="20%">操作结果：</td>
+                          <td >
+                          <font color="#FF0000"><b>
+<{if $ctVo.op_code eq 0}>
+0：查询成功
+<{elseif $ctVo.op_code eq 1}>
+1：查询失败
+<{elseif $ctVo.op_code eq 2}>
+2：设置成功
+<{elseif $ctVo.op_code eq 3}>
+3：设置失败
+<{elseif $ctVo.op_code eq 4}>
+4：重置成功
+<{elseif $ctVo.op_code eq 5}>
+5：重置失败
+<{else}>
+ 系统无响应
+<{/if}>
+                          </b></font>
+                          </td>
+                        </tr>
+                     </table>
+					<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+						<tr bgcolor="#E5F9FF"> 
+                          <td width="20%">天工开物功能：</td>
+                          <td >
+                          	<select id="isBoxOpen" name="isBoxOpen" >
+                          		<option value="1">开启</option>
+                          		<option value="0">关闭</option>
+                          	</select>
+                           </td>
+                         </tr>
+                         <tr bgcolor="#E5F9FF"> 
+                          <td width="20%">立即刷新功能：</td>
+                          <td >
+                          	<select id="isBoxFree" name="isBoxFree" >
+                          		<option value="0">开启</option>
+                          		<option value="1">关闭</option>
+                          	</select>
+                          	</td>
+                         </tr>
+                        <tr bgcolor="#E5F9FF"> 
+                            <td colspan="2" >
+                            	<input type="button" name ="do_start" id="do_start" value="设置配置" onclick="do_set();"/>
+                            	<input type="button" name ="do_reset" id="do_reset" value="重置配置" onclick="do_reset();"/>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
+            </div>
+        </div>
+ 
+        <br />
+<div id="tipsDiv">
+<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+	<tr align="left" valign="top" bgcolor="FFFFFF"> 
+		<td>
+【小提示】：
+<br />
+<font color="#FF0000">1、天工开物功能开关设置管理界面</font>
+<br />
+<font color="#FF0000">2、可以开启和关闭天工开物功能</font>
+		</td>
+	</tr>
+</table>
+</div>
+	</div>
+	
+<script language="JavaScript" type="text/JavaScript">
+initpage();
+function initpage(){
+	var isBoxOpen = "<{$ctVo.is_box_open|trim}>";
+	var isBoxFree = "<{$ctVo.is_box_free|trim}>";
+	$("#isBoxOpen").val(isBoxOpen);
+	$("#isBoxFree").val(isBoxFree);
+}
+function do_set(){
+    var oldIsBoxOpen = "<{$ctVo.is_box_open|trim}>";
+	var oldIsBoxFree = "<{$ctVo.is_box_free|trim}>";
+	var isBoxOpen = $("#isBoxOpen").val();
+	var isBoxFree = $("#isBoxFree").val();
+	if(isBoxOpen == ""){
+		alert("请选择天工开物功能！");
+		$("#isBoxOpen").focus();
+		return;
+	}
+	if(isBoxFree == ""){
+		alert("请选择立即刷新功能！");
+		$("#isBoxFree").focus();
+		return;
+	}
+	if(isBoxOpen == 0 && isBoxFree == 0){
+		alert("天工开物功能关闭，即立即刷新功能必须关闭");
+		$("#isBoxFree").focus();
+		return;
+	}
+	if(oldIsBoxOpen == isBoxOpen && oldIsBoxFree == isBoxFree){
+		alert("当前天工开物功能的配置没有变化，请重新操作");
+		$("#isBoxOpen").focus();
+		return;
+	}
+	if(!confirm('确认要设置天工开物功能配置？')){
+		return false;
+	}
+	window.location.href = "?action=set&isBoxOpen=" + isBoxOpen + "&isBoxFree=" + isBoxFree;
+}
+function do_reset(){
+	if(!confirm('确认要“重置配置”？')){
+		return false;
+	}
+	window.location.href = "?action=reset";
+}
+</script>
+
+</body>
+</html>
+

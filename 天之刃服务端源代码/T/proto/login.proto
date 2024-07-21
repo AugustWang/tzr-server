@@ -1,0 +1,100 @@
+import "common.proto";
+
+option java_package = "proto.login";
+
+//===================================== 帐号、登录 模块		=====================================
+//tos 表示 to server，由客户端发送给服务器的
+message m_login_flash_tos {
+	required string 		account		= 1;
+	required int32 			tstamp 		= 2;
+	required int32 			agent_id 	= 3;
+	required int32 			server_id 	= 4;
+	required int32			fcm			= 5;
+	required string 		ticket 		= 6;
+} 
+
+//toc 表示 to client，由服务器发送给客户端的
+// succ 为 false 时，客户端可以读取 reason里面的原因，并显示，此时 result的值没有意义。
+// succ 为 true  时，客户端可以从 result 得到具体的返回结果，此时 reason的值没有意义。
+message m_login_flash_toc {
+	required bool 								succ			= 1 [default = true];
+	optional string 							reason		    = 2;
+	repeated p_role 					        result	 	    = 3;
+	optional int32                              faction_id      = 4 [default=1];
+}
+
+
+//向登录服务器请求分线列表。我们的顺序是先返回角色列表、后选择分线
+message m_line_list_tos {
+	required int32			roleid		= 1; //角色ID
+}
+
+
+message m_line_list_toc {
+	required bool			succ 		= 1 [default=true];
+	optional string			msg			= 2; //错误提示信息
+	repeated p_line_info	lines		= 3; //分线列表
+}
+
+//分线数据结构体
+message p_line_info {
+	required string			guid		= 1; //分线得唯一标示，在使用端口转发的情况下使用该值
+	required string			ip			= 2; //分线IP
+	required int32			port		= 3; //分线端口
+	required string			line		= 4;
+}
+
+//===================================== 角色 模块			=====================================
+
+// Client查询指定帐号的 角色列表， 返回以下数据
+message m_role_list_toc {
+	required bool 			        succ		        = 1 [default = true];
+	optional string 		        reason		        = 2;
+	repeated p_role      	        result	 	        = 3;
+}
+
+// 创建新角色
+message m_role_add_tos {
+    required string                                 role_name         = 1;
+    required int32                                  sex               = 2; //性别
+    required int32                                  faction_id        = 3; //国家
+    required int32                                  head              = 4; //头像
+    required int32                                  hair_type         = 5; //发型
+    required int32                                  hair_color        = 6[default=0]; //发型颜色
+}
+
+
+// 创建角色，返回结果
+message m_role_add_toc {
+	required bool 			succ		= 1 [default = true];
+	optional string 		reason		= 2;
+	repeated p_role      	result	 	= 3;
+}
+
+// 删除角色
+message m_role_del_tos {
+	required int32 			roleid		= 1;
+}
+
+// 删除角色，返回结果
+message m_role_del_toc {
+	required bool 			succ		= 1 [default = true];
+	optional string 		reason		= 2;
+}
+
+//选择某个角色进入游戏
+message m_role_chose_tos {
+	required int32			roleid		= 1; //角色id
+}
+
+//如果选择角色成功，则返回key以及分线列表
+message m_role_chose_toc {
+	required bool			succ		    = 1; //是否成功的标志
+	optional string			msg			    = 2;
+	optional string			key			    = 3; //返回得验证key
+	repeated p_line_info	lines		    = 4; //分线列表
+    optional int32          wait_second     = 5; //等待时间
+}
+
+
+

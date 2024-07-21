@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>玩家下线查询</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+</head>
+
+<body>
+	<div>
+    </div>
+    <div id='input_panel' class='divOperation'>
+	<form name="myform" method="post" action="">
+		<span style='margin-right:20px;'>角色ID: <input type='text' id='uid' name='uid' size='11' value='<{ $role_id }>' onkeydown="document.getElementById('acname').value =''; document.getElementById('nickname').value ='';" /></span>
+		<span style='margin-right:20px;'>帐号: <input type='text' id='acname' name='acname' size='12' value='<{ $acname }>' onkeydown="document.getElementById('nickname').value =''; document.getElementById('uid').value ='';" /></span>
+		<span style='margin-right:20px;'>角色名: <input type='text' id='nickname' name='nickname' size='12' value='<{ $role_name }>' onkeydown="document.getElementById('acname').value =''; document.getElementById('uid').value ='';" /></span>
+		<input type="image" name='search' src="/admin/static/images/search.gif" class="input2"  />
+	</form>
+</div>
+	<table>
+                    	<tr>
+                        	<{foreach from=$pageHTML key=page_name item=page_id}>
+                        	<td><a href="?pid=<{$page_id}>&acname=<{$acname}>"><{$page_name}></a></td>
+                            <{/foreach}>
+                        </tr>
+                    </table>
+                    
+	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+        <tr bgcolor="#E5F9FF"> 
+        	<td colspan="2" background="/admin/static/images/wbg.gif"><font color="#666600" class="STYLE2"><b>◆玩家下线原因查询结果</b></font></td>
+       </tr>
+       <tr bgcolor="#FFFFFF"> 
+          <td width="25%">时间</td>
+          <td width="75%">原因</td>
+        </tr>
+        
+        <{foreach from=$results item=result}>
+            <tr bgcolor="#FFFFFF"> 
+              <td width="25%"><{$result.offline_time|date_format:"%Y-%m-%d %H:%M:%S"}></td>
+              <td width="75%"><{$result.offline_reason}></td>
+            </tr>
+            <{foreachelse}>
+            <tr bgcolor="#FFFFFF"> 
+              <td colspan="3"><font color="#FF0000">暂无纪录</font></td>
+            </tr>
+         <{/foreach}>
+                        
+    </table>
+</body>
+</html>

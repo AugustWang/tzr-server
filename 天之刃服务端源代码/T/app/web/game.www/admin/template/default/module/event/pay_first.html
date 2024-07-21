@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>首充管理</title>
+<link rel="stylesheet" href="/admin/static/css/base.css" type="text/css">
+<script type="text/javascript" src="/admin/static/js/jquery.min.js"></script>
+</head>
+
+<body>
+	<div>
+    </div>
+	<table width="100%"  border="0" cellpadding="4" cellspacing="1" bgcolor="#A5D0F1">
+        <tr bgcolor="#E5F9FF"> 
+        	<td colspan="2" background="/admin/static/images/wbg.gif"><font color="#666600" class="STYLE2"><b>◆首充开关管理</b></font></td>
+       </tr>
+       <tr bgcolor="#FFFFFF"> 
+          <td width="25%">当前状态：</td>
+          <td width="75%"><strong><{$msg}></strong></td>
+        </tr>
+        <{if $open}>
+        <form action="?action=close" method="post">
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">管理</td>
+          <td width="75%"><input type="submit" onclick="return confirm('确定要关闭？');" value="关闭" /></td>
+        </tr>
+        </form>
+        <{else}>
+        <form action="?action=open" method="post">
+        <tr bgcolor="#FFFFFF"> 
+          <td width="25%">管理</td>
+          <td width="75%"><input type="submit" onclick="return confirm('确定要开启？');"  value="开启" /></td>
+        </tr>
+        </form>
+        <{/if}>
+    </table>
+</body>
+</html>

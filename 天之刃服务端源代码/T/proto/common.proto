@@ -1,0 +1,2242 @@
+//通用的数据结构
+option java_package = "proto.common";
+
+// type 值 1，则 value 表示 拿什么武器(武器的ID号）, 以下这3个值，其实是根据 p_role_attr 里面的 equip 1--8字段得到的
+// type 值 2，则 value 表示 穿什么衣服(衣服的ID号）
+// type 值 3，则 value 表示 穿什么鞋子(鞋子的ID号）
+//
+// type 值 11，则 value 表示 坐什么坐骑(坐骑的ID号）
+//
+// type 值 21，则表示具有 某种BUFFER效果，此时 value 无效，buffer功能未实现，我们这里假设这个是火焰光环
+// type 值 22，则表示具有 某种BUFFER效果，此时 value 无效，buffer功能未实现，我们这里假设这个是闪电光环
+// ...... 其它更多，待定
+message p_game_role_disply {
+	required int32 		type			= 1[default=1];
+	optional int32 		value			= 2;
+}
+
+
+message p_chat_role {
+	required int32 						roleid							= 1;//角色id
+	required string 					rolename						= 2;//角色名
+	required int32						factionid						= 3;//国家id
+	required string						faction_name					= 4;//国家名
+	required int32						sex							    = 5;//性别
+	optional int32 						head							= 6;//头像
+	optional string						sign							= 7;//签名
+	repeated p_chat_title				titles							= 8; //角色的聊天称号
+}
+
+//聊天称号
+message p_chat_title {
+	required int32						id							 	= 1; //称号ID
+	required string						name							= 2; //称号名称
+	optional string						color							= 3[default="#ffffff"]; //称号颜色
+}
+
+
+//玩家称号详细信息
+message p_title {
+	required int32						id   							= 1;
+	required string						name							= 2;
+	required int32						type							= 3; // 称号所属类别
+	required bool						auto_timeout					= 4; //是否自动过期
+	optional int32						timeout_time					= 5; //自动过期时间
+	required int32						role_id							= 6; //称号所属角色ID
+	required bool						show_in_chat					= 7; //是否在聊天中显示
+	required bool						show_in_sence					= 8; //是否在场景中显示
+	optional string						color							= 9; //颜色
+}
+
+message p_chat_channel_role_info{
+	required string						channel_sign					= 1;//频道标志
+	required int32 						channel_type					= 2;//频道类型
+	required int32 						role_id							= 3;//角色ID
+	required string						role_name						= 4;//角色名
+	required int32 						sex								= 5;//性别
+	required int32 						faction_id						= 6;//国家ID
+	required string						office_name						= 7;//官职
+	optional int32 						head							= 8;//头像
+	optional string						sign							= 9;//签名
+	required bool						is_online						= 10;//是否在线
+}
+
+message p_channel_info{
+	required string						channel_sign					= 1;//频道标志
+	required int32 						channel_type					= 2;//频道类型
+	required string						channel_name					= 3;//频道标志
+	required int32 						online_num						= 4[default = 1];//在线数量
+	required int32 						total_num						= 5[default = 1];//总数量
+}
+
+//玩家buf结构体
+message p_actor_buf {
+    required int32                      buff_id                         = 1;
+    optional int32                      remain_time                     = 2;//剩余时间
+    required int32                      actor_id                        = 3;
+    required int32                      actor_type                      = 4;
+    required int32                      from_actor_id                   = 5; //谁给我加了这个buf
+    required int32                      from_actor_type                 = 6;
+    optional int32                      start_time                     	= 7;
+    optional int32                      end_time                        = 8;
+    required int32                      buff_type                       = 9;
+    required int32                      value                           = 10;
+}
+
+message p_skin {
+	required int32                      skinid                          = 1; //外形
+	required int32                      hair_type                       = 2 [default=1]; //发型
+	required string                     hair_color                      = 3 ; //发型颜色
+	required int32                      weapon                          = 4 [default=0]; //武器
+	required int32                      clothes                         = 5 [default=0]; //衣服
+	required int32                      mounts	                        = 6 [default=0]; //坐骑
+    required int32                      assis_weapon                    = 7 [default=0]; //副手装备
+    required int32                      fashion                         = 8 [default=0]; //时装
+    optional int32                      light_code                      = 9 [default=0];//武器发光编码
+}
+
+
+//角色基本属性
+message p_role_base {
+    required int32 						role_id				            = 1;
+	required string 					role_name			            = 2;
+	required string						account_name		            = 3;
+	required int32 						sex					            = 4;  //性别：1男，2女
+	required int32						create_time			            = 5; //创建时间
+	required int32						status							= 6 [default=0]; //角色状态
+	required int32                      head                            = 7; //头像ID
+	required int32						faction_id						= 8;	//国家id
+	required int32                      team_id                         = 9  [default=0]; //当前所在队伍ID
+	required int32                      family_id                       = 10 [default = 0];  //门派id
+	required string                     family_name                     = 11 [default = ""]; //门派名称
+	required int32						max_hp				            = 12; //满血
+	required int32						max_mp				            = 13; //满魔
+	//线面这几个字段不要转为小写 因为像 INT 转为小写后是 int 刚好是 as3的关键字 会出问题
+	required int32						str					            = 14;  //总的力量，包括装备、法宝等带来的加成，下同
+	required int32						int2					        = 15;  //总的智力
+	required int32						con					            = 16;  //总的体质
+	required int32						dex					            = 17;  //总的敏捷
+	required int32						men					            = 18;  //总的精神
+	required int32                      base_str                        = 19[default=0];  //基本的力量，仅仅是玩家分配的这一部分
+	required int32                      base_int                        = 20[default=0];  //基本的智力
+	required int32                      base_con                        = 21[default=0];  //基本的体质
+	required int32                      base_dex                        = 22[default=0];  //基本的敏捷
+	required int32                      base_men                        = 23[default=0];  //基本的精神
+	required int32						remain_attr_points				= 24;	//剩余属性点0];
+    required int32						pk_title						= 25;	//pk称号
+	required int32						max_phy_attack					= 26;	//最大物理攻击力
+	required int32						min_phy_attack					= 27;	//最小物理攻击力
+	required int32						max_magic_attack				= 28;	//最大魔法攻击力
+	required int32						min_magic_attack				= 29;	//最小魔法攻击力
+	required int32						phy_defence						= 30;	//物理防御
+	required int32						magic_defence					= 31;	//魔法防御
+	required int32						hp_recover_speed				= 32;	//血恢复速度
+	required int32						mp_recover_speed				= 33;	//魔恢复速度
+	required int32						luck							= 34;	//幸运值
+	required int32						move_speed						= 35;	//移动速度
+	required int32						attack_speed					= 36;	//攻击速度
+	required int32						erupt_attack_rate				= 37;	//暴击率，没使用
+	required int32						no_defence				        = 38[default=0]; //破甲，无视防御
+	required int32						miss   					        = 39[default=0]; //闪避
+	required int32                      double_attack                   = 40[default=0]; //暴击，双倍
+	required int32                      phy_anti                        = 41[default=0]; //物理伤抗 绝对值数值，百分比计算
+	required int32                      magic_anti                      = 42[default=0]; //魔法伤抗 绝对值数值，百分比计算
+	optional string 					cur_title			            = 43;//当前显示在场景中的称号
+    optional string                     cur_title_color                 = 44;//当前显示在场景中的称号的颜色
+	
+	//预留区段44-49
+	required int32                      pk_mode                         = 50[default = 0]; //pk模型
+	required int32                      pk_points                       = 51[default = 0]; //pk点数
+    required int32                      last_gray_name                  = 52[default = 0]; //上次变成灰名的时间
+    required bool                       if_gray_name                    = 53[default = false]; //是否灰名
+	required int32                      weapon_type                     = 54[default=0]; //当前穿的武器的类型 0没有，1刀2弓3扇4杖
+    repeated p_actor_buf                buffs                           = 55;
+    required int32                      phy_hurt_rate                   = 56 [default=0]; //最终物理伤害百分比
+    required int32                      magic_hurt_rate                 = 57 [default=0]; //最终魔法伤害百分比
+	repeated int32						disable_menu					= 58; //不可用的菜单 1天工炉
+    required int32                      dizzy                       	= 59 [default=0];   //击晕百分比
+    required int32                      poisoning                   	= 60 [default=0];   //中毒百分比
+    required int32                      freeze                      	= 61 [default=0];   //冰冻百分比
+    required int32                      hurt                        	= 62 [default=0];   //伤害百分比
+    required int32                      poisoning_resist            	= 63 [default=0];   //中毒抗性百分比
+    required int32                      dizzy_resist                	= 64 [default=0];   //击晕抗性百分比
+    required int32                      freeze_resist               	= 65 [default=0];   //冰冻抗性百分比
+    // 装备五行需要添加的属性
+    optional int32                      hurt_rebound                    = 66[default=0]; //伤害反射
+    // 成就系统人物增加的属性
+    optional int32                      achievement                     = 67[default=0]; //人物成就值
+    required int32			            equip_score		                = 68 [default=0]; // 装备积分
+    required int32			            spec_score_one		            = 69 [default=0];	//特殊战斗系数1
+    required int32			            spec_score_two		            = 70 [default=0];	//特殊战斗系数2
+    required int32                      hit_rate                        = 71 [default=10000]; // 命中
+    //0正常 ,1GM帐号,2后台模拟帐号,3 4399游客帐号
+    required int32                      account_type                    = 72[default=0];//帐号类型 
+}
+
+message p_role_pos {
+	required int32						role_id							= 1;
+	required int32						map_id							= 2;
+	required p_pos						pos								= 3;
+	required string                     map_process_name                = 4;
+    required string                     old_map_process_name            = 5;
+}
+
+message p_role_fight {
+	required int32						role_id                         = 1;
+	required int32						hp			        = 2;
+	required int32						mp			        = 3;
+        // 精力值
+        required int32                                          energy                          = 4;
+        // 累积精力值
+        required int32                                          energy_remain                   = 5;
+        // 上次重置精力值时间
+        required int32                                          time_reset_energy               = 7;
+}
+
+message p_role_attr {
+	required int32			     role_id			     = 1;
+	required string			     role_name		         = 2; //角色名
+	required double              next_level_exp          = 3; //升级经验
+	required double	             exp			         = 4; //经验值
+	required int32			     level		             = 5; //等级
+	required int32		         five_ele_attr		     = 6; //五行属性
+
+	required string              last_login_location     = 8;
+	repeated p_goods             equips                  = 9; //所有穿在身上的装备
+	required int32               jungong                 = 10[default=0]; //军功
+	required int32               charm                   = 11[default=0]; //魅力
+	required int32	             couple_id			     = 12[default=0];
+	required string              couple_name		     = 13[default=""];//配偶名字
+	required p_skin              skin                    = 14; //外形
+	required int32               cur_energy              = 15[default=2000]; //当前精力值
+	required int32               max_energy              = 16[default=2000]; //最大精力值
+	required int32               remain_skill_points     = 17[default = 0];
+	required int32               gold                    = 18[default = 0];
+	required int32               gold_bind               = 19[default = 0];
+	required int32               silver                  = 20[default = 0];
+	required int32               silver_bind             = 21[default = 0];
+    required bool                show_cloth              = 22[default=true];
+    required int32               moral_values            = 23[default = 0]; //师德值
+	required int32			     gongxun		         = 24[default=0];   //功勋值
+	required string		         last_login_ip	         = 25[default=""];  //最后一次登陆的IP
+
+	required int32               office_id               = 26[default=0];     //官职ID
+	required string              office_name             = 27[default=""];    //官职名称
+
+	required bool                unbund                  = 28[default=false]; //是否不使用绑定的货币
+	required int32		         family_contribute	     = 29[default=0];     //门派贡献度
+	required int32               active_points           = 30[default=0];     //玩家活跃度
+    required int32               category                = 31; //玩家职业
+    required bool                show_equip_ring         = 32 [default=true]; // 显示装备发光效果
+	required bool			     is_payed			     = 33[default=false]; // 是否充值过
+    required double              sum_prestige            = 34[default=0];//玩家总获得的声望值
+    required double              cur_prestige            = 35[default=0];//玩家当前的声望值
+}
+
+//角色扩展属性 (主要是玩家真人的一些属性)
+message p_role_ext {
+    required int32                      role_id                         = 1;
+    optional string                     signature                       = 2; //个性签名
+    optional int32                      birthday                        = 4; //生日
+    optional int32                      constellation                   = 5; //星座
+    optional int32                      country                         = 6; //国家
+    optional int32                      province                        = 7; //省份
+    optional int32                      city                            = 8; //城市
+    optional string                     blog                            = 9; //个人blog
+    optional int32                      family_last_op_time             = 10[default=0]; //最后一次离开门派时间
+    required int32						last_login_time		        	= 11; //最后一次登录时间
+    required int32						last_offline_time 	        	= 12; //上次下线时间
+    required string                     role_name                       = 13;
+    required int32 						sex								= 14;  //性别：1男，2女
+    required bool                       ever_leave_xsc                  = 16 [default=false]; //是否离开过新手村
+}
+
+//角色完整属性
+message p_role {
+    required p_role_base                base                            = 1;
+    required p_role_fight               fight                           = 2;
+    required p_role_pos                 pos                             = 3;
+    required p_role_attr                attr                            = 4;
+    required p_role_ext                 ext                             = 5;
+}
+
+
+message p_skill {
+    required int32                  id                          = 1;
+    required string                 name                        = 2;
+    required int32                  kind                        = 3;//技能类型
+    required int32                  effect_type                 = 4;// 作用目标
+    optional int32                  distance                    = 5[default=0];  //施法距离(技能作用距离)
+    required int32                  attack_type                 = 6;//施法方式，1主动，2被动
+    required int32                  target_type                 = 7;//施法目标
+    required int32                  max_level                   = 11; //技能的最高等级
+    required bool                   contain_common_attack       = 12;//是否包含普通攻击伤害
+    required int32                  category                    = 13;//职业分类
+    optional int32                  target_area                 = 14;//技能作用目标范围
+}
+
+//
+message p_skill_precondition {
+    required int32                  skill_id                    = 1;
+    required int32                  skill_level                 = 2;
+}
+
+
+message p_skill_level{
+    required int32                  skill_id                    = 1;
+    required int32                  level                       = 2; //技能等级
+    required int32                  premise_point               = 3; //需要已学技能点数
+    repeated p_skill_precondition   pre_condition               = 4;
+    required int32                  cool_time                   = 5;
+    required int32                  category                    = 6;//职业分类
+    required int32                  premise_role_level          = 10;  //需要角色等级
+    required int32                  need_item                   = 16 [default = 0];  //学习所需要的ID道具
+    required int32                  need_silver                 = 19 [default = 0];  //需要消耗的银两，绑定优先扣
+    required int32                  consume_exp                 = 23 [default = 0];  //学习技能所需要的经验
+    repeated int32                  effects                     = 30; //技能包含的效果列表
+    repeated int32                  buffs                       = 31;  //技能包含的buff列表
+    required int32                  consume_mp                  = 32; //消耗的法力值
+    repeated p_skill_item_consume   item_consume                = 33;//释放技能需要消耗什么道具
+}
+
+//技能释放的消耗结构体
+message p_skill_item_consume {
+    required int32                  item_typeid                 = 1;
+    required int32                  number                      = 2;
+}
+
+message p_effect {
+    required int32                  effect_id                   = 1;
+    //所属的effect 分类id
+    required int32                  effect_type                 = 2;    //Effect类型
+
+    required int32                  calc_type                   = 3;    //计算类型 1普物攻击力 2普魔攻击力 3物理绝对值 4法力绝对值  其他的查skill.hrl
+    //2百分比还是1绝对值
+    required int32                  absolute_or_rate            = 4;    //数值或百分比
+    required int32                  value                       = 5;    //数值
+    //0加最终的伤害结果 1加攻击力输出
+    required int32                  value_out_type              = 6;    //数值输出类型
+    required int32                  probability                 = 7[default=100];  //触发概率
+}
+
+
+//用于技能中配置buf的结构
+message p_buf {
+    required int32                      buff_id                            = 1;
+    required int32                      level                              = 2; //buf等级
+    //值的类型：0 为绝对值 1为万分比
+    optional int32                      absolute_or_rate                   = 3;
+    optional int32                      value                              = 4;
+    //持续类型：时间、攻击次数、被攻击次数、吸收伤害等等
+    required int32                      last_type                          = 5;
+    required int32                      last_value                         = 6;
+    required int32                      last_interval                      = 7;
+    //是否可被驱散
+    required bool                       can_remove                         = 8;
+    //表示是系统buf还是战斗技能buf或者其他buf
+    required int32                      kind                               = 9;
+    required int32                      buff_type                          = 10;
+    required bool                       send_to_client                     = 11[default = false]; //是否通知前端显示
+    required bool                       is_debuff                          = 12[default = false]; //是否减益BUFF
+}
+
+
+message p_map_stall {
+    required int32                      role_id                             = 1;
+    required string                     role_name                           = 2;
+    required string                     stall_name                          = 3;
+    required int32                      mode                                = 4;
+    required p_pos                      pos                                 = 5;
+}
+
+
+//位置
+message p_pos {
+    required int32                              tx                  = 1;
+    required int32                              ty                  = 2;
+    optional int32                              px                  = 3;
+    optional int32                              py                  = 4;
+    required int32                              dir                 = 5[default=0]; //方向
+}
+
+// 地图上的某一个格子
+message p_map_tile {
+	required int32 			tx			= 1;
+	required int32 			ty			= 2;
+}
+
+//一条行走路径
+message p_walk_path {
+    required int32 			bpx			= 1;
+	required int32 			bpy			= 2;
+	repeated p_map_tile		path		= 3;
+	required int32 			epx			= 4;
+	required int32 			epy			= 5;
+}
+
+//在一个地图中的玩家信息
+message p_map_role {
+    required int32				    role_id             = 1;
+	required string				    role_name           = 2;
+	required int32				    faction_id          = 3; //国家id
+	optional string				    cur_title           = 4; //当前选择的称号
+	required int32				    family_id           = 5; //门派id
+	required string				    family_name         = 6; //门派名称
+
+	required p_pos                  pos                 = 9; //当前所在位置
+	optional p_walk_path            last_walk_path      = 10; //最后行走路径
+	optional p_pos                  last_key_path       = 11; //最后键盘行走路径
+	required int32                  hp                  = 12;
+	required int32                  max_hp              = 13;
+	required int32                  mp                  = 14;
+	required int32                  max_mp              = 15;
+
+	required p_skin                 skin                = 16;
+	required int32                  move_speed          = 17;
+	required int32                  team_id             = 18 [default = 0];//所在队伍的ID
+	required int32                  level               = 19;   //当前等级
+    required int32                  pk_point            = 20[default = 0];//pk 值
+    required int32                  state               = 21[default = 0];//玩家状态 0正常，1死亡
+	required bool                   gray_name           = 22; //是否灰名，true: 是
+    repeated p_actor_buf            state_buffs         = 23;//玩家状态类的buff，如隐身，中毒，麻痹等
+	required bool                   show_cloth          = 24; //显示衣服
+	optional string				    cur_title_color 	= 25[default="ffffff"]; //当前选择的称号的颜色
+    optional int32                  equip_ring_color    = 26 [default=0]; // 装备发光颜色
+    optional bool                   show_equip_ring     = 27 [default=true]; // 显示发光特效
+    optional int32                  vip_level           = 28 [default=0]; // VIP等级
+    optional int32                  mount_color         = 29 [default=0]; // 坐骑颜色
+    optional int32                  sex                 = 30 [default=0];//玩家性别
+    optional int32                  category            = 31 [default=0];//玩家职业
+}
+
+//s2s数据协议定义文件
+// tos 代表发给登录服务端，toc代表发给除登录服务器外的服务端
+
+
+//通用错误提示
+message s_error_common_toc {
+	required string			msg = 1; //错误信息
+}
+
+//向聊天服务器发送玩家离开频道的请求
+message s_chat_leave_channel_tos {
+	required int32 role_id			                        = 1;//角色id
+	required string channel_sign 		                    = 2;//频道标记
+}
+
+
+//向聊天服务器发送玩家加入频道的请求
+message s_chat_join_channel_tos {
+	required p_channel_info             channel_info 	                = 1;//频道信息
+	optional p_chat_role                role_info 		                = 2;//角色信息
+}
+
+
+message	p_map_dropthing{
+	required	int32							id								= 1;
+	required	bool							ismoney							= 2[default = false]; //是否游戏币
+	optional	bool							bind							= 3[default = false];	//是否拾取绑定
+	required	int32							num								= 4[default = 1];
+	repeated	int32							roles							= 5;//可拾取的玩家，为空时表示都可拾取
+	required	p_pos							pos								= 6;//掉落品的位置
+	optional    int32							money						  	= 7;
+    optional    int32							goodsid						  	= 8;//玩家掉落物品的id
+	optional    int32							colour							= 12;
+	optional	int32							goodstype						= 13;
+	optional	int32							goodstypeid					    = 14;
+	optional    p_drop_property                 drop_property                   = 15;//掉落物的属性加成
+}
+//////////////////////////////////////////////////////////////////////
+
+
+//通知分线服务端踢掉某个账号
+message s_account_kick_toc {
+	required string 		account = 1;
+}
+
+//通知登录服务端某个账号在某个分线登录了
+message s_account_register_tos {
+	required string			account = 1;
+	required string			guid	= 2;
+}
+//===================================== 装备 模块	equip	=====================================
+//使用需求
+message p_use_requirement{
+	optional int32						sex					= 1;	//性别需求
+	optional int32						min_level		    = 2;	//最低等级限制
+	optional int32						max_level		    = 3;	//最高等级限制
+
+	optional int32						min_power			= 4;	//最低力量限制
+	optional int32						min_agile			= 5;	//最低敏捷限制
+	optional int32						min_brain			= 6;	//最低智力限制
+	optional int32						min_vitality		= 7;	//最低体制限制
+	optional int32						min_spirit			= 8;	//最低精神限制
+}
+
+//附加属性
+message p_property_add{
+
+	optional int32						power				        = 1;	//力量
+	optional int32						agile				        = 2;	//敏捷
+	optional int32						brain				        = 3;	//智力
+	optional int32						vitality		            = 4;	//体质
+	optional int32						spirit			            = 5;	//精神
+	optional int32						min_physic_att			    = 6;	//最小物攻
+	optional int32						max_physic_att			    = 7;	//最大物攻
+	optional int32						min_magic_att				= 8;	//最小魔攻
+	optional int32						max_magic_att				= 9;	//最大魔攻
+	optional int32						physic_def			        = 10;	//物防
+	optional int32						magic_def		  	        = 11;	//魔防
+    optional int32						blood				        = 12;	//生命值
+	optional int32						magic				        = 13;	//魔法值
+
+	optional int32						physic_att_rate			    = 14;   //物攻百分比
+	optional int32						magic_att_rate				= 15;   //魔攻百分比
+	optional int32						physic_def_rate			    = 16;   //物防百分比
+	optional int32						magic_def_rate		        = 17;   //魔防百分比
+    optional int32						blood_rate				    = 18;	//生命值百分比
+	optional int32						magic_rate			        = 19;	//魔法值百分比
+
+    optional int32						blood_resume_speed		    = 20;	//生命恢复速度
+	optional int32						magic_resume_speed		    = 21;	//魔法恢复速度
+
+	optional int32						dead_attack				    = 22;	//暴击万分比
+	optional int32						lucky          				= 23;	//幸运万分比
+
+	optional int32						move_speed			        = 24;	//移动速度
+	optional int32						attack_speed		  	    = 25;	//攻击速度
+
+    optional int32						dodge				        = 26;	//闪避万分比
+	optional int32						no_defence				    = 27;	//破防万分比
+
+	optional int32                      main_property               = 28;   //主属性
+
+    optional int32                      dizzy                       = 29;   //击晕百分比
+    optional int32                      poisoning                   = 30;   //中毒百分比
+    optional int32                      freeze                      = 31;   //冰冻百分比
+    optional int32                      hurt                        = 32;   //伤害百分比
+    optional int32                      hurt_shift                  = 33;   //伤害转移百分比
+    optional int32                      poisoning_resist            = 34;   //中毒抗性百分比
+    optional int32                      dizzy_resist                = 35;   //击晕抗性百分比
+    optional int32                      freeze_resist               = 36;   //冰冻抗性百分比
+    // 装备五行需要添加的属性
+    optional int32                      phy_anti                    = 37[default=0]; //物理伤抗 万分比
+    optional int32                      magic_anti                  = 38[default=0]; //魔法伤抗 万分比
+    optional int32                      hurt_rebound                = 39[default=0]; //伤害反射
+}
+//装备基本属性
+message p_equip_base_info{
+	required int32								typeid          = 1;	//装备标识
+	required string 							equipname		= 2;	//装备名
+	required int32								slot_num		= 3;    //装备使用的位置
+	required int32								kind			= 4;    //装备类型 ,如刀, 剑，法杖等
+        //删除两个多余字段
+	required int32								colour			= 7;	//初始颜色
+	required int32								endurance		= 8;	//最大耐久度
+	optional p_use_requirement		            requirement     = 9;	//装备使用需求
+	optional p_property_add				        property		= 10;	//装备固定附加属性
+	required int32								loss_endu		= 11;	//耐久度损耗系数
+	required int32								sell_type		= 12[default=1];	//售卖货币种类，0不可卖
+	required int32								sell_price	    = 13;   //售卖价格
+    required int32                              material        = 14;   //材质
+    required int32                              protype         = 15;   //内外
+}
+
+//===================================== 道具 模块	equip	=====================================
+//道具功能
+message   p_item_effect{
+  required  int32             funid               = 1;  //回调函数ID
+  required  string            parameter           = 2;  //参数列表
+}
+
+//道具基本属性
+message p_item_base_info{
+	required int32				            typeid 		    = 1;	//道具标识
+	required string 					    itemname		= 2;	//道具名
+	required int32						    kind			= 4;    //药品、书籍、原料、包裹、灵符等
+//	required int32						    skinid			= 5;	//图片ID
+//	required string 						desc		    = 6;	//道具说明
+	required int32							colour			= 7;	//颜色
+    required int32                          usenum          = 8;    //使用次数，1表示可叠放只能使用一次
+    required int32							sell_type		= 9[default=1];	//售卖货币种类，0不可卖
+	required int32							sell_price	    = 10;   //售卖价格
+
+	optional p_use_requirement		        requirement     = 20;	//道具使用需求
+	repeated p_item_effect				    effects		    = 21;	//道具功能集
+    optional int32                          cd_type         = 27;   //CD类型
+    optional int32                          is_overlap      = 28;   //是否可以重叠，1表示可重叠，2表示不可重叠
+
+}
+
+//===================================== 灵石 模块	stone	=====================================
+
+//灵石基本属性
+message p_stone_base_info{
+	required int32						typeid 		    = 1;	//宝石标识
+	required string 					stonename		= 2;	//宝石名
+    required int32 						colour		    = 3;	//宝石颜色
+	optional p_use_requirement		    requirement     = 4;	//宝石使用需求
+    required p_property_add				level_prop 	    = 5;	//宝石属性
+    required int32                      level           = 6;    //宝石等级
+    required int32						sell_type		= 15[default=1];//售卖货币种类，0不可卖
+	required int32						sell_price	    = 16;   //售卖价格
+	repeated int32                      embe_equip_list = 17;   //可以镶嵌的装备的类型
+	required int32                      kind            = 18;   //宝石种类，如击晕
+}
+
+
+//=====================================  物品模块 goods  ===================
+message p_goods{
+	required int32							id							= 1;	//数据库唯一标识ID
+	//1道具 ，2 宝石 ， 3 装备
+    required int32						    type 		 		        = 2;	//物品类型
+	required int32							roleid					    = 3;	//玩家ID
+	required int32							bagposition 		        = 4;	//在背包中存放位置
+	required int32							current_num		            = 5;	//当前个数
+	required int32							bagid						= 6;  //第几个背包
+	required int32							sell_type				    = 7[default=1];	//售卖货币种类，0不可卖
+	required int32							sell_price			        = 8;  //当前价格
+	required int32							typeid					    = 9;  //详细类型ID
+    optional bool						    bind						= 10[default=false];	//是否绑定
+	optional int32                          start_time                  = 11[default=0];   //开始时间
+    optional int32							end_time				    = 12[default=0];   //过期时间
+	optional int32							current_colour	            = 13;	//当前颜色
+
+	//标示道具状态：0=正常状态，1=摊位状态（不可使用、不可拆分、不可交易、不可摧毁），2=装备无效状态
+	optional int32                          state                       = 14[default=0];
+	optional string                         name                        = 15;   //物品的名字
+
+
+
+	optional int32							level		                = 32;	//当前等级
+	optional int32							embe_pos	                = 33;	//镶嵌位置
+    optional int32                          embe_equipid                = 34;  //镶嵌的装备ID
+
+
+	optional int32							loadposition				= 42;   //装备穿在身上的位置
+	optional int32							quality						= 44;	//品质
+	optional int32							current_endurance		    = 45;	//当前耐久度
+	optional int32							forge_num 					= 46;	//当前锻造次数
+        //当前强化结果（强化等级和星级的结合整数）
+	optional int32							reinforce_result			= 47 [default=0];
+	optional int32							punch_num 					= 48;	//当前打孔个数
+	optional int32							stone_num 					= 49;	//当前镶嵌宝石个数
+	optional p_property_add			        add_property				= 50;	//装备额外附加属性
+    repeated p_goods                        stones                      = 51;   //镶嵌的宝石
+    optional int32                          reinforce_rate              = 52[default = 0];   //当前强化百分比
+    optional int32                          endurance                   = 53;   //装备的最大耐久度
+    optional string                         signature                   = 54;   //装备签名使用
+    repeated p_equip_bind_attr              equip_bind_attr             = 55;   //装备绑定属性信息
+    optional int32                          refining_index              = 56 [default = 0];   //精炼系数
+    optional int32                          sign_role_id                = 57 [default = 0];   //装备的签名角色Id
+    optional p_equip_five_ele               five_ele_attr               = 58;   //装备五行属性
+    optional p_equip_whole_attr             whole_attr                  = 59;   //装备套装装属性
+    repeated int32                          reinforce_result_list       = 60;   //强化结果历史的列表（强化等级和星级的结合整数）
+    optional int32                          use_bind                    = 61[default=0]; //装备使用时绑定，0:此字段无效，1：装备使用时绑定，2：装备拾取时绑定
+    optional int32                          sub_quality                 = 62[default=0];//装备子品质
+    optional int32                          quality_rate                = 63[default=0];//装备品质加成值
+    optional double                         exp                         = 64[default=0];//道具经验
+    optional double                         next_level_exp              = 65[default=0];//下一级道具级验
+    optional int32                          light_code                  = 66[default=0];//武器发光编码
+}
+//装备绑定记录信息
+message p_equip_bind_attr{
+        required int32  attr_code = 1;//附加属性编码
+        required int32  attr_level = 2;//附加属性级别
+        required int32  type = 3;//附加类型，1绝对值，2百分比
+        required int32  value = 4;//附加属性加成值
+}
+//装备五行记录信息
+message p_equip_five_ele{
+        // 装备五行属性 0：表示没有五行属性,1：金，2：木，3：水，4：火，5：土
+        required int32 id = 1 [default=0]; //装备五行属性
+        repeated int32 type_id = 2; //装备五行相生装备类型Id,存在多个
+        repeated string equip_name = 3; //装备五行相生装备名称
+        required int32 level = 4 [default=0];//装备相生属性级别
+        required int32 active = 5 [default=0]; //五行是否激活 0 非激活，1 激活
+        optional int32 phy_anti = 6[default=0]; //物理伤抗 万分比
+        optional int32 magic_anti = 7[default=0]; //魔法伤抗 万分比
+        optional int32 hurt = 8 [default=0]; //增加伤害万分比
+        optional int32 no_defence = 9 [default=0]; //破甲万分比
+        optional int32 hurt_rebound = 10 [default=0]; //伤害反射万分比
+        //装备部位,1:武器,2:项链,3:戒指,4:头盔,5:胸甲,6:腰带,7:护腕,8:靴子,
+        optional int32 link_slot_num = 11 [default=0]; //相生装备部位
+        optional string whole_name = 12; // 装备名称
+}
+// 装备套装记录信息
+message p_equip_whole_attr{
+        required int32 id = 1 [default=0];//装备套装Id
+        required int32 sub_id = 2[default=0];//装备套装子Id
+        required int32 active = 3 [default=0]; //套装是否激活 0 非激活，1 激活
+        required int32 index = 4[default=0];//装备套装系数
+        optional string name = 5; //装备套装名称
+        optional string desc = 6; //装备套装描述
+        optional int32 number = 7[default=0]; //当前套装个数
+}
+//=====================================  怪物模块 monster  ===================
+message	p_refresh_info{
+	required	int32							refresh_type		        = 1;    //刷新方式 1普通 2定时
+	optional	int32							refresh_interval		    = 3;	//刷新时间间隔（单位秒）
+	optional	int32							refresh_start_year	        = 4;	//起始年
+	optional	int32							refresh_end_year		    = 5;	//结束年
+	optional	int32							refresh_start_month	        = 6;	//起始月
+    optional	int32							refresh_end_month	        = 7;	//结束月
+	optional	int32							refresh_start_day	        = 8;	//起始日(几号)
+    optional	int32							refresh_end_day		        = 9;	//结束日(几号)
+	optional	int32							refresh_start_weekday	    = 10;	//起始周日(周几)[周一至周日用1—7表示]
+	optional	int32							refresh_end_weekday	        = 11;	//结束周日(周几) [周一至周日用1—7表示]
+	optional	int32							refresh_start_hour		    = 12;	//起始小时
+	optional	int32							refresh_end_hour		    = 13;	//结束小时
+	optional	int32							refresh_start_minute		= 14;	//起始分
+	optional	int32							refresh_end_minute		    = 15;	//结束分
+	required	int32							active_time			        = 16;   //活动时间(比如BOSS刷新后到消失的时间,单位妙 ，0表示永不消失，直到被打死)
+    required	int32							start_time			        = 17;   //起始时间
+    required	int32							end_time			        = 18;   //结束时间
+}
+
+message	p_monster_skill{
+	required	int32							skillid			= 1;  //技能ID
+	required	int32							level			= 2;	//技能等级
+}
+
+message p_drop_property{
+    optional    bool         bind        = 1[default = false]; //掉落物是否绑定
+    optional    int32        colour      = 2; //掉落物颜色属性
+    optional    int32        quality     = 3; //掉落物品质属性
+    optional    int32        hole_num    = 4; //掉落物是装备时的孔数
+    optional    int32        use_bind    = 5[default=0]; //装备使用时绑定，0：此字段无效，1：装备使用时绑定，2：装备拾取时绑定
+}
+
+message p_drop_colour_mode{
+    required    int32        colour = 1; //颜色
+    required    int32        rate   = 2; //概率
+}
+
+message p_drop_quality_mode{
+    required    int32        quality = 1; //品质
+    required    int32        rate    = 2; //概率
+}
+
+message p_drop_hole_mode{
+    required    int32        hole_num = 1; //孔数
+    required    int32        rate     = 2; //概率
+}
+
+message p_drop_mode{
+    required    int32                      mode_id            = 1;  //掉落物属性加成方案id
+    required    int32                      bind_rate          = 2[default=0];//掉落物绑定的概率
+    repeated    p_drop_colour_mode         bind_colour        = 3;  //掉落物绑定的颜色加成方案
+    repeated    p_drop_colour_mode         unbind_colour      = 4;  //掉落物不绑定的颜色加成方案
+    repeated    p_drop_quality_mode        bind_quality       = 5;  //掉落物绑定的品质加成方案
+    repeated    p_drop_quality_mode        unbind_quality     = 6;  //掉落物不绑定的品质加成方案
+    repeated    p_drop_hole_mode           bind_hole          = 7;  //掉落物为装备并绑定时孔数的随机方案
+    repeated    p_drop_hole_mode           unbind_hole        = 8;  //掉落物为装备并不绑定时孔数的随机方案
+    required    int32                      use_bind           = 9[default=1]; //装备使用时绑定，1：附加绑定属性，装备使用时绑定，2：装备拾取时绑定
+}
+
+message p_single_drop{
+	required	int32							type			= 1;
+	required	int32							typeid			= 2;
+	required    int32						    weight 			= 3;//权值
+}
+
+message p_drop_info{
+	repeated p_single_drop		  		    drops			        = 1;
+	required int32     					    rate 			        = 3;//掉落概率，0.0001
+	optional int32     					    max_num 		        = 4[default=1]; //最多掉落个数
+    optional p_drop_mode                    drop_mode               = 5;//掉落物属性加成方案
+}
+
+message p_monster_base_info{
+	required    int32						typeid					= 1; //类型
+	required    string 						monstername				= 2; //名称
+	required	int32						rarity					= 3; //稀有度(普通，精英，BOSS)
+	required	int32						level					= 4; //等级
+    required	int32						attacktype				= 5; //攻击类型，物理或魔法
+
+	required	int32						max_hp					= 6; //最小血量
+	required	int32						max_mp					= 7; //最大血量
+    required	int32						min_attack				= 8; //最小攻击
+	required	int32						max_attack				= 9; //最大攻击
+	required	int32						phy_defence				= 10; //物防
+	required	int32						magic_defence			= 11; //魔防
+ 	required    int32						blood_resume_speed	    = 12;	//生命恢复速度
+	required    int32						magic_resume_speed	    = 13;	//魔法恢复速度
+	required    int32						dead_attack				= 14;	//暴击
+	required    int32						lucky          			= 15;	//幸运
+	required    int32						move_speed			    = 16;	//移动速度
+	required    int32						attack_speed		  	= 17;	//攻击速度
+    required    int32						miss				    = 18;	//闪避
+	required    int32						no_defence				= 19;	//破防
+	required	int32						phy_anti				= 20;
+	required	int32						magic_anti				= 21;
+    required    int32                       poisoning_resist        = 22 [default=0];   //中毒抗性百分比
+    required    int32                       dizzy_resist            = 23 [default=0];   //击晕抗性百分比
+    required    int32                       freeze_resist           = 24 [default=0];   //冰冻抗性百分比
+        required int32			     equip_score		     = 25 [default=0]; // 装备积分
+	required int32			     spec_score_one		     = 26 [default=0];	//特殊战斗系数1
+	required int32			     spec_score_two		     = 27 [default=0];	//特殊战斗系数2
+        required int32                       hit_rate                        = 28 [default=10000]; // 命中
+
+	required	int32						ai_type					= 30; //1主动攻击,2被动攻击
+	required	int32						guard_radius			= 31;	//警戒半径
+	required	int32						attention_radius		= 32;	//关注半径
+	required	int32						activity_radius			= 33; //活动半径
+
+	required	p_refresh_info		        refresh					= 34;	//刷新信息
+	optional	int32						max_drop_num			= 35; //最多掉落物品个数
+	repeated	p_drop_info				    droplist				= 36;	//掉落物品信息
+	required    int32						exp						= 37;	//杀死怪物获得的经验
+	required    int32						min_money				= 38;	//杀死怪物获得的最少游戏币
+	required    int32						max_money				= 39;	//杀死怪物获得的最多游戏币
+    required    int32                       skinid                  = 40;   //怪物形象
+    required    int32                       is_human                = 41;  //是否人型怪物
+	required	int32					    color					= 42; //怪物颜色(1白，2绿，3蓝，4紫，5橙，6金)
+    required 	int32					    money_rate			    = 43; //游戏币掉落概率
+
+	repeated 	p_monster_skill			    skills					= 44; //怪物技能
+}
+
+
+message p_enemy{
+	required	int32							actor_key					    = 1;
+	required    int32							total_hurt					    = 3;  //总伤害
+	required	int32							last_att_time				    = 4;  //最后攻击时间
+	required 	p_pos							pos								= 5;  //位置
+	required	int32							state							= 6[default = 1];//当前状态，1可攻击，2死亡，3不可攻击
+}
+
+message p_monster{
+	required	int32							monsterid						= 1;
+	required    int32							typeid							= 2;  //类型
+	required	int32							state							= 3;  //状态 1警戒，2战斗，3死亡
+	required 	int32							mapid							= 4;  //地图ID
+	required	int32							hp								= 5;  //当前血量
+	required	int32							mp								= 6;  //当前魔法
+	required	p_pos							pos								= 7;	//当前位置
+	required	p_pos							reborn_pos					    = 8;	//当前位置
+	repeated	p_enemy		                    first_enemies				    = 9;	//一级敌对列表
+	repeated	p_enemy		                    second_enemies			        = 10;	//二级敌对列表
+	repeated	p_enemy		                    third_enemies				    = 11;	//三级敌对列表
+	required	int32							max_mp							= 12;  //蓝上限
+	required	int32							max_hp							= 13;  //血上限
+	repeated    p_actor_buf                     buffs                           = 14;
+	required	string							monstername						= 15;
+
+	required	int32							phy_defence					    = 21; //当前物防
+	required	int32							magic_defence				    = 22; //当前魔防
+ 	required    int32							blood_resume_speed	            = 23;	//当前生命恢复速度
+	required    int32							magic_resume_speed	            = 24;	//当前魔法恢复速度
+	required    int32							dead_attack				        = 25;	//当前暴击
+	required    int32							lucky          			        = 26;	//当前幸运
+	required    int32							move_speed			            = 27;	//当前移动速度
+	required    int32							attack_speed		  	        = 28;	//当前攻击速度
+    required    int32							miss				            = 29;	//当前闪避
+	required    int32							no_defence				        = 30;	//当前破防
+	required	int32							min_attack					    = 31; //最小攻击
+	required	int32							max_attack					    = 32; //最大攻击
+	required	int32							phy_anti						= 33;
+	required	int32							magic_anti					    = 34;
+    required    int32                           poisoning_resist                = 35 [default=0];   //中毒抗性百分比
+    required    int32                           dizzy_resist                    = 36 [default=0];   //击晕抗性百分比
+    required    int32                           freeze_resist                   = 37 [default=0];   //冰冻抗性百分比
+        required int32			     equip_score		     = 38 [default=0]; // 装备积分
+	required int32			     spec_score_one		     = 39 [default=0];	//特殊战斗系数1
+	required int32			     spec_score_two		     = 40 [default=0];	//特殊战斗系数2
+        required int32                       hit_rate                        = 41 [default=10000]; // 命中
+}
+
+message p_map_monster{
+	required	int32							monsterid					= 1;
+	required    int32						    typeid						= 2;//类型
+	required	int32							state						= 3;//状态 1警戒，2战斗，3死亡
+	required 	int32							mapid						= 4;//地图ID
+	required	int32							hp					        = 5;//当前血量
+	required	int32							mp					        = 6;//当前魔法
+	required	p_pos							pos							= 7;//当前位置
+	required	int32							max_mp						= 8;//蓝上限
+	required	int32							max_hp						= 9;//血上限
+	required	int32							move_speed				    = 10;//移动速度
+	optional 	p_walk_path                     last_walk_path              = 11;//最后行走路径
+	repeated    p_actor_buf                     state_buffs                 = 12;//玩家状态类的buff，如隐身，中毒，麻痹等
+	optional	string							monster_name				= 16;//怪物名字
+}
+
+
+message p_monster_talk{
+    required	int32                           rate                        = 1;//概率
+    required    string                          talk                        = 3;//冒泡内容
+}
+
+message p_boss_ai_skill{
+    required	int32                           skill_id                    = 1;
+    required	int32                           skill_level                 = 2;
+    required    int32                           weight                      = 3;
+    optional    int32                           parm                        = 4; //这里的参数实际上位元祖类型，根据不同类型策略使用不同的形式
+    required    bool                            reset_attacktime            = 5; //是否重置最后攻击时间
+}
+
+message p_boss_ai_condition{
+    required	int32                           condition_id                = 1;
+    required	int32                           rate                        = 2;
+    optional    int32                           parm                        = 3; //这里的参数实际上位元祖类型，根据不同类型策略使用不同的形式
+    required	int32                           total_weight                = 4;
+    repeated	p_boss_ai_skill                 skills                      = 5;
+    optional    int32                           timeout                     = 6; //失效时间
+    repeated    p_monster_talk                  talks                       = 7;
+}
+
+message p_boss_ai_plan{
+    required	int32                           boss_typeid                 = 1;//怪物类型
+    repeated    p_boss_ai_condition              conditions                   = 3;
+}
+
+//==================================================================
+
+//任务查询条件
+message p_mission_condition {
+    required int32 role_id = 1;//角色id
+    required int32 faction = 2;//国家id
+    required int32 sex = 3;//性别
+    required int32 level = 4;//等级
+    required int32 job = 5;//职位
+    required bool has_team = 6;//是否有队伍
+    required bool  has_family = 7[default=false];//是否有门派
+}
+
+//门派的属性更新
+message p_family_info_change {
+    required int32                                   change_type            = 1; //1表示门派资金；2表示门派繁荣度
+    required int32                                   new_value              = 2; //新的值
+}
+
+
+//family proto
+//门派信息
+message p_family_info {
+    required int32                      family_id               = 1;
+    required string                     family_name             = 2;
+    required int32                      faction_id              = 3;
+    //门派等级
+    required int32                      level                   = 4;
+    //创建者信息
+    required int32                      create_role_id          = 5;
+    required string                     create_role_name        = 6;
+    //掌门
+    required int32                      owner_role_id           = 7;
+    required string                     owner_role_name         = 8;
+    //长老列表
+    repeated p_family_second_owner      second_owners           = 9;
+    //门派当前有多少成员
+    required int32                      cur_members             = 11;
+    //繁荣度
+    required int32                      active_points           = 12;
+    //门派资金
+    required int32                      money                   = 13;
+    //申请列表
+    repeated p_family_request           request_list            = 14;
+    //邀请列表
+    repeated p_family_invite            invite_list             = 15;
+
+    required string                     public_notice           = 22; //对外公告
+    required string                     private_notice          = 23; //对内公告
+
+    repeated p_family_member_info       members                 = 25; // 帮众
+    required bool                       enable_map              = 26; // 门派地图是否已经开启
+    // 是否已经杀死升级boss，每次升级门派后会重新置为false
+    required bool                       kill_uplevel_boss       = 27;
+    // 是否已经召唤了门派升级boss，每次升级门派后会重新置为false
+    required bool                       uplevel_boss_called     = 28;
+	// 门派成员的战功总和
+	required int32						gongxun					= 29[default=0];
+	// 门派拉镖状态：0 为尚未开始  1 为掌门召集中但是尚未正式开始  2  拉镖正在进行中
+	required int32						ybc_status				= 30[default=0];
+	// 拉镖的开始时间，单位为秒，用于提示门派玩家拉镖的倒计时（一小时过期）
+	// ybc_status 为0时忽略这个值
+	required int32						ybc_begin_time			= 31[default=0];
+	// ybc_status 为1时，表示同意参与拉镖的成员，为2时表示 门派中正在拉镖的成员列表
+	repeated int32						ybc_role_id_list		= 32;
+	//
+	required int32						ybc_type				= 33;
+	//
+	required int32						ybc_creator_id			= 34;
+	//篝火燃烧时间
+	required int32            hour    = 35[default=14];
+	required int32            minute  = 36[default=30];
+	required int32						seconds = 37[default=0];
+	required int32		  interiormanager		= 38[default=0];
+	required int32		  leftprotector			= 39[default=0];
+	required int32		  rightprotector		= 40[default=0];
+}
+
+//门派成员信息
+message p_family_member_info {
+    required int32                      role_id                 = 1;
+    required string                     role_name               = 2;
+    //称号
+    required string                     title                   = 3;
+    //官职
+    required string                     office_name             = 4;
+    //门派贡献
+    required int32                      family_contribution     = 5;
+    //性别
+    required int32                      sex                     = 6;
+    //头像
+    required int32                      head                    = 7;
+    required bool                       online                  = 8[default=false];
+    required int32		    role_level		        = 9[default = 0];
+    optional int32		    last_login_time		=10[default = 0];
+
+}
+
+
+//长老
+message p_family_second_owner {
+    required int32                      role_id                 = 1;
+    required string                     role_name               = 2;
+}
+
+
+message p_family_request {
+    required int32                      role_id                 = 1;
+    required string                     role_name               = 2;
+    required string                     office_name             = 3;
+    required int32                      level                   = 4;
+}
+
+message p_family_invite {
+    required int32                      role_id                 = 1;
+    required string                     role_name               = 2;
+    optional string                     office_name             = 3;
+    required int32                      level                   = 4;
+}
+
+//排行榜的行
+message	p_rank_row{
+	required int32						row_id					   = 1;
+	optional int32                      role_id                    = 2;//每一行的玩家ID，因为很多排名都是玩家的排名
+	repeated string						elements			       = 3;
+	repeated int32                      int_list                   = 4;//扩展的int参数列表
+}
+
+message p_role_family_donate_info{
+    required int32                      role_id                 = 1;
+    required string                     role_name               = 2;
+    optional int32                      donate_amount           = 3;
+}
+
+//排行榜
+message	p_rank_element{
+	required int32						element_name						= 1;
+	required int32						element_index						= 2;
+	required int32                      element_color						= 3;
+}
+
+message p_ranking{
+	required int32						rank_id							= 1;
+	required int32						rank_row						= 2;
+	required int32						rank_column						= 3;
+	required string						rank_first_name					= 4; //一级名字
+	required string						rank_second_name				= 5; //二级名字
+	required int32						capacity						= 6;//排行榜容量，即多少名上榜
+	repeated p_rank_element				elements						= 7;//排行榜中的元素
+	required int32						refresh_type					= 8;//排行榜刷新类型，定时刷新还是实时跟新
+	optional int32						refresh_interval                = 9;//定时刷新的时间间隔，分钟为单位
+	optional p_title					rank_title						= 10;//对应的称号系统的信息
+}
+
+
+message p_role_level_rank{
+	required int32											role_id			    			= 1;
+	required string											role_name						= 2;
+	required int32											faction_id						= 3;
+	optional string											family_name						= 4;
+	required int32											level						    = 5;
+	required int32											ranking							= 6; //排名
+	optional string											title							= 7;//称号
+	required double											exp							  	= 8;
+    required int32                                          category                        = 9;
+}
+
+
+message p_role_pkpoint_rank{
+	required int32											role_id							= 1;
+	required string											role_name						= 2;
+	required int32											faction_id						= 3;
+	optional string											family_name				    	= 4;
+	required int32											ranking							= 6; //排名
+	optional string											title							= 7;//称号
+	required int32											pk_points						= 8;
+}
+
+message p_family_active_rank{
+	required int32											family_id						= 1;
+	required string											family_name						= 2;
+	required string											owner_role_name					= 4;
+	required int32											level						    = 5;
+	required int32											ranking				    		= 6; //排名
+	required int32											member_count					= 7;
+	required int32											active							= 8;
+	required int32											faction_id	    				= 9;
+}
+
+message p_family_gongxun_rank{
+	required int32											family_id						= 1;
+	required string											family_name						= 2;
+	required string											owner_role_name					= 4;
+	required int32											level  						    = 5;
+	required int32											ranking							= 6;
+	required int32											member_count		   			= 7;
+	required int32											active				    		= 8;	//繁荣度
+	required int32											gongxun							= 9;  //功勋即是战功
+	optional int32											lastweek_gongxun				= 10; //上周功勋
+	optional int32											lastweek_ranking				= 11; //上周排名
+}
+
+message p_family_gongxun_persistent_rank{
+	required int32											key								= 1;
+	required int32											family_id						= 2;
+	optional int32											total_gongxun					= 3;
+	optional int32											ranking							= 4;
+	required int32											date							= 5;
+}
+
+message p_equip_rank{
+	required int32											goods_id						= 1;
+	optional string											role_name						= 2;
+	required int32											type_id							= 3;
+	required int32											colour							= 4;
+	required int32											quality							= 5;
+	required int32											ranking							= 6; //排名
+	optional int32											faction_id						= 7;
+	optional int32											refining_score				    = 8;
+	optional int32											reinforce_score				  	= 9;
+	optional int32											stone_score						= 10;
+	optional int32											role_id						    = 11;
+}
+
+message p_role_gongxun_rank{
+	required int32											role_id							= 1;
+	required string											role_name						= 2;
+	required int32											faction_id						= 3;
+	optional string											family_name						= 4;
+	required int32											level							= 5;
+	required int32											ranking							= 6; //排名
+	optional string											title							= 7;//称号
+	required double											exp							  	= 8;
+	required int32											gongxun							= 9;
+}
+
+message p_role_all_rank{
+	required int32											ranking 						= 1;
+	required string											rank_name						= 2;
+	required int32											key_value						= 4;
+	required string											key_name						= 5;
+}
+
+//送花谱
+message p_role_give_flowers_rank{
+    required int32                                          role_id                         = 1;
+    optional int32                                          ranking                         = 2;
+    required string                                         role_name                       = 3;
+    required int32                                          level                           = 4;
+    required int32                                          score                           = 5;
+    required int32                                          family_id                       = 6;
+    required string                                         family_name                     = 7;
+    required int32                                          faction_id                      = 8;
+    optional string                                         title                           = 9;
+}
+
+//今日送花榜
+message p_role_give_flowers_today_rank{
+    required int32                                          role_id                         = 1;
+    optional int32                                          ranking                         = 2;
+    required string                                         role_name                       = 3;
+    required int32                                          level                           = 4;
+    required int32                                          score                           = 5;
+    required int32                                          family_id                       = 6;
+    required string                                         family_name                     = 7;
+    required int32                                          faction_id                      = 8;
+    optional string                                         title                           = 9;
+}
+
+//昨日送花榜
+message p_role_give_flowers_yesterday_rank{
+    required int32                                          role_id                         = 1;
+    optional int32                                          ranking                         = 2;
+    required string                                         role_name                       = 3;
+    required int32                                          level                           = 4;
+    required int32                                          score                           = 5;
+    required int32                                          family_id                       = 6;
+    required string                                         family_name                     = 7;
+    required int32                                          faction_id                      = 8;
+    optional string                                         title                           = 9;
+}
+//上周送花榜
+message p_role_give_flowers_last_week_rank{
+    required int32                                          role_id                         = 1;
+    optional int32                                          ranking                         = 2;
+    required string                                         role_name                       = 3;
+    required int32                                          level                           = 4;
+    required int32                                          score                           = 5;
+    required int32                                          family_id                       = 6;
+    required string                                         family_name                     = 7;
+    required int32                                          faction_id                      = 8;
+    optional string                                         title                           = 9;
+}
+//本周送花榜
+message p_role_give_flowers_this_week_rank{
+    required int32                                          role_id                         = 1;
+    optional int32                                          ranking                         = 2;
+    required string                                         role_name                       = 3;
+    required int32                                          level                           = 4;
+    required int32                                          score                           = 5;
+    required int32                                          family_id                       = 6;
+    required string                                         family_name                     = 7;
+    required int32                                          faction_id                      = 8;
+    optional string                                         title                           = 9;
+}
+
+//鲜花榜
+message p_role_rece_flowers_rank{
+    required int32                                          role_id                         = 1;
+    optional int32                                          ranking                         = 2;
+    required string                                         role_name                       = 3;
+    required int32                                          level                           = 4;
+    required int32                                          charm                           = 5;
+    required int32                                          family_id                       = 6;
+    required string                                         family_name                     = 7;
+    required int32                                          faction_id                      = 8;
+    optional string                                         title                           = 9;
+}
+
+//今日鲜花榜
+message p_role_rece_flowers_today_rank{
+    required int32                                          role_id                         = 1;
+    optional int32                                          ranking                         = 2;
+    required string                                         role_name                       = 3;
+    required int32                                          level                           = 4;
+    required int32                                          charm                           = 5;
+    required int32                                          family_id                       = 6;
+    required string                                         family_name                     = 7;
+    required int32                                          faction_id                      = 8;
+    optional string                                         title                           = 9;
+}
+
+//昨日鲜花榜
+message p_role_rece_flowers_yesterday_rank{
+    required int32                                          role_id                         = 1;
+    optional int32                                          ranking                         = 2;
+    required string                                         role_name                       = 3;
+    required int32                                          level                           = 4;
+    required int32                                          charm                           = 5;
+    required int32                                          family_id                       = 6;
+    required string                                         family_name                     = 7;
+    required int32                                          faction_id                      = 8;
+    optional string                                         title                           = 9;
+}
+//上周鲜花榜
+message p_role_rece_flowers_last_week_rank{
+    required int32                                          role_id                         = 1;
+    optional int32                                          ranking                         = 2;
+    required string                                         role_name                       = 3;
+    required int32                                          level                           = 4;
+    required int32                                          charm                           = 5;
+    required int32                                          family_id                       = 6;
+    required string                                         family_name                     = 7;
+    required int32                                          faction_id                      = 8;
+    optional string                                         title                           = 9;
+}
+//本周鲜花榜
+message p_role_rece_flowers_this_week_rank{
+    required int32                                          role_id                         = 1;
+    optional int32                                          ranking                         = 2;
+    required string                                         role_name                       = 3;
+    required int32                                          level                           = 4;
+    required int32                                          charm                           = 5;
+    required int32                                          family_id                       = 6;
+    required string                                         family_name                     = 7;
+    required int32                                          faction_id                      = 8;
+    optional string                                         title                           = 9;
+}
+
+//宠物总分榜
+message p_role_pet_rank{
+    required int32                                          pet_id                          = 1;
+    required string                                         pet_type_name                   = 2;
+    required int32                                          role_id                         = 3;
+    optional int32                                          ranking                         = 4;
+    required string                                         role_name                       = 5;
+    required int32                                          level                           = 6;
+    required int32                                          color                           = 7;
+    required int32                                          understanding                   = 8;
+    required int32                                          score                           = 9;
+    required int32                                          faction_id                      = 10;
+    optional string                                         title                           = 11;
+    optional string                                         pet_name                        = 12;
+}
+
+
+
+// 大明英雄榜
+message p_hero_fb_rank {
+        optional int32                  ranking                 = 1;
+        required int32                  role_id                 = 2;
+        required string                 role_name               = 3;
+        required int32                  faction_id              = 4;
+        required int32                  time_used               = 5;
+        required int32                  barrier_id              = 6;
+        required int32                  score                   = 7;
+}
+
+//组队、好友推荐信息
+message p_recommend_member_info {
+        required int32                  role_id                 = 1;
+        required string                 role_name               = 2;
+        required int32                  level                   = 3;
+        optional int32                  sex                     = 4;
+        optional int32                  category                = 5;
+}
+
+
+//成就结构
+//成就结构信息
+message p_achievement_info{
+        required int32 achieve_id = 1[default = 0];//成就id
+        required int32 status = 2[default = 0];//状态 1,进行中，2，未领奖，3，已领奖
+        optional int32 complete_time = 2 [default = 0];//成就完成时间
+        optional int32 cur_progress = 3 [default = 0];//成就当前进度
+        optional int32 total_progress = 4 [default = 0];//成就总进度
+        optional int32 points = 5 [default = 0];//此成就的成就值
+        optional int32 pop_type = 6 [default = 0];//提示类型
+        optional int32 achieve_type = 7 [default = 0];//成就类型 0一般成就 1组成就 2 全服成就
+        optional int32 class_id = 8 [default = 0];//成就分类id
+        optional int32 group_id = 9 [default = 0];//成就组id
+        optional int32 role_id = 10 [default = 0];//完成此成就玩家id
+        optional string role_name = 11;//完成此成就玩家的名称
+        optional int32 faction_id = 12 [default = 0];//完成此成就玩家的国家
+}
+//成就总览信息
+message p_achievement_stat_info{
+        optional int32 type = 1[default = 0];//type 类型 0 全部 class_id 成就分类id
+         optional int32 cur_progress = 2[default = 0];//当前已经完成的进度
+        optional int32 total_progress = 3[default = 0];//此分类成就总进度
+        optional int32 award_point = 4[default = 0];//此分类成就获得的成就点
+}
+
+//--------------------------------------------采集--------------------------------------------
+//采集物信息
+message p_map_collect{
+        required int32               id           = 1;  //采集物id
+        required int32               typeid       = 2;  //采集物typeid
+        optional string              name         = 3;  //资源名称
+        optional int32               degree       = 4;  //资源珍惜度
+        optional p_collect_demand    demand       = 5;  //资源采集需求
+        optional int32               times        = 6;  //采集需要的时间
+        optional p_collect_goods     goodslist    = 7;  //采集成长的物品
+        optional int32               tool_typeid  = 8;  //采集所需要的工具的typeid
+        optional int32               point_id     = 9;  //资源点id
+        optional p_pos               pos          = 10; //采集物的位置
+        repeated p_collect_role      roles        = 11; //采集者们
+}
+
+//采集者
+message p_collect_role{
+        required int32              roleid     = 1; //采集者
+        required int32              start_time = 2; //开始采集的时间
+        required int32              end_time   = 3; //结束采集的时间
+}
+
+//采集点信息
+message p_collect_point{
+        required int32              id            = 1; //采集点id
+        required int32              typeid        = 2; //采集点typeid
+        required int32              state         = 3; //采集点状态
+        required p_pos              pos           = 4; //采集点位置
+        required int32              start_time    = 5; //采集点开始时间
+        required int32              ripening_time = 6; //采集点成熟周期
+        required int32              end_time      = 7; //采集点结束时间
+        required p_collect_refresh  refresh       = 8; //采集点刷新策略
+        repeated int32              id_list       = 9; //采集点的采集物id列表
+        required int32              drop_type     = 10; //掉落类型：1表示普通掉落，2表示其他
+        required int32              max_num       = 11; //采集点资源最大数量
+        repeated p_collect          grafts        = 12; //采集点的采集物种类
+}
+
+
+//采集点的基本信息
+message p_collect_point_base_info{
+        required int32             id            = 1; //采集点tyepid
+        required int32             mapid         = 2; //地图id
+        required int32             drop_type     = 3; //掉落类型：1表示普通掉落，2表示其他
+        required p_pos             pos           = 4; //采集点位置
+        required int32             max_num       = 5; //采集点资源最大数量
+        required p_collect_refresh refresh       = 6; //采集点刷新策略
+        required int32             ripening_time = 7; //采集点成熟期
+        repeated p_collect         grafts        = 8; //采集点的采集物种类
+}
+
+//采集物刷新信息
+message p_collect{
+        required int32   rate       = 1; //采集刷新的权重
+        required int32   typeid     = 2; //采集物基本信息的id列表
+}
+
+
+//采集点刷新策略
+message p_collect_refresh{
+        required int32   type       = 1; //刷新类型 1为普通，2为定时
+        optional int32   interval   = 2; //时间间隔
+        optional int32   start_time = 3; //开始时间
+        optional int32   end_time   = 4; //结束时间
+}
+
+
+//采集物基本信息
+message p_collect_base_info{
+        required int32            id           = 1;  //资源typeid
+        required int32            name         = 2;  //资源名称
+        required int32            degree       = 3;  //资源珍惜度
+        required p_collect_demand demand       = 4;  //资源采集需求
+        required int32            times        = 5;  //采集需要的时间
+        repeated p_collect_goods  goodslist    = 6;  //采集成长的物品
+        required int32            tool_typeid  = 7;  //采集所需要的工具的typeid
+}
+
+//采集要求
+message p_collect_demand{
+        required int32            min_level    = 1;
+        required int32            max_level    = 2;
+}
+
+//采集获取物品
+message p_collect_goods{
+        required int32            goods_type       = 1;  //采集后生成物品的type
+        required int32            goods_typeid     = 2;  //采集后生成物品的typeid
+        required int32            goods_start_time = 3;  //采集后生成物品的开始时间
+        required int32            goods_end_time   = 4;  //采集后生成物品的结束时间
+        required int32            goods_num        = 5;  //采集后生成物品的个数
+        required bool             goods_bind       = 6;  //采集后生成物品是否绑定
+        required int32            rate             = 7;  //生成的权重
+        required int32            is_broadcast     = 8;  //是否广播
+}
+
+
+//陷阱
+message p_map_trap {
+        required int32                  trap_id                 = 1; //陷阱ID
+        required int32                  owner_id                = 2; //拥有者ID
+        required string                 owner_name              = 3; //拥有者姓名
+        required int32                  owner_type              = 4; //拥有者类型
+        optional int32                  faction_id              = 4; //拥有者国家ID
+        optional int32                  family_id               = 5; //门派ID
+        optional int32                  team_id                 = 6; //队伍ID
+        optional int32                  pk_mode                 = 7; //拥有者的PK模式
+        required int32                  target_area             = 8; //陷阱作用范围
+        repeated int32                  effects                 = 9; //陷阱触发效果列表
+        repeated int32                  buffs                   = 10; //BUFF列表
+        optional int32                  skill_id                = 11; //由什么技能释放的
+        required p_pos                  pos                     = 12; //陷阱位置
+        required int32                  remove_time             = 13; //移除时间
+        required int32                  trap_type               = 14;
+}
+
+message p_ybc_buff {
+	required	int32							type					= 1;
+	required	int32							begin_time				= 2;
+	required	int32							end_time				= 3;
+}
+
+message p_ybc_info {
+
+}
+
+message p_map_ybc {
+	required	int32							ybc_id					= 1;
+	//状态 0 正常 2 死亡
+	required    int32						    status					= 2;
+	required	int32							hp						= 4;//当前血量
+	required	int32							max_hp					= 5;//血上限
+	required	p_pos							pos						= 6;//当前位置
+	required	int32							move_speed				= 7;//移动速度
+	required	string							name					= 8;//镖车名字
+
+	required    int32							create_type				= 9;
+
+	required    int32							creator_id				= 11;//镖车创建者id
+	required    int32							color					= 14;//镖车颜色
+	required 	int32							create_time				= 15;
+	required 	int32							end_time				= 16;
+	repeated 	p_actor_buf						buffs					= 17;
+	// 个人镖车为0， 门派镖车则为门派ID， 队伍镖车则为队伍ID
+	required 	int32							group_id				= 21;
+	//镖车创建类型(1个人/2门派/3组队)
+	required	int32							group_type				= 23;
+	// 为false
+	required	bool							can_attack				= 22;
+	required 	int32							faction_id				= 23;
+	required 	int32							physical_defence		= 24;
+	required	int32							magic_defence			= 25;
+	required 	int32							recover_speed			= 26;
+	required    int32							level					= 27;
+}
+// 逐鹿天下副本
+// Server NPC 信息 服务端使用对象
+message p_server_npc{
+    required    int32                           npc_id                          = 1; //NPC id
+    required    int32                           type_id                         = 2;//类型
+    required    string                          npc_name                        = 3; //名称
+    required    int32                           npc_type                        = 4;// NPC类型，1逐鹿天下副本NPC
+    required    int32                           state                           = 5[default = 0];//状态 0一般,1警戒，2战斗，3死亡
+    required    int32                           map_id                          = 6;//地图ID
+    required    int32                           level                           = 7;//等级
+    required	int32							hp								= 8;  //当前血量
+	required	int32							mp								= 9;  //当前魔法
+	required	p_pos							reborn_pos					    = 11;	//当前位置
+	repeated	p_enemy		                    first_enemies				    = 12;	//一级敌对列表
+	repeated	p_enemy		                    second_enemies			        = 13;	//二级敌对列表
+	repeated	p_enemy		                    third_enemies				    = 14;	//三级敌对列表
+	required	int32							max_mp							= 15;  //蓝上限
+	required	int32							max_hp							= 16;  //血上限
+	repeated    p_actor_buf                     buffs                           = 17;
+	required    int32                           npc_country                     = 18; //国家阵营，0表示中立NPC
+    required    bool                            is_undead                       = 19; //系否无敌
+	required	int32							phy_defence					    = 21; //当前物防
+	required	int32							magic_defence				    = 22; //当前魔防
+ 	required    int32							blood_resume_speed	            = 23;	//当前生命恢复速度
+	required    int32							magic_resume_speed	            = 24;	//当前魔法恢复速度
+	required    int32							dead_attack				        = 25;	//当前暴击
+	required    int32							lucky          			        = 26;	//当前幸运
+	required    int32							move_speed			            = 27;	//当前移动速度
+	required    int32							attack_speed		  	        = 28;	//当前攻击速度
+    required    int32							miss				            = 29;	//当前闪避
+	required    int32							no_defence				        = 30;	//当前破防
+	required	int32							min_attack					    = 31; //最小攻击
+	required	int32							max_attack					    = 32; //最大攻击
+	required	int32							phy_anti						= 33;
+	required	int32							magic_anti					    = 34;
+    required    int32                           poisoning_resist                = 35 [default=0];   //中毒抗性百分比
+    required    int32                           dizzy_resist                    = 36 [default=0];   //击晕抗性百分比
+    required    int32                           freeze_resist                   = 37 [default=0];   //冰冻抗性百分比
+        required int32			     equip_score		     = 38 [default=0]; // 装备积分
+	required int32			     spec_score_one		     = 39 [default=0];	//特殊战斗系数1
+	required int32			     spec_score_two		     = 40 [default=0];	//特殊战斗系数2
+        required int32                       hit_rate                        = 41 [default=10000]; // 命中
+}
+
+
+// Server NPC 信息 与前端接口通信使用此对象
+message p_map_server_npc{
+        required    int32                           npc_id                      = 1; //NPC id
+        required    int32                           type_id                     = 2;//类型
+        required    string                          npc_name                    = 3; //名称
+        required    int32                           npc_type                    = 4;// NPC类型，1逐鹿天下副本NPC
+        required    int32                           state                       = 5[default = 0];//状态 1警戒，2战斗，3死亡,4占有
+        required    int32                           max_mp                      = 6;//蓝上限
+        required    int32                           max_hp                      = 7;//血上限
+        required	int32							hp						    = 8;//当前血量
+        required	int32							mp						    = 9;//当前蓝量
+        required    int32                           map_id                      = 10;//地图ID
+        required    p_pos                           pos                         = 11;//当前位置
+        required	int32				            move_speed				    = 12;//移动速度
+        optional 	p_walk_path                     last_walk_path              = 13;//最后行走路径
+	    repeated    p_actor_buf                     state_buffs                 = 14;//玩家状态类的buff，如隐身，中毒，麻痹等
+	    required	bool				            is_undead				    = 15[default = true];//是否无敌
+	    required    int32                           npc_country                 = 16;//阵营 0表示中立NPC
+}
+
+
+// Server NPC基本信息
+message p_server_npc_base_info{
+    required    int32                       type_id                 = 1; //类型
+    required    string                      npc_name                = 2; //名称
+    required    int32                       npc_country             = 3; //国家阵营，0表示中立NPC
+    required    int32                       npc_type                = 4;// NPC类型，1逐鹿天下副本NPC, 2设施, 3战斗NPC
+	required    int32                       level                   = 5; //等级
+    required    int32                       max_hp                  = 6; //最小血量
+	required    int32                       max_mp                  = 7; //最大血量
+	required	int32						min_attack				= 8; //最小攻击
+	required	int32						max_attack				= 9; //最大攻击
+	required	int32						phy_defence				= 10; //物防
+	required	int32						magic_defence			= 11; //魔防
+ 	required    int32						blood_resume_speed	    = 12;	//生命恢复速度
+	required    int32						magic_resume_speed	    = 13;	//魔法恢复速度
+	required    int32						dead_attack				= 14;	//暴击
+	required    int32						lucky          			= 15;	//幸运
+	required    int32						move_speed			    = 16;	//移动速度
+	required    int32						attack_speed		  	= 17;	//攻击速度
+    required    int32						miss				    = 18;	//闪避
+	required    int32						no_defence				= 19;	//破防
+	required	int32						phy_anti				= 20;
+	required	int32						magic_anti				= 21;
+    required    int32                       poisoning_resist        = 22 [default=0];   //中毒抗性百分比
+    required    int32                       dizzy_resist            = 23 [default=0];   //击晕抗性百分比
+    required    int32                       freeze_resist           = 24 [default=0];   //冰冻抗性百分比
+        required int32			     equip_score		     = 25 [default=0]; // 装备积分
+	required int32			     spec_score_one		     = 26 [default=0];	//特殊战斗系数1
+	required int32			     spec_score_two		     = 27 [default=0];	//特殊战斗系数2
+        required int32                       hit_rate                        = 28 [default=10000]; // 命中
+
+    required	int32						attack_type				= 29;
+    required    bool                        is_undead               = 30; //系否无敌
+    required	int32						guard_radius			= 31;//警戒半径
+	required	int32						attention_radius		= 32;//关注半径
+	required	int32						activity_radius			= 33;//活动半径
+	required	p_refresh_info		        refresh					= 34;//刷新信息
+	repeated 	p_monster_skill			    skills					= 44;//技能
+    required    int32                       gongxun                 = 45;//杀死NPC获得的技能
+}
+
+//============== 一键换装 ===============================
+message p_equip_onekey_info {
+        required int32                  equips_id               = 1; //套装ID
+        required string                 equips_name             = 2; //套装名称
+        repeated p_goods                equips_list             = 3; //装备列表
+        repeated p_equip_onekey_simple  equips_id_list          = 4;
+}
+
+message p_equip_onekey_simple {
+        required int32                  slot_num                = 1; //装备孔位
+        required int32                  equip_id                = 2; //装备ID
+        required int32                  equip_typeid            = 3;
+}
+
+//============== 活动模块 ===============================
+//活动日程的活动项
+message p_activity_info {
+    required int32          id                = 1;//任务id
+    required int32          type              = 2;  //活动类型，包括：日常任务=1、门派=2、国家=3、副本=4
+    required int32          order_id          = 3   [default=0];  //排序ID
+    required int32          status            = 5   [default=0];  //0表示不可接，1表示可接
+    required int32          done_times        = 5   [default=0];  //已接次数
+    required int32          total_times       = 6   [default=0];  //可接次数，0表示没有次数限制
+}
+
+message p_actpoint_info {
+    required int32          id                = 1;  //活动ID,每个活动都有对应的ID
+    required int32          cur_ap            = 3;  //当前获得的活跃度
+    required int32          max_ap            = 4;  //最高的活跃度
+}
+
+//商贸活动模块
+//商贸商品基础信息
+message p_trading_goods_base_info{
+        required int32 type_id = 1;//商品类型id
+        required int32 order_index = 2;//商品显示顺序
+        required string name = 3;//商品名称
+        repeated int32 prices = 4;//商品价格列表，从低到高
+        required int32 number = 5;//商品初始化数量，即每一次重刷的数量
+}
+//商贸商品信息
+message p_trading_goods{
+        required int32 type_id = 1;//商品类型id
+        required int32 order_index = 2;//商品显示顺序
+        required string name = 3;//商品名称
+        required int32 price = 4;//商品当前价格
+        required int32 number = 5;//商品数量
+        optional int32 sale_price = 6[default = 0];//此商品的收购价格
+}
+
+//门派拉镖押金等级配置
+message p_family_ybc_money {
+	required int32				level			= 1;
+	//
+	required int32				common			= 2;
+	required int32				advance			= 3;
+}
+
+
+//============== 种植模块 ===============================
+//田地
+message p_map_farm {
+    required int32          farm_id           = 1;  //田地ID
+    required int32          status            = 2[default=0];  //田地状态；0=未开垦，1=未种植，2=种子期,3=成长期,4=成熟期
+    optional int32          planter_id        = 3;  //这块田地的种植者
+    optional int32          seed_id           = 4;  //种子的物品类型ID
+    optional string         seed_name         = 5;  //农作物名称
+    optional int32          seed_type         = 6;  //种子类型，1=快熟；2=慢熟
+    optional int32          sow_time          = 7;  //播种时间
+    optional int32          harvest_time      = 8;  //成熟收割时间
+    optional int32          harvest_segment   = 9;  //收割时间段，单位为秒；一般是5*60或15*60
+}
+
+message p_seed_info {
+    required int32          seed_id           = 1;  //种子的物品类型ID
+    required string         seed_name         = 2;  //农作物名称
+    optional int32          seed_type         = 3;  //种子类型，1=快熟；2=慢熟
+    required int32          level             = 4;  //对应的种子等级
+}
+
+//=================国战=====================================
+message p_waroffaction_record {
+    required int32          id                  = 1;  //唯一ID
+    required int32          faction_id          = 2;  //国家ID
+    required int32          tick                = 3;  //时间
+    required string         content             = 4;  //记录内容
+}
+
+
+message p_waroffaction_rank{
+    required int32          role_id                 = 1;
+    required int32          faction_id              = 2;  //国家ID
+    required int32          score                   = 3;  //杀人个数
+    required string         role_name               = 4;  //
+}
+
+//=================宠物系统==================================
+message p_pet_base_info{
+	required    int32						type_id					= 1; //类型
+	required    string 						pet_name				= 2; //名称
+	required	int32						carry_level				= 4; //可携带等级
+    required	int32						attack_type				= 5; //攻击类型，物理或魔法
+}
+
+message	p_pet_skill{
+	required	int32							skill_id			= 1;  //技能ID
+	required	int32							skill_type			= 2;	//宠物技能类型
+	required	int32							skill_level			= 3[default=1];	//宠物技能等级
+}
+
+message p_pet{
+	required	int32							pet_id						    = 1; //唯一ID
+	required    int32							type_id							= 2;  //类型
+	optional	int32							role_id							= 3;  //主人的ID
+	optional	string							role_name					    = 4;  //主人的名字
+	required	int32							hp								= 5;  //当前血量
+	required	int32							max_hp							= 6;  //血上限
+	required	string							pet_name						= 7; //名字
+	required	int32					        color					        = 8; //宠物颜色(1白，2绿，3蓝，4紫，5橙，6金)
+	required	int32					        understanding 					= 9; //宠物悟性
+	required    int32 						    sex					            = 10;  //性别：1雄，2雌
+	optional    int32 						    pk_mode					        = 11;  //攻击模式，与主人一致
+	optional    bool 						    bind					        = 12[default=false];  //
+
+	optional    int32 						    mate_id					        = 13;  //配偶ID
+	optional    string 						    mate_name				        = 14;  //配偶名字
+	required	int32					        level 					        = 15; //当前等级
+	required    double 						    exp					            = 16;  //当前经验
+	required    int32 						    life					        = 17;  //寿命
+	required    bool 						    generated					    = 18[default=false];  //是否繁殖过
+
+	repeated    p_actor_buf                     buffs                           = 19;
+
+	required int32						        str					            = 20;  //总的力量
+	required int32						        int2					        = 21;  //总的智力
+	required int32						        con					            = 22;  //总的体质
+	required int32						        dex					            = 23;  //总的敏捷
+	required int32						        men					            = 24;  //总的精神
+
+	required int32						        base_str					    = 25;  //力量
+	required int32						        base_int2					    = 26;  //智力
+	required int32						        base_con					    = 27;  //体质
+	required int32						        base_dex					    = 28;  //敏捷
+	required int32						        base_men					    = 29;  //精神
+
+	optional int32						        remain_attr_points				= 30[default=0];  //剩余可分配属性点数
+
+	required	int32							phy_defence					    = 31; //当前物防
+	required	int32							magic_defence				    = 32; //当前魔防
+    required	int32							phy_attack					    = 33;//物攻
+	required	int32							magic_attack					= 34;//魔攻
+	required    int32							double_attack				    = 35;	//当前暴击
+    optional    int32							hit_rate				        = 36;	//当前命中
+    optional    int32							miss				            = 37;	//当前闪避
+	required    int32							attack_speed		  	        = 38;	//当前攻击速度
+	optional    int32							equip_score				        = 39;	//装备积分
+	optional    int32							spec_score_one				    = 40;	//特殊战斗系数1
+	optional    int32							spec_score_two				    = 41;	//特殊战斗系数2
+
+	optional    int32						    attack_type				        = 50;
+	optional    int32						    period		  	                = 51[default=1];//变异等级，宠物代数
+	repeated 	p_pet_skill			            skills					        = 52; //技能
+    optional    string                          title                           = 53;//宠物称号
+
+	required	int32					        max_hp_aptitude 			    = 60; //宠物生命值资质
+	required	int32					        phy_defence_aptitude 			= 61; //宠物外防资质
+	required	int32					        magic_defence_aptitude 			= 62; //宠物内防资质
+	required	int32					        phy_attack_aptitude 			= 63; //宠物物理资质
+	required	int32					        magic_attack_aptitude 			= 64; //宠物法力资质
+	required	int32					        double_attack_aptitude 			= 65; //宠物重击资质
+
+    optional    int32                           get_tick                        = 66;//宠物获得时间
+    optional    double							next_level_exp				    = 67;//下次升级所需经验
+    required	int32					        state 			                = 68[default=1]; //当前状态 1正常，3饲养中
+
+	optional	int32					        max_hp_grow_add 			    = 70[default=0]; //训宠生命值增加值
+	optional	int32					        phy_defence_grow_add 			= 71[default=0]; //训宠外防资质增加值
+	optional	int32					        magic_defence_grow_add 			= 72[default=0]; //训宠内防资质增加值
+	optional	int32					        phy_attack_grow_add 			= 73[default=0]; //训宠物理资质增加值
+	optional	int32					        magic_attack_grow_add 			= 74[default=0]; //训宠法力资质增加值
+
+    required    int32                           max_skill_grid                   = 80[default=4]; //最大的技能学习个数
+}
+
+message p_map_pet{
+	required	int32							pet_id					    = 1;
+	required    int32						    type_id						= 2;//类型
+	optional	string							pet_name				    = 3;//宠物名字
+	required	int32							state						= 4[default=1];//状态 1出战，2收回
+	required	int32							hp					        = 6;//当前血量
+	required	p_pos							pos							= 7;//当前位置
+	required    int32							attack_speed		  	    = 8;	//当前攻击速度
+	required	int32							max_hp						= 9;//血上限
+	required	int32					        level 					    = 10; //当前等级
+	required	int32							role_id					    = 11;  //主人的ID
+	repeated    p_actor_buf                     state_buffs                 = 12;//玩家状态类的buff，如隐身，中毒，麻痹等
+	optional	string							title				        = 13;//宠物称号
+	optional	int32							color				        = 14;//宠物颜色
+}
+
+message p_pet_id_name{
+	required	int32							pet_id					    = 1;
+	required    string						    name						= 2;//容量
+    optional    int32                           color                       = 3[default=2];//默认绿色
+    optional    int32                           type_id                     = 4;//默认绿色
+    optional    int32                           index                       = 5[default=0];//默认绿色
+    optional    double                          exp                         = 6[default=0];
+    optional    double                          next_level_exp              = 7[default=0];
+}
+
+message p_role_pet_bag{
+	required	int32							role_id					    = 1;
+	required    int32						    content						= 2;//容量
+	repeated    p_pet_id_name                   pets                        = 3;//宠物ID列表
+}
+
+message p_pet_attr_assign{
+    required int32                          assign_type             = 1; //分配种类
+    required int32                          assign_value            = 2;
+}
+
+message p_pet_feed{
+    required	int32							role_id					    = 1;  //玩家ID
+    required	int32							state						= 2[default=1];//状态 3 训练
+    required	int32							star_level                  = 3[default=1]; //星级
+    required    int32                           last_feed_day               = 4[default=0];	//最后一次训练的天
+    required	int32							feed_time                   = 5[default=0]; //今日已经训练次数
+    optional    double                          last_feed_exp               = 6[default=0]; //最后一次训练应该获得的经验
+    required	bool							feed_over_flag              = 7[default=false]; //训练是否已经完成
+    optional    int32                           feed_over_tick              = 8[default=0]; //训练结束时间
+    optional    int32                           feed_tick                   = 9[default=0]; //训练时长 秒为单位
+    required	bool							free_star_up_flag           = 10[default=true]; //是否能免费提升星级
+    optional    int32                           feed_type                   = 11;//训练类型
+    optional	int32							pet_id                      = 12; //被训练的宠物ID
+    required	int32							star_up_fail_time           = 13[default=0]; //提升星级失败次数
+    optional	int32							last_clear_star_week        = 14[default=0]; //上次重置星级的周数
+    required	bool							star_up_flag                = 15[default=false]; //当前星级是否能提升
+    //required	int32							max_feed_time               = 16[default=6]; //当天最大训练次数
+}
+
+// 一只宠物的训练信息
+message p_pet_training_info{
+    required    int32                     pet_id              =1;
+    optional    int32                     training_start_time =3[default=0];   //训练开始时间
+    optional    int32                     training_end_time   =4[default=0];   //训练结束时间
+    optional    int32                     training_mode       =7[default=1];   //训练模式   1.正常 2.加强 3.vip1 4.vip2 5.vip3
+    optional    int32                     fly_cd_end_time     =8[default=0];   //突飞猛进cd结束时间..
+    optional    int32                     total_get_exp       =9[default=0];   //本次训练目前为止获得的经验
+}
+
+message p_role_pet_grow{
+    required	int32							role_id					    = 1;  //玩家ID
+    required	int32							state						= 2[default=1];//状态 4 驯养
+    optional    int32                           grow_type                   = 4[default=0];	//宠物驯养类型
+    optional    int32                           grow_over_tick              = 5; //结束时间
+    optional    int32                           grow_tick                   = 6; //时长 秒为单位
+    required	int32					        con_level 			        = 8[default=0]; //体质驯养等级
+	required	int32					        phy_defence_level 			= 9[default=0]; //外防驯养等级
+	required	int32					        magic_defence_level 	    = 10[default=0]; //内防驯养等级
+	required	int32					        phy_attack_level 			= 11[default=0]; //物理驯养等级
+	required	int32					        magic_attack_level 			= 12[default=0]; //法力驯养等级
+}
+
+message p_grow_info{
+    required	int32							type					    = 1;
+    required	int32							level						= 2[default=1];
+    optional	int32							need_level                  = 3[default=0];
+    optional    int32                           need_silver                 = 4[default=0];
+    optional    int32                           add_value                   = 5;
+    optional    int32                           need_tick                   = 6[default=0]; //时长 秒为单位
+    optional    int32                           cur_add_value               = 7;
+}
+
+message p_pet_refining{
+    required	int32							id					    = 1;
+    required	double							exp						= 2[default=1];
+}
+
+message p_role_pet_egg_type_list{
+    required	int32							role_id					    = 1;
+    repeated	int32							type_id_list				= 2;
+    required    int32                           refresh_num                 = 3[default=0];
+}
+
+//============================师徒副本======================================
+message p_educate_fb_item{
+        required int32 item_id = 1;//道具id
+        required int32 use_tx = 2;
+        required int32 use_ty = 3;
+        required int32 role_id = 4;
+        required string role_name = 5;
+        required int32 status = 6;
+}
+message p_educate_fb_award{
+        required int32 min_count = 1;
+        required int32 max_count = 2;
+        required int32 award_number = 3;
+}
+
+//============== 赠送模块 ===============================
+message p_present_info {
+    required int32          present_id        = 1;  //赠送的ID,每个ID有对应的配置
+    required string         title             = 2;  //赠送标题
+    required bool           is_direct_get     = 3 [default=true]; //是否直接领取
+    repeated int32          item_list         = 4;  //赠送物品的列表
+    optional int32          npc_id            = 5;  //用于寻路的NPCID
+}
+
+// 连续登录的基本奖励结构体
+message p_conlogin_reward {
+	// 唯一ID
+	required 	int32							id			= 1;
+	required	int32							type		= 2;
+	required	int32							type_id		= 10;
+	// 需要的等级
+	required 	int32							min_level	= 3;
+	required	int32							max_level	= 8;
+	// 是否需要已充值
+	required 	bool							need_payed	= 4;
+	//有多少个
+	required	int32							num			= 5;
+	//需要多少银两
+	required	int32							silver	= 6;
+	//需要多少元宝，如果银两和元宝都为0，则为免费领取
+	required	int32							gold	= 7;
+	// 领取后是绑定的还是不绑定的
+	required	bool							bind		= 9;
+        // 需求VIP等级
+        required        int32                                                   need_vip_level  = 10;
+}
+
+message p_accumulate_exp_info {
+	// 累积经验的类别:1 个人拉镖 2门派拉镖 3 刺探 4 守边
+	required	int32				id				= 1;
+	// 多少天没有完成此任务
+	optional	int32				day				= 3;
+	// 当前可以获取多少经验
+	optional	double				exp				= 4;
+	// 最高可以提升至多少经验
+	optional	double				max_exp			= 5;
+	// 每天可以做多少次任务，用于显示
+	optional	int32				times_per_day	= 6;
+	// 需要多少元宝刷新
+	optional	int32				need_gold		= 7;
+	// 当前累积经验的状态 1 表示不能领取 2 表示需要完成对应的任务才能领取 3 可以领取了
+	optional	int32				status			= 8;
+	// 下一级别可以领取的奖励
+	optional	double				next_exp		= 9;
+	// 当前获取经验的比例
+	optional	int32				rate			= 10;
+}
+
+message p_fml_buff {
+    required int32                  fml_buff_id         = 1;
+    required int32                  level               = 2; //门派BUFF的当前等级
+}
+
+//============== 陷阱模块 ===============================
+
+message p_role_vip {
+        required int32                  role_id                         = 1;
+        required int32                  end_time                        = 3; // VIP失效时间
+        required int32                  total_time                      = 4; // 总时长
+        required int32                  vip_level                       = 5; // VIP等级
+        required int32                  multi_exp_times                 = 6; // 多倍经验剩余领取次数
+        required int32                  accumulate_exp_times            = 7; // 经验累积剩余领取次数
+        required int32                  mission_transfer_times          = 8; // 任务跳转次数
+        required bool                   is_transfer_notice_free         = 9; // 免费跳转提示
+        required bool                   is_transfer_notice              = 10; // 需要传送卷的跳转提示
+        required int32                  last_reset_time                 = 11; // 上一次重置次数的时间
+        required bool                   is_expire                       = 12; // 是否过期
+        required int32                  pet_training_times              = 13; // 立即完成宠物训练次数
+        required int32                  remote_depot_num                = 14; // 可以操作远程仓库个数
+        required int32                  last_get_prestige_time          = 15[default=0]; // 上次声望兑换时间
+}
+
+message p_vip_list_info {
+        required int32                  role_id                         = 1;
+        required string                 role_name                       = 2;
+        required int32                  skin_id                         = 3;
+        required int32                  level                           = 4;
+        required int32                  faction_id                      = 5;
+        required string                 family_name                     = 6;
+        required int32                  total_time                      = 7;
+        required bool                   is_online                       = 8;
+}
+
+//====================== 门派仓库 ==================
+message p_fmldepot_log{
+    required int32      log_time            = 1; //仓库背包id
+    required string     role_name           = 2; //分页的页码
+    required int32      item_type_id        = 3; //道具类型ID
+    required int32      item_color          = 4; //道具颜色
+    required int32      item_num            = 5; //道具存取数量
+}
+
+message p_fmldepot_bag{
+    required int32      bag_id              = 1; //仓库对应的背包id
+    repeated p_goods    goods_list          = 2; //仓库中的物品
+}
+
+// 坐骑续期
+message p_equip_mount_renewal{
+        required int32 type_id = 1;//坐骑类型id
+        //续期类型 1:续期7天 2:续期30天 3:续期90天 9:永久
+        required int32 renewal_type = 2[default = 0];
+        required int32 renewal_days = 3[default = 0];//续期天数
+        required int32 renewal_fee = 4[default = 0];//续期费用，单位元宝
+}
+// 场景大战副本
+message p_scene_war_fb_link{
+    required int32 fb_type = 1 [default = 0];//副本类型
+    required int32 fb_level = 2 [default = 0];//副本级别
+    optional int32 fb_id = 3 [default = 0];//副本id 副本创建用户ID
+    optional int32 fb_seconds = 4[default = 0];//副本时间戳
+    optional int32 enter_fee = 5[default = 0];//进入副本费用 单位:元宝
+    optional int32 fb_times = 6[default = 0];//副本次数  当前玩家是第几次
+    optional int32 fb_max_times = 7[default = 0];//副本每天可玩的最多次数
+}
+
+message p_scene_war_fb_role_info{
+		required int32  roleid    = 1;//角色id
+		required string name      = 2;//角色名字
+		required int32  level     = 3;//角色等级
+}
+
+message p_scene_war_fb_team_info{
+		required int32                     teamid    = 1;//队伍id
+		optional p_scene_war_fb_role_info  leader    = 2;//队长
+		repeated p_scene_war_fb_role_info  members   = 3;//成员
+		required int32                     fb_type   = 4;//副本类型
+		required int32                     fb_level  = 5;//副本等级
+		required int32                     faction   = 6;//国家id
+		required int32                     creator   = 7;//记录创建者
+}
+
+//门派采集
+message p_family_collect_role_prize_info{
+    required int32 role_id          = 1;
+    required int32 color            = 2[default=1];
+    required int32 base_exp         = 3[default=0];
+    required int32 total_score      = 4[default=0];
+}
+message p_gift_goods {
+	required	int32					id		= 1;
+	required	int32					type		= 2;
+	required	int32					typeid		= 3;
+	required	bool					bind		= 4;
+	required	int32					start_time	= 5;
+	required	int32					end_time	= 6;
+	required	int32					num			= 7;
+	required	int32					rate		= 8;
+	required	int32					color		= 9;
+}
+
+//-----------------------篝火---------------------------
+message p_map_bonfire{
+	  required int32 id         = 1;
+	  required int32 state      = 2;
+	  required p_pos pos        = 3;
+	  required int32 start_time = 4;
+	  required int32 end_time   = 5;
+	  required int32 rate       = 6;
+	  required int32 members    = 7 [default=0];
+	  required int32 fagot      = 8 [default=0];
+}
+
+
+message p_family_task {
+    required    int32          id                = 1;//任务id
+    required    int32          status            = 2   [default=0];  //不同的id会有不同的结果
+}
+
+// ===================== 英雄副本 ========================
+// 英雄副本主要结构
+message p_role_hero_fb_info {
+        required int32                  role_id                 = 1;
+        optional int32                  last_enter_time         = 2; // 上次挑战时间
+        required int32                  today_count             = 3; // 今日挑战次数
+        optional int32                  progress                = 4; // 进度，已挑战至几章几关
+        repeated int32                  rewards                 = 5; // 奖励ID
+        repeated p_hero_fb_barrier      fb_record               = 6; // 个人纪录
+        optional int32                  max_enter_times         = 7; // 每天最大挑战次数
+        optional int32                  buy_count               = 8; // 已经购买了多少次
+        optional int32                  enter_mapid             = 9; // 进入的地图
+        optional p_pos                  enter_pos               = 10; // 进入地图信息
+        optional int32                  fail_code               = 11[default=1]; // 失败要返回的提示码
+}
+
+// 添加星级
+message p_hero_fb_barrier {
+        required int32                  barrier_id              = 1; //关数
+        optional int32                  time_used               = 2[default=0]; //花费时间
+        optional int32                  star_level              = 3[default=0]; //最高星级
+        optional int32                  score                   = 4[default=0]; //最高得分
+        optional int32                  fight_times             = 5[default=0]; //攻击次数
+        optional int32                  order                   = 6[default=0]; //排行
+}
+
+message p_hero_fb_record {
+        required int32                  role_id                 = 1;
+        required string                 role_name               = 2;
+        required int32                  faction_id              = 3;
+        required int32                  time_used               = 4; // 时间
+        required int32                  score                   = 5[default=0]; // 分数
+        required int32                  star_level              = 6;
+        optional int32                  order                   = 7;
+}
+
+// reward_type 1:奖励倍数   2:奖励物品
+message p_hero_fb_poker_reward{
+    required int32                 reward_type               =1[default=0]; //奖励类型
+    optional int32                 reward_value              =2[default=0]; //奖励值
+    optional int32                 reward_level              =3[default=0]; //奖励等级
+    repeated p_goods               reward_list               =4;              
+}
+
+//天工炉操作参数
+message p_refining{
+        required int32 firing_type = 1;//物品类型 1目标,2材料
+        required int32 goods_id = 2;//物品oid
+        required int32 goods_type = 3;//物品类型 1材料,2宝石,3装备
+        required int32 goods_type_id = 4;//物品类型id
+        required int32 goods_number = 5;//物品数量
+}
+//天工开物日志记录
+message p_refining_box_log{
+        required int32 role_id = 1;
+        required int32 role_sex = 2;
+        required string role_name = 3;
+        required int32 faction_id = 4;
+        required int32 award_time = 5;
+        repeated p_goods box_list = 6;
+}
+
+//============== 赠送模块 ===============================
+message p_online_info {
+    optional int32          memberid          = 1;  //成员ID
+    optional int32          otherattr         = 2;  //预留
+}
+
+// 玩家目标的数据
+message p_role_goal {
+	required	int32						role_id							= 1;
+	repeated	p_role_goal_item			goals							= 2;
+	// 玩家登录的天数
+	required 	int32						days							= 3;
+}
+
+// 玩家每个目标的完成情况
+message p_role_goal_item {
+	// 目标的ID
+	required int32				goal_id							= 1;
+	// 是否已完成
+	required bool				finished						= 2[default=false];
+	// 进度
+	required int32				process_num						= 3[default=0];
+	// 是否已领奖
+	required bool				fetched							= 4[default=false];
+}
+
+// 目标的配置
+message p_goal_config {
+	required int32				goal_id							= 1;
+	//奖励的绑定元宝
+	required int32				gold_bind						= 2[default=0];
+	required int32				gold							= 3[default=0];
+	required int32				silver_bind						= 4[default=0];
+	required int32				silver							= 5[default=0];
+	// 奖励的经验
+	required int32				exp								= 6[default=0];
+	//奖励的道具
+	repeated p_goal_item		items							= 7;
+	// 打怪表示打怪数量，好友表示好友个数
+	required int32				num								= 8[default=1];
+	// 第几天的目标
+	required int32				day								= 9;
+}
+
+// 目标完成后奖励的道具配置
+message p_goal_item {
+	//道具ID
+	required int32				item_id							= 1;
+	//道具类型
+	required int32				item_type						= 2;
+	// 颜色
+	required int32				color							= 3[default=1];
+	// 品质
+	required int32				quality							= 4[default=1];
+	// 是否绑定
+	required bool				bind							= 5[default=true];
+	// 过期时间, 为0表示永不过期，其他数字表示过期时长，单位为秒，如86400代表领取后一天过期
+	required int32				end_time						= 6[default=0];
+	// 数量
+	required int32				num								= 7[default=1];
+}
+//声望兑换物品配置
+message p_prestige_item{
+        required int32 group_id = 1[default = 0];//组Id
+        required int32 class_id = 2[default = 0];//类别
+        required int32 key = 3[default = 0];//兑换物品唯一id
+        required int32 need_prestige = 4[default = 0];//需要的声望
+        required int32 min_level = 5[default = 0];//最小级别
+        required int32 max_level = 6[default = 0];//最大组别
+        required p_goods item = 7;//兑换物品
+}
+//====================活动编辑器 ========================
+message p_activity_condition {
+	required int32                    condition_id          =1;
+	required string                   condition             =2;
+	required int32                    multi                 =3;
+	repeated p_activity_prize_goods   simple_goods          =4;
+	required int32                    able                  =5;
+}
+
+message p_activity_prize_goods {
+	required int32                  type_id             =1;
+	required int32                  num                 =2;
+	required int32                  color               =3;
+	required int32                  quality             =4;
+	required bool                  bind                =5[default=true];
+	required int32                  last_time           =6;
+}
+
+// ================= boss群 ===============================
+message p_boss_group{
+	required int32        boss_id              =1;
+        optional int32        start_time           =2;
+        optional int32        end_time             =3;
+        optional int32        last_time            =4;
+        optional int32        space_time           =5;
+	optional int32        map_id               =6;
+	optional int32        tx                   =7;
+	optional int32        ty                   =8;
+}
+// ================= 刷棋fb =================================
+
+// ==== 公共的道具奖励数据
+message p_reward_prop {
+	required int32 	prop_id = 1;	//道具类型ID，唯一值
+	required int32 	prop_type = 2;	//道具类型:1=道具，2=宝石，3=装备
+	required int32 	prop_num = 3;	//数量
+	required bool  	bind = 4;		//是否绑定
+}
+
+// 单独获取物品信息
+message p_equip_item {
+	optional int32		typeid			= 1;
+	optional int32		color			= 2;
+	optional int32		quality			= 3;
+	optional int32		isbind			= 4;
+	optional int32		timelimit		= 5;
+}

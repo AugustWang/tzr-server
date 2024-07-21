@@ -1,0 +1,9 @@
+{ ["unittest/*" ]
+	, [	
+		{i, "include" },
+		{i, "../../../hrl/behavior" }, 
+		{i, "../../../hrl/admin" },
+		{i, "../../../hrl" }, 
+		{outdir, "/data/tzr/server/ebin/receiver/"}
+	  ]
+}.
